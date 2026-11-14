@@ -455,12 +455,12 @@ export default function ExplainApp() {
       <div className="sticky top-0 z-30 -mx-4 flex items-center justify-between bg-paper/90 px-4 pt-[max(12px,env(safe-area-inset-top))] pb-2 backdrop-blur">
         <button
           onClick={reset}
-          className="flex min-h-[44px] items-center gap-2 text-[17px] font-bold tracking-tight"
+          className="flex min-h-[44px] items-center gap-2 whitespace-nowrap text-[17px] font-bold tracking-tight"
           aria-label={t.appName}
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal text-white">✦</span>
-          {t.appName}
-          {demo && <span className="rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800">DEMO</span>}
+          {!bigText && t.appName}
+          {demo && !bigText && <span className="rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800">DEMO</span>}
         </button>
         <div className="flex items-center gap-2">
         <button
@@ -484,7 +484,7 @@ export default function ExplainApp() {
           >
             {LANGS.map((l) => (
               <option key={l} value={l}>
-                {LANG_LABELS[l] === LANG_FULL[l] ? LANG_FULL[l] : `${LANG_LABELS[l]} · ${LANG_FULL[l]}`}
+                {bigText || LANG_LABELS[l] === LANG_FULL[l] ? LANG_FULL[l] : `${LANG_LABELS[l]} · ${LANG_FULL[l]}`}
               </option>
             ))}
           </select>
