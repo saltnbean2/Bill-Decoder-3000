@@ -36,8 +36,8 @@ export async function POST(req: Request) {
   // Earlier turns as real conversation messages.
   const messages: Anthropic.Messages.MessageParam[] = [];
   history.forEach((h) => {
-    messages.push({ role: "user", content: String(h.q) });
-    messages.push({ role: "assistant", content: String(h.a) });
+    messages.push({ role: "user", content: String(h.q).slice(0, 800) });
+    messages.push({ role: "assistant", content: String(h.a).slice(0, 4000) });
   });
 
   const content: Anthropic.Messages.ContentBlockParam[] = [];
