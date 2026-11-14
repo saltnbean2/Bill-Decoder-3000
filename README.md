@@ -102,11 +102,23 @@ Also check before the demo:
 
 ## 90-second demo script
 
-1. **(0:00)** Open the deployed URL with `?demo=1` on the phone. "Glendale residents get paperwork they can't read. Explain It reads it for them."
-2. **(0:10)** Tap **🅿️ Parking ticket**. Point at the amber **"16 days left"** badge. Scroll to **"Problems on the ticket"**: *the ticket says HONDA, but the officer wrote Toyota Camry, and there's no officer ID.* Show **Strong case**, then **"Your appeal letter is ready"**, with the yellow parts to edit. Tap **Copy letter** to show "Copied ✓".
-3. **(0:35)** Tap **Scan another**, then **🔨 Contractor quote**. Point at the gauge: **"~35% above typical"**. Scroll to **"⚠️ No license number on this quote"** and the questions to ask before signing. Mention the 40% deposit when the legal limit is $1,000.
-4. **(0:55)** Tap **Scan another**, then **📷 Scan a document**, and photograph the printed jury summons live. (Live scans always use the real API.) Show **"10 days left"** and the tappable phone number.
-5. **(1:15)** Switch the language picker to **ՀԱՅ**. Everything, including the steps and the deadline, is now in Armenian. "Same for Spanish, Korean and Tagalog."
-6. **(1:25)** "No accounts, photos are never stored, and it's not legal advice. It's a calm friend who reads English paperwork for you."
+**Setup:** demo phone on cellular, `https://bill-decoder-3000.vercel.app/?demo=1` open on the home screen, language EN, the printed jury summons in your pocket. Phone mirrored to the projector.
 
-Backup: if the live scan is slow on hackathon Wi-Fi, tap the **✉️ City letter** chip instead. It falls back to the cache automatically after 20s.
+| Time | Do | Say |
+|---|---|---|
+| 0:00 | Home screen | "Glendale is one of the most multilingual cities in LA County. People get letters they can't read — they miss deadlines, pay tickets they could fight, and get scammed. Explain It reads it for them." |
+| 0:10 | Tap **🅿️ Parking ticket** | Point at **16 days left**. Scroll to **Problems on the ticket**: "It caught that the ticket says Honda but the officer wrote Toyota, and there's no officer ID. That's a strong case." |
+| 0:25 | In **Change the letter**, tap **Add: the sign was hidden by a tree** | "It already wrote the appeal. I can change it in any language, and it stays in English for the city." Show **Letter updated ✓**, tap **📅 Don't miss it** → iPhone. |
+| 0:40 | Back, tap **🚩 Suspicious letter** | Point at the red banner: "It says it's the IRS, but that's NOT the IRS's phone number — here's the real one. And it wants gift cards. Scam." Point at **This "deadline" is a pressure trick**. |
+| 0:55 | Switch the picker to **ՀԱՅ** | "Everything is now in Armenian — also Spanish, Korean and Tagalog." Tap **🇺🇸 Show in English** and back: "One tap to show a clerk or your kid." |
+| 1:10 | Back home, tap **💬 Ask a question**, tap the IRS gift-card suggestion | "It's an agent: it checks phone numbers against the real ones and only gives verified Glendale help lines — it doesn't guess." |
+| 1:25 | Close | "No account, the photo is never stored, and it's not legal advice — it's a calm friend who reads English paperwork for you." |
+
+**If there's time / Q&A:** scan the printed jury summons live with **📷 Scan a document** (real API, ~12 s), or open **📍 Glendale help numbers**.
+
+**If something goes wrong:**
+- Live scan slow → tap the **✉️ Court letter** chip instead; samples fall back to the saved answer after 20 s.
+- Agent or letter change slow on bad Wi-Fi → move on; everything else in demo mode works offline from the cache.
+- Armenian switch is instant in demo mode (preloaded in the background).
+
+**Morning of the demo:** `npm run samples`, then `BASE_URL=https://bill-decoder-3000.vercel.app npm run record-cache`, commit (auto-pushes, Vercel redeploys), print `public/samples/jury-summons.png`. Test the whole script once on the demo phone over cellular.
