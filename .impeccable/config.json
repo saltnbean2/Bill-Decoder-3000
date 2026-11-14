@@ -1,0 +1,35 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "public/samples/parking-ticket.html"
+        ],
+        "createdAt": "2026-11-14T19:01:30.603Z",
+        "reason": "Claude: demo fixture imitating printed paperwork (small print is part of the realistic document), rendered to PNG at 2x for the AI to read; not app UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "public/samples/jury-summons.html"
+        ],
+        "createdAt": "2026-11-14T19:01:30.649Z",
+        "reason": "Claude: demo fixture imitating printed paperwork (small print is part of the realistic document), rendered to PNG at 2x for the AI to read; not app UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "public/samples/roofing-quote.html"
+        ],
+        "createdAt": "2026-11-14T19:01:30.696Z",
+        "reason": "Claude: demo fixture imitating printed paperwork (small print is part of the realistic document), rendered to PNG at 2x for the AI to read; not app UI"
+      }
+    ]
+  }
+}
