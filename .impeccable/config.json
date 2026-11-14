@@ -29,6 +29,15 @@
         ],
         "createdAt": "2026-11-14T19:01:30.696Z",
         "reason": "Claude: demo fixture imitating printed paperwork (small print is part of the realistic document), rendered to PNG at 2x for the AI to read; not app UI"
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": [
+          "public/samples/scam-letter.html"
+        ],
+        "createdAt": "2026-11-14T19:46:25.621Z",
+        "reason": "Claude: demo fixture imitating a cheap scam letter; plain Arial is part of the realistic look, not app UI"
       }
     ]
   }

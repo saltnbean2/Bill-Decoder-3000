@@ -1,0 +1,95 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "\"Internal Revenue Service, Tax Enforcement Division, Collections Unit 7\"(Officer Daniel Brooks, Badge #4471)에서 보냈다고 합니다. 가짜일 가능성이 매우 높습니다.",
+  "headline": "이 편지는 IRS(미국 국세청)를 사칭한 사기 편지일 가능성이 거의 확실합니다.",
+  "summary": "이 편지는 IRS에서 보냈다며 세금 $4,860을 내야 한다고 주장합니다. 48시간 안에 체포하겠다고 협박하고, 기프트 카드나 송금으로 내라고 합니다. 진짜 IRS는 이런 일을 하지 않습니다. 편지에 적힌 번호로 전화하지 마시고, 돈을 내지 마시고, 개인정보도 알려주지 마세요.",
+  "amount_due": "$4,860.00 (claimed, and very likely not real)",
+  "deadline": {
+    "date": "{{ISO:+1}}",
+    "days_remaining": 1,
+    "what_is_due": "편지는 날짜(2026년 11월 13일)로부터 48시간 안에 돈을 내라고 요구합니다. 이것은 겁을 주려는 수법입니다. 이 기한을 지키지 않아도 됩니다."
+  },
+  "urgency": "urgent",
+  "if_ignored": "이 편지를 무시하면 아무 일도 일어나지 않습니다. 경찰이 집에 오지도 않습니다. 위험한 것은 답을 하는 것입니다. 돈을 내거나 사회보장번호, 은행 정보를 알려주면 돈을 잃거나 신분을 도용당할 수 있습니다.",
+  "action_steps": [
+    {
+      "title": "전화하지 말고 돈도 내지 마세요",
+      "detail": "(818) 555-0199로 전화하지 마세요. 기프트 카드를 사지 마세요. 송금하지 마세요. 이런 식으로 연락한 사람에게 사회보장번호나 은행 정보를 주지 마세요.",
+      "contact": null
+    },
+    {
+      "title": "걱정되면 진짜 세금 계정을 확인하세요",
+      "detail": "세금을 내야 할 게 없는지 확실히 알고 싶다면 irs.gov/account에서 IRS 온라인 계정에 로그인하세요. 또는 진짜 IRS 800-829-1040으로 전화하세요. 이 번호는 편지가 아니라 irs.gov에서 확인한 번호입니다.",
+      "contact": "800-829-1040 / irs.gov/account"
+    },
+    {
+      "title": "사기를 신고하세요",
+      "detail": "국세청 감찰관실(TIGTA)에 tigta.gov 또는 800-366-4484로 신고하세요. FTC(연방거래위원회)의 reportfraud.ftc.gov에도 신고할 수 있습니다.",
+      "contact": "800-366-4484 / tigta.gov / reportfraud.ftc.gov"
+    },
+    {
+      "title": "이미 돈을 냈거나 정보를 알려줬다면",
+      "detail": "바로 은행에 전화하세요. 신용 보고서에 사기 경보나 신용 동결을 걸어 두세요. identitytheft.gov에 신분 도용을 신고하세요. 기프트 카드로 냈다면 곧바로 카드 회사에 전화하세요.",
+      "contact": "identitytheft.gov"
+    },
+    {
+      "title": "가족에게 알리고 다른 사람들에게도 알려주세요",
+      "detail": "사기범들은 아무도 말리지 못하게 비밀로 하라고 합니다. 가족이나 믿을 수 있는 친구와 이야기하세요. 사기의 표적이 되기 쉬운 어르신들께도 알려주세요.",
+      "contact": null
+    },
+    {
+      "title": "편지는 안전하게 버리세요",
+      "detail": "신고하려면 편지의 복사본이나 사진을 보관하세요. 그다음 편지는 파쇄하세요.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "Apple이나 Target 기프트 카드 또는 송금으로 내라고 요구합니다. IRS는 절대 이런 요구를 하지 않습니다."
+    },
+    {
+      "severity": "high",
+      "text": "48시간 안에 체포하고 경찰이 집에 간다고 협박합니다. IRS는 이렇게 하지 않습니다."
+    },
+    {
+      "severity": "high",
+      "text": "전화로 사회보장번호와 은행 정보를 달라고 합니다."
+    },
+    {
+      "severity": "high",
+      "text": "가족이나 은행에 말하지 말라고 합니다. 사기범들은 당신을 고립시키려고 이렇게 말합니다."
+    },
+    {
+      "severity": "medium",
+      "text": "이름도 주소도 없이 \"Dear Taxpayer\"(납세자님께)로 시작합니다. 진짜 IRS는 당신 이름과 통지서 번호를 씁니다."
+    },
+    {
+      "severity": "medium",
+      "text": "IRS에는 사람을 체포하는 \"Tax Enforcement Division\"이나 배지 번호가 있는 \"officer\"가 없습니다. 또 IRS는 먼저 우편으로 공식 통지서를 보내고, 답하거나 이의를 제기할 시간을 줍니다."
+    },
+    {
+      "severity": "medium",
+      "text": "전화번호는 555 가짜 번호처럼 보이는 지역 818 번호입니다. IRS 번호가 아닙니다."
+    },
+    {
+      "severity": "low",
+      "text": "\"Our records shows\"와 \"drivers license\" 같은 글 오류가 있습니다. 진짜 정부 편지는 꼼꼼히 검토합니다."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "likely_scam",
+    "reasons": [
+      "기프트 카드나 송금으로 내라는 것은 대표적인 사기 신호입니다.",
+      "48시간 안에 체포하고 경찰을 보내겠다고 협박합니다.",
+      "전화로 사회보장번호와 은행 계좌 정보를 요구합니다.",
+      "가족과 은행에 비밀로 하라고 합니다.",
+      "\"Dear Taxpayer\"처럼 내용이 일반적이고 문법 실수가 있습니다.",
+      "진짜 IRS는 먼저 우편으로 연락하고, 이의 제기를 허용하며, 기프트 카드 결제를 절대 요구하지 않습니다."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

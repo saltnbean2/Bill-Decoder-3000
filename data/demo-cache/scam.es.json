@@ -1,0 +1,95 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Dice ser del \"Internal Revenue Service, Tax Enforcement Division, Collections Unit 7\" (Oficial Daniel Brooks, placa #4471). Es muy probable que sea falso.",
+  "headline": "Esta es casi con seguridad una carta de estafa que se hace pasar por el IRS.",
+  "summary": "Esta carta dice ser del IRS y afirma que usted debe $4,860 en impuestos. Amenaza con arresto en 48 horas y pide tarjetas de regalo o una transferencia bancaria. El verdadero IRS no hace esto. No llame al número, no pague y no dé ninguna información personal.",
+  "amount_due": "$4,860.00 (claimed, and very likely not real)",
+  "deadline": {
+    "date": "{{ISO:+1}}",
+    "days_remaining": 1,
+    "what_is_due": "La carta exige el pago dentro de 48 horas desde su fecha (13 de nov de 2026). Es una táctica para presionarlo. Usted no tiene que cumplirla."
+  },
+  "urgency": "urgent",
+  "if_ignored": "Si ignora esta carta, no pasará nada. La policía no irá a su casa por esto. El peligro está en responder. Si paga o comparte su número de Seguro Social o sus datos del banco, podría perder dinero o sufrir robo de identidad.",
+  "action_steps": [
+    {
+      "title": "No llame ni pague",
+      "detail": "No llame al (818) 555-0199. No compre tarjetas de regalo. No haga una transferencia bancaria. No dé su número de Seguro Social ni sus datos del banco a nadie que lo contacte así.",
+      "contact": null
+    },
+    {
+      "title": "Revise su cuenta de impuestos real si le preocupa",
+      "detail": "Si quiere estar seguro de que no debe nada, entre a su cuenta en línea del IRS en irs.gov/account. O llame al IRS de verdad al 800-829-1040. Saque este número de irs.gov, no de la carta.",
+      "contact": "800-829-1040 / irs.gov/account"
+    },
+    {
+      "title": "Reporte la estafa",
+      "detail": "Repórtela al Inspector General del Tesoro para la Administración de Impuestos (TIGTA) en tigta.gov o al 800-366-4484. También puede reportarla a la FTC en reportfraud.ftc.gov.",
+      "contact": "800-366-4484 / tigta.gov / reportfraud.ftc.gov"
+    },
+    {
+      "title": "Si ya pagó o compartió información",
+      "detail": "Llame a su banco de inmediato. Ponga una alerta de fraude o un congelamiento de crédito en sus reportes de crédito. Reporte el robo de identidad en identitytheft.gov. Si pagó con tarjetas de regalo, llame a la compañía de la tarjeta enseguida.",
+      "contact": "identitytheft.gov"
+    },
+    {
+      "title": "Cuéntele a su familia y avise a otros",
+      "detail": "Los estafadores dicen que lo mantenga en secreto para que nadie pueda detenerlos. Hable con su familia o con un amigo de confianza. Comparta esto con familiares mayores, porque a ellos los buscan mucho.",
+      "contact": null
+    },
+    {
+      "title": "Deshágase de la carta de forma segura",
+      "detail": "Guarde una copia o una foto si quiere reportarla. Después triture la carta.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "Exige el pago con tarjetas de regalo de Apple o Target o con transferencia bancaria. El IRS nunca pide esto."
+    },
+    {
+      "severity": "high",
+      "text": "Amenaza con arresto y con policías en su casa en 48 horas. El IRS no hace esto."
+    },
+    {
+      "severity": "high",
+      "text": "Pide su número de Seguro Social y sus datos del banco por teléfono."
+    },
+    {
+      "severity": "high",
+      "text": "Le dice que no hable con su familia ni con su banco. Los estafadores dicen esto para aislarlo."
+    },
+    {
+      "severity": "medium",
+      "text": "Está dirigida a \"Dear Taxpayer\" (Estimado contribuyente), sin nombre ni dirección. El IRS de verdad usa su nombre y un número de aviso."
+    },
+    {
+      "severity": "medium",
+      "text": "El IRS no tiene una \"Tax Enforcement Division\" con \"oficiales\" y números de placa que arresten gente. Además, el IRS primero envía avisos oficiales por correo y le da tiempo para responder o apelar."
+    },
+    {
+      "severity": "medium",
+      "text": "El teléfono es un número local 818 que parece un número falso 555. No es un número del IRS."
+    },
+    {
+      "severity": "low",
+      "text": "El texto tiene errores, como \"Our records shows\" y \"drivers license\". Las cartas del gobierno se revisan con cuidado."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "likely_scam",
+    "reasons": [
+      "Pedir pago con tarjetas de regalo o transferencia es una señal clásica de estafa.",
+      "Amenaza con arresto y policía en 48 horas.",
+      "Pide su número de Seguro Social y su cuenta bancaria por teléfono.",
+      "Le dice que lo guarde en secreto de su familia y su banco.",
+      "Es genérica (\"Dear Taxpayer\") y tiene errores de gramática.",
+      "El IRS de verdad contacta primero por correo, permite apelar y nunca exige pago con tarjetas de regalo."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

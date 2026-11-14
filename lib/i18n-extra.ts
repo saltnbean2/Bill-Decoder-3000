@@ -31,6 +31,7 @@ export interface ExtraStrings {
   stopReading: string;
   stepsWord: string;
   dueWord: string;
+  fakeDeadline: string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -39,7 +40,7 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     remindTitle: "Don't miss it",
     remindSub: "Add the deadline to your calendar, with reminders 3 days and 1 day before.",
     google: "Google",
-    apple: "iPhone / Apple",
+    apple: "iPhone",
     outlook: "Outlook",
     eventPrefix: "Deadline",
     share: "Send to family",
@@ -65,13 +66,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stopReading: "Stop",
     stepsWord: "What to do",
     dueWord: "Deadline",
+    fakeDeadline: "This \"deadline\" is a pressure trick",
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
     remindTitle: "Մի բաց թողեք",
     remindSub: "Ավելացրեք վերջնաժամկետը ձեր օրացույցում՝ հիշեցումներով 3 օր և 1 օր առաջ։",
     google: "Google",
-    apple: "iPhone / Apple",
+    apple: "iPhone",
     outlook: "Outlook",
     eventPrefix: "Վերջնաժամկետ",
     share: "Ուղարկել ընտանիքին",
@@ -97,13 +99,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stopReading: "Կանգնեցնել",
     stepsWord: "Ինչ անել",
     dueWord: "Վերջնաժամկետ",
+    fakeDeadline: "Այս «վերջնաժամկետը» ճնշման հնարք է",
   },
   es: {
     sampleScam: "Carta sospechosa",
     remindTitle: "No lo olvide",
     remindSub: "Agregue la fecha límite a su calendario, con recordatorios 3 días y 1 día antes.",
     google: "Google",
-    apple: "iPhone / Apple",
+    apple: "iPhone",
     outlook: "Outlook",
     eventPrefix: "Fecha límite",
     share: "Enviar a la familia",
@@ -129,13 +132,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stopReading: "Parar",
     stepsWord: "Qué hacer",
     dueWord: "Fecha límite",
+    fakeDeadline: "Esta \"fecha límite\" es un truco para presionarle",
   },
   ko: {
     sampleScam: "수상한 편지",
     remindTitle: "놓치지 마세요",
     remindSub: "마감일을 달력에 추가하고 3일 전, 1일 전에 알림을 받으세요.",
     google: "Google",
-    apple: "iPhone / Apple",
+    apple: "iPhone",
     outlook: "Outlook",
     eventPrefix: "마감일",
     share: "가족에게 보내기",
@@ -161,13 +165,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stopReading: "멈추기",
     stepsWord: "해야 할 일",
     dueWord: "마감일",
+    fakeDeadline: "이 \"마감일\"은 압박하려는 속임수예요",
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
     remindTitle: "Huwag itong makalimutan",
     remindSub: "Idagdag ang deadline sa kalendaryo mo, may paalala 3 araw at 1 araw bago.",
     google: "Google",
-    apple: "iPhone / Apple",
+    apple: "iPhone",
     outlook: "Outlook",
     eventPrefix: "Deadline",
     share: "Ipadala sa pamilya",
@@ -193,5 +198,6 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stopReading: "Ihinto",
     stepsWord: "Ano ang gagawin",
     dueWord: "Deadline",
+    fakeDeadline: "Panakot lang ang \"deadline\" na ito",
   },
 };

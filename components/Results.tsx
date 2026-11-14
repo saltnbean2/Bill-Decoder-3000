@@ -63,14 +63,17 @@ function formatDate(iso: string | null, locale: string) {
 function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; locale: string; i: number; busy: boolean }) {
   const d = a.deadline;
   const days = d?.days_remaining ?? null;
-  if (!d || (days === null && !d.date && !d.what_is_due)) {
+  if (!d || (days === null && !d.date)) {
     return (
       <section
-        className="rise flex items-center gap-3 rounded-2xl p-5 ring-1 ring-green-200"
+        className="rise rounded-2xl p-5 ring-1 ring-green-200"
         style={{ background: URGENCY_BG.no_rush, animationDelay: `${i * 50}ms` }}
       >
-        <span className="text-2xl">✅</span>
-        <p className="text-lg font-semibold text-green-800">{t.noDeadline}</p>
+        <p className="flex items-center gap-3 text-lg font-semibold text-green-800">
+          <span className="text-2xl">✅</span>
+          {t.noDeadline}
+        </p>
+        {d?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-green-900">{d.what_is_due}</p>}
       </section>
     );
   }
@@ -459,6 +462,24 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
   );
 }
 
+/** Big dollar figure, with any extra words the model added shown small underneath. */
+function AmountLine({ text, label }: { text: string; label: string }) {
+  const m = /^\s*(\$[\d,]+(?:\.\d{2})?)\s*[;,–-]?\s*(.*)$/.exec(text);
+  const big = m ? m[1] : text.length <= 14 ? text : null;
+  const rest = m ? m[2] : big ? "" : text;
+  return (
+    <div className="mb-3">
+      {big && (
+        <p className="text-[34px] font-bold leading-none tracking-tight">
+          {big}
+          <span className="ml-2 text-[15px] font-medium text-muted">{label}</span>
+        </p>
+      )}
+      {rest && <p className={`${big ? "mt-1 text-[15px] text-muted" : "text-[19px] font-semibold"}`}>{rest}</p>}
+    </div>
+  );
+}
+
 /* ---------- Main ---------- */
 export default function Results({
   a,
@@ -481,6 +502,7 @@ export default function Results({
   const dateLabel = formatDate(a.deadline?.date ?? null, locale);
   const legit = a.legitimacy_check;
   const showLegit = legit && legit.verdict !== "looks_legitimate";
+  const isScam = legit?.verdict === "likely_scam";
 
   return (
     <div className="space-y-4 pb-10">
@@ -507,8 +529,15 @@ export default function Results({
       </header>
 
       {/* 2. deadline */}
-      <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
-      {!busy && <ActionRow a={a} t={t} dateLabel={dateLabel} i={i++} />}
+      {isScam ? (
+        <section className="rise rounded-2xl bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
+          <p className="text-[22px] font-bold leading-tight text-stone-800">🎭 {t.fakeDeadline}</p>
+          {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
+        </section>
+      ) : (
+        <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
+      )}
+      {!busy && <ActionRow a={a} t={t} dateLabel={dateLabel} i={i++} noCalendar={isScam} />}
 
       {/* official phone-number check (scam guard) */}
       <NumberCheckBanner a={a} t={t} i={i++} />
@@ -536,10 +565,7 @@ export default function Results({
       <Card i={i++}>
         <CardTitle>{t.whatMeans}</CardTitle>
         {a.amount_due && (
-          <p className="mb-2 text-[34px] font-bold leading-none tracking-tight">
-            {a.amount_due}
-            <span className="ml-2 text-[15px] font-medium text-muted">{t.amountDue}</span>
-          </p>
+          <AmountLine text={a.amount_due} label={t.amountDue} />
         )}
         {busy ? <Shimmer lines={3} /> : <p className="text-[17px] leading-relaxed">{a.summary}</p>}
       </Card>

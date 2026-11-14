@@ -159,7 +159,14 @@ export function checkOfficialNumbers(a: Analysis): NumberCheck {
     .join(" ");
   const found = [...new Set((blob.match(PHONE_RE) ?? []).map((p) => p.trim()))];
   if (!found.length) return null;
-  const bad = found.filter((p) => !agency.phones.includes(digits(p)));
+  // Only flag numbers that aren't any known-legitimate line (the model's own advice may cite real ones).
+  const knownGood = new Set([
+    ...OFFICIAL.flatMap((o) => o.phones),
+    ...Object.values(R).flatMap((r) => ("phone" in r && r.phone ? [digits(r.phone)] : [])),
+    "8003664484", // Treasury Inspector General for Tax Administration (reports IRS impersonation)
+    "8773824357", // FTC fraud line
+  ]);
+  const bad = found.filter((p) => !knownGood.has(digits(p)));
   return bad.length ? { agency, status: "mismatch", found, bad } : { agency, status: "match", found };
 }
 

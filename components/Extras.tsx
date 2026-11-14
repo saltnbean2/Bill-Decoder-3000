@@ -19,9 +19,11 @@ function eventFor(a: Analysis, t: Strings): CalEvent | null {
   if (!d?.date || (d.days_remaining !== null && d.days_remaining < 0)) return null;
   const steps = a.action_steps.map((s, i) => `${i + 1}. ${s.title}${s.contact ? ` (${s.contact})` : ""}`).join("\n");
   return {
-    title: `${t.eventPrefix}: ${d.what_is_due || a.headline}`.slice(0, 140),
+    title: `${t.eventPrefix}: ${t.docType[a.document_type].replace(/^\S+\s/, "")}${
+      a.amount_due && a.amount_due.length <= 12 ? ` (${a.amount_due})` : ""
+    }`,
     date: d.date,
-    details: `${a.headline}\n\n${t.stepsWord}:\n${steps}\n\n— ${t.shareFooter}`,
+    details: `${a.headline}\n${d.what_is_due ? `\n${d.what_is_due}\n` : ""}\n${t.stepsWord}:\n${steps}\n\n— ${t.shareFooter}`,
   };
 }
 
@@ -69,9 +71,21 @@ async function addToAppleCalendar(e: CalEvent) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export function ActionRow({ a, t, dateLabel, i }: { a: Analysis; t: Strings; dateLabel: string | null; i: number }) {
+export function ActionRow({
+  a,
+  t,
+  dateLabel,
+  i,
+  noCalendar = false,
+}: {
+  a: Analysis;
+  t: Strings;
+  dateLabel: string | null;
+  i: number;
+  noCalendar?: boolean;
+}) {
   const [open, setOpen] = useState<"cal" | "share" | null>(null);
-  const event = eventFor(a, t);
+  const event = noCalendar ? null : eventFor(a, t);
   const text = shareTextFor(a, t, dateLabel);
 
   async function onShare() {
@@ -103,7 +117,7 @@ export function ActionRow({ a, t, dateLabel, i }: { a: Analysis; t: Strings; dat
           aria-expanded={open === "share"}
           className={`${pill} bg-white text-ink ring-line active:bg-teal-soft ${open === "share" ? "ring-2 ring-teal" : ""}`}
         >
-          👨‍👩‍👧 {t.share}
+          👪 {t.share}
         </button>
       </div>
 

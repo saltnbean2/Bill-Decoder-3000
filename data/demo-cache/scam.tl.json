@@ -1,0 +1,95 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Sinasabing galing ito sa \"Internal Revenue Service, Tax Enforcement Division, Collections Unit 7\" (Officer Daniel Brooks, Badge #4471). Malamang na peke ito.",
+  "headline": "Halos tiyak na scam ang liham na ito na nagpapanggap na IRS.",
+  "summary": "Sinasabi ng liham na galing ito sa IRS at may utang ka raw na $4,860 na buwis. Tinatakot ka nitong aarestuhin ka sa loob ng 48 oras at humihingi ng gift card o wire transfer. Hindi ito ginagawa ng totoong IRS. Huwag tawagan ang numero, huwag magbayad, at huwag magbigay ng anumang personal na impormasyon.",
+  "amount_due": "$4,860.00 (claimed, and very likely not real)",
+  "deadline": {
+    "date": "{{ISO:+1}}",
+    "days_remaining": 1,
+    "what_is_due": "Hinihingi ng liham ang bayad sa loob ng 48 oras mula sa petsa nito (Nov 13, 2026). Pananakot lang ito para madaliin ka. Hindi mo kailangang sundin ito."
+  },
+  "urgency": "urgent",
+  "if_ignored": "Kung hindi mo papansinin ang liham na ito, walang mangyayari. Hindi pupunta ang pulis sa bahay mo dahil dito. Ang panganib ay nasa pagsagot. Kapag nagbayad ka o nagbigay ng Social Security number o bank details, maaari kang mawalan ng pera o manakaw ang pagkakakilanlan mo.",
+  "action_steps": [
+    {
+      "title": "Huwag tumawag o magbayad",
+      "detail": "Huwag tawagan ang (818) 555-0199. Huwag bumili ng gift card. Huwag magpadala ng wire transfer. Huwag ibigay ang Social Security number o bank details mo sa sinumang nakipag-ugnayan sa iyo nang ganito.",
+      "contact": null
+    },
+    {
+      "title": "Tingnan ang totoong tax account mo kung nag-aalala ka",
+      "detail": "Para makasigurong wala kang utang, mag-sign in sa IRS online account mo sa irs.gov/account. O tawagan ang totoong IRS sa 800-829-1040. Kunin ang numerong ito sa irs.gov, hindi sa liham.",
+      "contact": "800-829-1040 / irs.gov/account"
+    },
+    {
+      "title": "I-report ang scam",
+      "detail": "I-report ito sa Treasury Inspector General for Tax Administration (TIGTA) sa tigta.gov o 800-366-4484. Puwede mo rin itong i-report sa FTC sa reportfraud.ftc.gov.",
+      "contact": "800-366-4484 / tigta.gov / reportfraud.ftc.gov"
+    },
+    {
+      "title": "Kung nagbayad ka na o nagbigay ng impormasyon",
+      "detail": "Tawagan agad ang bangko mo. Maglagay ng fraud alert o credit freeze sa mga credit report mo. I-report ang identity theft sa identitytheft.gov. Kung nagbayad ka gamit ang gift card, tawagan agad ang kompanya ng card.",
+      "contact": "identitytheft.gov"
+    },
+    {
+      "title": "Sabihin sa pamilya at balaan ang iba",
+      "detail": "Sinasabi ng mga scammer na ilihim ito para walang makapigil sa iyo. Makipag-usap sa pamilya o sa mapagkakatiwalaang kaibigan. Ibahagi ito sa mga nakatatandang kamag-anak, dahil sila madalas ang target.",
+      "contact": null
+    },
+    {
+      "title": "Itapon nang ligtas ang liham",
+      "detail": "Magtabi ng kopya o litrato kung gusto mo itong i-report. Pagkatapos, i-shred ang liham.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "Humihingi ito ng bayad gamit ang Apple o Target gift card o wire transfer. Hindi ito kailanman hinihingi ng IRS."
+    },
+    {
+      "severity": "high",
+      "text": "Tinatakot ka nitong aarestuhin ka at pupunta ang pulis sa bahay mo sa loob ng 48 oras. Hindi ito ginagawa ng IRS."
+    },
+    {
+      "severity": "high",
+      "text": "Hinihingi nito ang Social Security number at bank details mo sa telepono."
+    },
+    {
+      "severity": "high",
+      "text": "Sinasabi nitong huwag kang makipag-usap sa pamilya o bangko mo. Sinasabi ito ng mga scammer para ihiwalay ka."
+    },
+    {
+      "severity": "medium",
+      "text": "Nakasulat ito sa \"Dear Taxpayer\" na walang pangalan o address. Ginagamit ng totoong IRS ang pangalan mo at isang notice number."
+    },
+    {
+      "severity": "medium",
+      "text": "Walang \"Tax Enforcement Division\" ang IRS na may mga \"officer\" at badge number na umaaresto ng tao. Una ring nagpapadala ang IRS ng opisyal na abiso sa koreo at binibigyan ka ng panahong sumagot o mag-appeal."
+    },
+    {
+      "severity": "medium",
+      "text": "Lokal na 818 number ang telepono pero mukhang pekeng 555 number. Hindi ito numero ng IRS."
+    },
+    {
+      "severity": "low",
+      "text": "May mga mali sa pagkakasulat, tulad ng \"Our records shows\" at \"drivers license\". Maingat na sinusuri ang mga totoong liham ng gobyerno."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "likely_scam",
+    "reasons": [
+      "Ang pagbabayad gamit ang gift card o wire transfer ay klasikong palatandaan ng scam.",
+      "Tinatakot ka nitong aarestuhin at pupuntahan ng pulis sa loob ng 48 oras.",
+      "Hinihingi nito ang Social Security number at bank account mo sa telepono.",
+      "Sinasabi nitong ilihim ito sa pamilya at bangko mo.",
+      "Pangkalahatan ito (\"Dear Taxpayer\") at may mga mali sa grammar.",
+      "Una kang kinokontak ng totoong IRS sa koreo, pinapayagan kang mag-appeal, at hindi humihingi ng bayad gamit ang gift card."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}
