@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
+import { AskCard, type QA } from "./Extras";
 import { prepareFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
@@ -77,6 +78,14 @@ export default function ExplainApp() {
   const [notice, setNotice] = useState("");
   const [demo, setDemo] = useState(false);
   const [tick, setTick] = useState(0);
+  // Follow-up questions about the current document.
+  const [qa, setQa] = useState<QA[]>([]);
+  const [asking, setAsking] = useState<string | null>(null);
+  const [askFailed, setAskFailed] = useState(false);
+  // "Show in English" (e.g. to show a clerk), without changing the chosen language.
+  const [showEnglish, setShowEnglish] = useState(false);
+  // The compressed document, kept in memory only, so follow-up questions can look at it again.
+  const docRef = useRef<{ base64: string; mediaType: string } | null>(null);
   const sampleRef = useRef<SampleId | null>(null);
   const lastInput = useRef<{ file: Blob; sample: SampleId | null } | null>(null);
   const runId = useRef(0);
@@ -138,6 +147,11 @@ export default function ExplainApp() {
     setPreview("");
     setNotice("");
     setTranslating(false);
+    setQa([]);
+    setAsking(null);
+    setAskFailed(false);
+    setShowEnglish(false);
+    docRef.current = null;
     sampleRef.current = null;
     window.scrollTo({ top: 0 });
   }, []);
@@ -171,8 +185,13 @@ export default function ExplainApp() {
     sampleRef.current = sample;
     lastInput.current = { file, sample };
     pending.current = {};
+    docRef.current = null;
     setNotice("");
     setTranslating(false);
+    setQa([]);
+    setAsking(null);
+    setAskFailed(false);
+    setShowEnglish(false);
     setResults({});
     setScreen("loading");
     window.scrollTo({ top: 0 });
@@ -197,6 +216,7 @@ export default function ExplainApp() {
     }
     if (id !== runId.current) return;
     setPreview(prepared.previewUrl);
+    docRef.current = { base64: prepared.base64, mediaType: prepared.mediaType };
     if (prepared.mediaType === "application/pdf" && prepared.base64.length > MAX_PDF_BASE64) {
       setErrorKind("pdf");
       setScreen("error");
@@ -267,6 +287,7 @@ export default function ExplainApp() {
 
   async function switchLanguage(next: Lang, have: Partial<Record<Lang, Analysis>> = results) {
     setLang(next);
+    setShowEnglish(false);
     try {
       localStorage.setItem("explainit.lang", next);
     } catch {
@@ -302,6 +323,53 @@ export default function ExplainApp() {
     }
   }
 
+  async function ask(question: string) {
+    const base = showEnglish ? results.en : results[shownLangRef.current];
+    if (!base) return;
+    const id = runId.current;
+    setAsking(question);
+    setAskFailed(false);
+    try {
+      const doc = docRef.current;
+      const res = await postJson<{ answer: string }>(
+        "/api/ask",
+        {
+          question,
+          language: showEnglish ? "en" : langRef.current,
+          result: base,
+          history: qa.slice(-3),
+          image: doc?.base64,
+          mediaType: doc?.mediaType,
+        },
+        45_000,
+      );
+      if (id !== runId.current) return;
+      setQa((prev) => [...prev, { q: question, a: res.answer }]);
+    } catch {
+      if (id === runId.current) setAskFailed(true);
+    } finally {
+      if (id === runId.current) setAsking(null);
+    }
+  }
+
+  async function toggleEnglish() {
+    if (showEnglish) return setShowEnglish(false);
+    if (results.en) return setShowEnglish(true);
+    const base = results[shownLangRef.current];
+    if (!base) return;
+    const id = runId.current;
+    setTranslating(true);
+    const en = await fetchTranslation("en", base, sampleRef.current);
+    if (id !== runId.current) return;
+    setTranslating(false);
+    if (en) {
+      setResults((r) => ({ ...r, en }));
+      setShowEnglish(true);
+    } else {
+      setNotice(t.translateFailed);
+    }
+  }
+
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     e.target.value = "";
@@ -309,6 +377,9 @@ export default function ExplainApp() {
   }
 
   const shown = results[shownLang] ?? Object.values(results)[0];
+  const viewEnglish = showEnglish && !!results.en;
+  const view = viewEnglish ? results.en! : shown;
+  const viewT = viewEnglish ? STRINGS.en : t;
 
   const samples = (
     [
@@ -475,14 +546,35 @@ export default function ExplainApp() {
             </p>
           )}
           {notice && <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[15px] text-amber-900">{notice}</p>}
+          {shownLang !== "en" && lang !== "en" && !translating && (
+            <div className="mb-3 flex justify-end">
+              <button
+                onClick={() => void toggleEnglish()}
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-ink ring-1 ring-line active:bg-stone-100"
+              >
+                {viewEnglish ? t.backTo(LANG_FULL[lang]) : `🇺🇸 ${t.showEnglish}`}
+              </button>
+            </div>
+          )}
           <Results
-            key={shownLang}
-            a={shown}
+            key={viewEnglish ? "en-view" : shownLang}
+            a={view}
             english={results.en}
-            t={t}
-            locale={LOCALE[shownLang]}
+            t={viewT}
+            locale={viewEnglish ? LOCALE.en : LOCALE[shownLang]}
             busy={translating}
             onScanAnother={reset}
+            askSlot={
+              <AskCard
+                docType={view.document_type}
+                t={viewT}
+                i={8}
+                qa={qa}
+                asking={asking}
+                failed={askFailed}
+                onAsk={(q) => void ask(q)}
+              />
+            }
           />
         </div>
       )}

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, type CSSProperties, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
+import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
+import { HelpCard, ReadAloudButton } from "./Extras";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
 const URGENCY_BADGE: Record<Urgency, string> = { urgent: "#B91C1C", soon: "#B45309", no_rush: "#15803D" };
@@ -15,68 +17,6 @@ const SEVERITY_STYLE: Record<Severity, string> = {
 };
 const SEVERITY_DOT: Record<Severity, string> = { high: "bg-red-500", medium: "bg-amber-500", low: "bg-stone-400" };
 
-function Card({
-  children,
-  i,
-  className = "",
-  style,
-}: {
-  children: ReactNode;
-  i: number;
-  className?: string;
-  style?: CSSProperties;
-}) {
-  return (
-    <section
-      className={`rise rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-line ${className}`}
-      style={{ animationDelay: `${i * 50}ms`, ...style }}
-    >
-      {children}
-    </section>
-  );
-}
-
-function CardTitle({ children }: { children: ReactNode }) {
-  return <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">{children}</h2>;
-}
-
-function Shimmer({ lines = 2 }: { lines?: number }) {
-  return (
-    <div className="space-y-2" aria-hidden>
-      {Array.from({ length: lines }).map((_, i) => (
-        <div key={i} className="shimmer h-4" style={{ width: `${92 - i * 18}%` }} />
-      ))}
-    </div>
-  );
-}
-
-function formatDate(iso: string | null, locale: string) {
-  if (!iso) return null;
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
-  if (!m) return iso;
-  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
-  const fmt = new Intl.DateTimeFormat(locale, { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
-  // Some browsers ship without Armenian date data and silently fall back to English.
-  if (locale.startsWith("hy") && !fmt.resolvedOptions().locale.startsWith("hy")) {
-    return `${HY_WEEKDAYS[d.getUTCDay()]}, ${HY_MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
-  }
-  return fmt.format(d);
-}
-const HY_WEEKDAYS = ["կիրակի", "երկուշաբթի", "երեքշաբթի", "չորեքշաբթի", "հինգշաբթի", "ուրբաթ", "շաբաթ"];
-const HY_MONTHS = [
-  "հունվարի",
-  "փետրվարի",
-  "մարտի",
-  "ապրիլի",
-  "մայիսի",
-  "հունիսի",
-  "հուլիսի",
-  "օգոստոսի",
-  "սեպտեմբերի",
-  "հոկտեմբերի",
-  "նոյեմբերի",
-  "դեկտեմբերի",
-];
 
 /* ---------- Deadline (hero) ---------- */
 function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; locale: string; i: number; busy: boolean }) {
@@ -318,35 +258,101 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
 }
 
 /* ---------- Ticket ---------- */
-function HighlightedLetter({ text }: { text: string }) {
-  const parts = text.split(/(\[[^\]]+\])/g);
+const IS_BRACKET = /^\[[^\]]+\]$/;
+/** "[Optional: …]" / "[If …]" parts are dropped from the sent letter when left empty. */
+const isOptional = (p: string) => /^\[\s*(optional|if\b)/i.test(p);
+
+function fillLetter(letter: string, vals: Record<string, string>) {
+  return letter
+    .replace(/\[[^\]]+\]/g, (m) => vals[m]?.trim() || (isOptional(m) ? "" : m))
+    .replace(/\n{3,}/g, "\n\n");
+}
+
+// What the person typed, kept in memory only (never saved) so it survives a language switch.
+const letterFills = new Map<string, Record<string, string>>();
+
+function LetterPreview({
+  letter,
+  vals,
+  onPick,
+}: {
+  letter: string;
+  vals: Record<string, string>;
+  onPick: (placeholder: string) => void;
+}) {
+  const parts = letter.split(/(\[[^\]]+\])/g);
   return (
     <>
-      {parts.map((p, i) =>
-        /^\[[^\]]+\]$/.test(p) ? (
-          <mark key={i} className="rounded bg-yellow-200 px-0.5 text-ink">
+      {parts.map((p, i) => {
+        if (!IS_BRACKET.test(p)) return <span key={i}>{p}</span>;
+        const v = vals[p]?.trim();
+        if (v)
+          return (
+            <mark key={i} className="rounded bg-green-100 px-0.5 text-ink" onClick={() => onPick(p)}>
+              {v}
+            </mark>
+          );
+        return (
+          <mark
+            key={i}
+            role="button"
+            tabIndex={0}
+            onClick={() => onPick(p)}
+            onKeyDown={(e) => e.key === "Enter" && onPick(p)}
+            className={`cursor-pointer rounded px-0.5 text-ink ${isOptional(p) ? "bg-yellow-100" : "bg-yellow-200"}`}
+          >
             {p}
           </mark>
-        ) : (
-          <span key={i}>{p}</span>
-        ),
-      )}
+        );
+      })}
     </>
   );
 }
 
 function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i: number; busy: boolean }) {
   const [toast, setToast] = useState(0);
+  const [vals, setVals] = useState<Record<string, string>>(() => letterFills.get(ticket.appeal_letter) ?? {});
+  const [fillOpen, setFillOpen] = useState(false);
   const levels = ["weak", "possible", "strong"] as const;
   const idx = levels.indexOf(ticket.contest_strength);
   const color = { weak: "#DC2626", possible: "#D97706", strong: "#16A34A" }[ticket.contest_strength];
 
+  const placeholders = [...new Set(ticket.appeal_letter.match(/\[[^\]]+\]/g) ?? [])];
+  // "[Your printed name]" reuses "[Your full name]" so nobody types their name twice.
+  const fullNameKey = placeholders.find((p) => /full name/i.test(p));
+  const effective: Record<string, string> = { ...vals };
+  for (const p of placeholders) {
+    if (/printed name/i.test(p) && vals[p] === undefined && fullNameKey && vals[fullNameKey]?.trim()) {
+      effective[p] = vals[fullNameKey];
+    }
+  }
+  const filledCount = placeholders.filter((p) => effective[p]?.trim()).length;
+  const finalLetter = fillLetter(ticket.appeal_letter, effective);
+
+  function setVal(p: string, v: string) {
+    setVals((prev) => {
+      const next = { ...prev, [p]: v };
+      letterFills.set(ticket.appeal_letter, next);
+      return next;
+    });
+  }
+
+  function pick(p: string) {
+    setFillOpen(true);
+    const n = placeholders.indexOf(p);
+    requestAnimationFrame(() => {
+      const el = document.getElementById(`fill-${n}`);
+      el?.scrollIntoView({ block: "center", behavior: "smooth" });
+      el?.focus({ preventScroll: true });
+    });
+  }
+
   async function copy() {
     try {
-      await navigator.clipboard.writeText(ticket.appeal_letter);
+      await navigator.clipboard.writeText(finalLetter);
     } catch {
       const ta = document.createElement("textarea");
-      ta.value = ticket.appeal_letter;
+      ta.value = finalLetter;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");
@@ -356,7 +362,7 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
   }
   const mailto = `mailto:?subject=${encodeURIComponent(
     t.emailSubject + (ticket.citation_number ? ` #${ticket.citation_number}` : ""),
-  )}&body=${encodeURIComponent(ticket.appeal_letter)}`;
+  )}&body=${encodeURIComponent(finalLetter)}`;
 
   return (
     <>
@@ -417,17 +423,62 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
             <h2 className="text-xl font-bold">{t.letterReady}</h2>
           </div>
           <p className="text-[15px] text-muted">{t.letterNote}</p>
-          {/\[[^\]]+\]/.test(ticket.appeal_letter) && (
+          {placeholders.length > 0 && (
             <p className="mt-1 text-[15px] font-medium text-amber-800">
               <mark className="rounded bg-yellow-200 px-1">[ ]</mark> {t.editBrackets}
             </p>
+          )}
+          {placeholders.length > 0 && (
+            <div className="mt-3 rounded-xl ring-1 ring-teal/30">
+              <button
+                type="button"
+                onClick={() => setFillOpen((o) => !o)}
+                aria-expanded={fillOpen}
+                className="flex min-h-[52px] w-full items-center justify-between gap-2 rounded-xl bg-teal-soft px-4 text-left text-[16px] font-semibold text-teal-900"
+              >
+                <span>✍️ {t.fillDetails(filledCount, placeholders.length)}</span>
+                <span className={`transition-transform ${fillOpen ? "rotate-180" : ""}`}>⌄</span>
+              </button>
+              {fillOpen && (
+                <div className="space-y-3 p-4" lang="en">
+                  {placeholders.map((p, n) => {
+                    const label = p.slice(1, -1);
+                    const long = isOptional(p) || label.length > 40;
+                    const auto = /\bfull name|printed name|your name\b/i.test(label)
+                      ? "name"
+                      : /street|address/i.test(label)
+                        ? "street-address"
+                        : /phone or email|email/i.test(label)
+                          ? "email"
+                          : "off";
+                    const common = {
+                      id: `fill-${n}`,
+                      value: vals[p] ?? effective[p] ?? "",
+                      placeholder: label,
+                      className:
+                        "w-full rounded-lg bg-white px-3 py-2.5 text-[16px] ring-1 ring-line outline-none focus:ring-2 focus:ring-teal",
+                    };
+                    return (
+                      <label key={p} className="block">
+                        <span className="mb-1 block text-[13px] font-semibold text-muted">{label}</span>
+                        {long ? (
+                          <textarea {...common} rows={2} onChange={(e) => setVal(p, e.target.value)} />
+                        ) : (
+                          <input {...common} autoComplete={auto} onChange={(e) => setVal(p, e.target.value)} />
+                        )}
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           )}
           <div
             lang="en"
             className="mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line"
             tabIndex={0}
           >
-            <HighlightedLetter text={ticket.appeal_letter} />
+            <LetterPreview letter={ticket.appeal_letter} vals={effective} onPick={pick} />
           </div>
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
             <button
@@ -602,6 +653,7 @@ export default function Results({
   locale,
   busy,
   onScanAnother,
+  askSlot,
 }: {
   a: Analysis;
   /** The English version, if we have it, so "Send to family" can include both. */
@@ -610,6 +662,8 @@ export default function Results({
   locale: string;
   busy: boolean;
   onScanAnother: () => void;
+  /** The "Ask about this document" card, owned by the parent so answers survive a language switch. */
+  askSlot?: ReactNode;
 }) {
   let i = 0;
   const legit = a.legitimacy_check;
@@ -619,9 +673,12 @@ export default function Results({
     <div className="space-y-4 pb-10">
       {/* 1. chip + headline */}
       <header className="rise pt-1" style={{ animationDelay: `${i++ * 50}ms` }}>
-        <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
-          {t.docType[a.document_type]}
-        </span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
+            {t.docType[a.document_type]}
+          </span>
+          {!busy && <ReadAloudButton a={a} t={t} locale={locale} />}
+        </div>
         {busy ? (
           <div className="mt-3">
             <Shimmer lines={2} />
@@ -699,6 +756,12 @@ export default function Results({
           </ul>
         </Card>
       )}
+
+      {/* Ask a follow-up question about this document */}
+      {askSlot}
+
+      {/* Verified local help for this kind of document */}
+      {!busy && <HelpCard a={a} t={t} i={i++} />}
 
       {/* 9. confidence */}
       {a.confidence !== "high" && (

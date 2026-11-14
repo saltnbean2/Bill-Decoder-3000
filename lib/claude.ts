@@ -28,6 +28,33 @@ function isTransient(err: unknown) {
 
 export class AnalysisError extends Error {}
 
+type Params = Omit<Anthropic.Beta.Messages.MessageCreateParamsNonStreaming, "model" | "betas" | "fallbacks">;
+
+/**
+ * One Messages call with: the time budget, one quick retry for overloaded / rate-limited /
+ * dropped connections, and the server-side fallback for safety-classifier refusals.
+ */
+async function create(params: Params, started: number) {
+  const remaining = () => BUDGET_MS - (Date.now() - started);
+  for (let i = 0; ; i++) {
+    try {
+      return await getClient().beta.messages.create(
+        {
+          model: MODEL,
+          // On a safety-classifier refusal the API retries on a fallback model in the same call.
+          betas: ["server-side-fallback-2026-07-01"],
+          fallbacks: "default",
+          ...params,
+        },
+        { timeout: Math.max(5_000, remaining()) },
+      );
+    } catch (err) {
+      if (i >= 1 || !isTransient(err) || Date.now() - started > RETRY_WINDOW_MS) throw err;
+      await sleep(800);
+    }
+  }
+}
+
 /**
  * Calls Claude with the report_document_analysis tool and returns the tool input.
  *
@@ -42,36 +69,22 @@ export async function runAnalysis(
 ): Promise<Analysis> {
   const messages: Anthropic.Beta.Messages.BetaMessageParam[] = [{ role: "user", content }];
   const started = Date.now();
-  const remaining = () => BUDGET_MS - (Date.now() - started);
-
-  // One quick retry for overloaded / rate-limited / dropped connections.
-  async function create(params: Anthropic.Beta.Messages.MessageCreateParamsNonStreaming) {
-    for (let i = 0; ; i++) {
-      try {
-        return await getClient().beta.messages.create(params, { timeout: Math.max(5_000, remaining()) });
-      } catch (err) {
-        if (i >= 1 || !isTransient(err) || Date.now() - started > RETRY_WINDOW_MS) throw err;
-        await sleep(800);
-      }
-    }
-  }
 
   for (let attempt = 0; attempt < 2; attempt++) {
     // Only re-ask if there is still realistic time for a second full answer.
-    if (attempt > 0 && remaining() < 25_000) break;
-    const response = await create({
-      model: MODEL,
-      // Thinking tokens count toward max_tokens, so leave room above the ~4k answer.
-      max_tokens: 8000,
-      system,
-      tools: [ANALYSIS_TOOL],
-      tool_choice: { type: "auto" },
-      output_config: { effort: opts.effort ?? "medium" },
-      // On a safety-classifier refusal the API retries on a fallback model in the same call.
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-      messages,
-    });
+    if (attempt > 0 && BUDGET_MS - (Date.now() - started) < 25_000) break;
+    const response = await create(
+      {
+        // Thinking tokens count toward max_tokens, so leave room above the ~4k answer.
+        max_tokens: 8000,
+        system,
+        tools: [ANALYSIS_TOOL],
+        tool_choice: { type: "auto" },
+        output_config: { effort: opts.effort ?? "medium" },
+        messages,
+      },
+      started,
+    );
 
     if (response.stop_reason === "refusal") throw new AnalysisError("refused");
 
@@ -90,4 +103,29 @@ export async function runAnalysis(
     });
   }
   throw new AnalysisError("no_tool_call");
+}
+
+/** A short plain-text answer (used for follow-up questions about a document). */
+export async function runText(
+  system: string,
+  messages: Anthropic.Beta.Messages.BetaMessageParam[],
+  opts: { effort?: "low" | "medium" | "high"; maxTokens?: number } = {},
+): Promise<string> {
+  const response = await create(
+    {
+      max_tokens: opts.maxTokens ?? 3000,
+      system,
+      output_config: { effort: opts.effort ?? "low" },
+      messages,
+    },
+    Date.now(),
+  );
+  if (response.stop_reason === "refusal") throw new AnalysisError("refused");
+  const text = response.content
+    .filter((b): b is Anthropic.Beta.Messages.BetaTextBlock => b.type === "text")
+    .map((b) => b.text)
+    .join("")
+    .trim();
+  if (!text) throw new AnalysisError(response.stop_reason === "max_tokens" ? "truncated" : "empty");
+  return text;
 }

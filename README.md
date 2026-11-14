@@ -48,6 +48,16 @@ Or from the terminal: `npx vercel` then `npx vercel env add ANTHROPIC_API_KEY` a
 
 **Translation:** the appeal letter is never sent for translation; it always stays in English. After translating, every enum, number, date, amount and contact is copied back from the original (`lib/merge.ts`), so translation can't change the facts. Translations are cached per language in the browser, so switching back is instant.
 
+## Extra features on the results screen
+
+- **Ask about this document** (`/api/ask`): suggested questions per document type plus a text box. Answers are short, in the chosen language, and grounded in this document only (the analysis plus the photo, kept in memory). It is not a general chatbot: off-topic questions get a polite "I can only help with this document". Needs the live API (no cached answers in demo mode).
+- **Fill in the appeal letter**: every `[BRACKETED]` part becomes a field; the letter updates as you type, and Copy / Email send the filled version. "Your printed name" reuses "Your full name"; empty `[Optional: …]` parts are dropped.
+- **Add to calendar**: downloads an `.ics` all-day event for the deadline with a 2-day reminder.
+- **Send to family**: the phone's share sheet (or clipboard) with the summary, deadline and steps in the chosen language plus English.
+- **Read aloud**: uses the phone's built-in voices; the button only appears when the phone has a voice for that language (Armenian often has none, so test the demo phone).
+- **Show in English**: one tap to show the English version (e.g. to a clerk), and back.
+- **Free help near you**: hand-checked links only (checked 2026-11-14): City of Glendale parking citations and (866) 470-3088, CSLB license check, Glendale Development Services (818) 548-3200, Neighborhood Legal Services of LA County (800) 433-6251, and the FTC scam report site when a letter looks suspicious. Re-check them before the demo; don't add links nobody has opened.
+
 ## Demo mode and the safety net
 
 - **`?demo=1`**: tapping a sample chip shows the cached response after a 2.5s loading animation. No network call to Claude. Live camera scans still go to the real API.

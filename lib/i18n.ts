@@ -88,6 +88,28 @@ export interface Strings {
   shareFamily: string;
   shareCopied: string;
   shareIntro: string;
+  askTitle: string;
+  askPlaceholder: string;
+  askSend: string;
+  askThinking: string;
+  askFailed: string;
+  askSuggestions: { parking_ticket: string[]; official_letter: string[]; contractor_quote: string[]; other_document: string[] };
+  fillDetails: (filled: number, total: number) => string;
+  readAloud: string;
+  stopReading: string;
+  showEnglish: string;
+  backTo: (language: string) => string;
+  helpTitle: string;
+  help: {
+    glendaleParking: string;
+    glendaleParkingNote: string;
+    cslb: string;
+    glendalePermits: string;
+    glendalePermitsNote: string;
+    legalAid: string;
+    legalAidNote: string;
+    reportScam: string;
+  };
 }
 
 const en: Strings = {
@@ -173,6 +195,33 @@ const en: Strings = {
   shareFamily: "Send to family",
   shareCopied: "Copied — paste it in a message",
   shareIntro: "Can you help me with this?",
+  askTitle: "Ask about this document",
+  askPlaceholder: "Type your question…",
+  askSend: "Ask",
+  askThinking: "Thinking…",
+  askFailed: "Couldn't answer right now. Try again.",
+  askSuggestions: {
+    parking_ticket: ["Can I pay in installments?", "What if I already sold the car?", "Do I have to go in person?"],
+    official_letter: ["Can I postpone this?", "What if I don't speak English well?", "Is this letter real?"],
+    contractor_quote: ["How much deposit is normal?", "Does this job need a city permit?", "What should a fair quote include?"],
+    other_document: ["What do I need to do first?", "Is there a deadline?", "Who can help me with this?"],
+  },
+  fillDetails: (f, n) => `Fill in the yellow parts (${f}/${n})`,
+  readAloud: "Read aloud",
+  stopReading: "Stop",
+  showEnglish: "Show in English",
+  backTo: (l) => `Back to ${l}`,
+  helpTitle: "Free help near you",
+  help: {
+    glendaleParking: "City of Glendale parking tickets",
+    glendaleParkingNote: "Pay or ask for a review. For Glendale tickets you have 21 days from the ticket date.",
+    cslb: "Check a contractor's license (CSLB)",
+    glendalePermits: "Glendale permits & building questions",
+    glendalePermitsNote: "Ask if this job needs a city permit.",
+    legalAid: "Free legal help — Neighborhood Legal Services",
+    legalAidNote: "Free legal help for LA County residents (income limits apply).",
+    reportScam: "Report a scam to the FTC",
+  },
 };
 
 const hy: Strings = {
@@ -263,6 +312,37 @@ const hy: Strings = {
   shareFamily: "Ուղարկել ընտանիքին",
   shareCopied: "Պատճենված է․ տեղադրեք հաղորդագրության մեջ",
   shareIntro: "Կօգնե՞ս ինձ սրա հարցում։",
+  askTitle: "Հարցրեք այս փաստաթղթի մասին",
+  askPlaceholder: "Գրեք ձեր հարցը…",
+  askSend: "Հարցնել",
+  askThinking: "Մտածում ենք…",
+  askFailed: "Հիմա չհաջողվեց պատասխանել։ Փորձեք կրկին։",
+  askSuggestions: {
+    parking_ticket: ["Կարո՞ղ եմ վճարել մաս-մաս։", "Իսկ եթե մեքենան արդեն վաճառել եմ։", "Պե՞տք է անձամբ գնամ։"],
+    official_letter: ["Կարո՞ղ եմ հետաձգել։", "Իսկ եթե լավ չեմ խոսում անգլերեն։", "Այս նամակն իսկակա՞ն է։"],
+    contractor_quote: [
+      "Որքա՞ն կանխավճարն է նորմալ։",
+      "Այս աշխատանքի համար քաղաքային թույլտվություն պե՞տք է։",
+      "Ի՞նչ պետք է լինի արդար գնահատման մեջ։",
+    ],
+    other_document: ["Ի՞նչ պետք է անեմ նախ։", "Վերջնաժամկետ կա՞։", "Ո՞վ կարող է ինձ օգնել։"],
+  },
+  fillDetails: (f, n) => `Լրացրեք դեղին մասերը (${f}/${n})`,
+  readAloud: "Կարդալ բարձրաձայն",
+  stopReading: "Կանգնեցնել",
+  showEnglish: "Ցույց տալ անգլերենով",
+  backTo: (l) => `↩ ${l}`,
+  helpTitle: "Անվճար օգնություն ձեր մոտ",
+  help: {
+    glendaleParking: "Գլենդել քաղաքի կայանման տուգանքներ",
+    glendaleParkingNote: "Վճարեք կամ խնդրեք վերանայում։ Գլենդելի տուգանքների համար ունեք 21 օր՝ տուգանքի օրվանից։",
+    cslb: "Ստուգել կապալառուի լիցենզիան (CSLB)",
+    glendalePermits: "Գլենդելի թույլտվություններ և շինարարական հարցեր",
+    glendalePermitsNote: "Հարցրեք՝ արդյոք այս աշխատանքի համար քաղաքային թույլտվություն է պետք։",
+    legalAid: "Անվճար իրավաբանական օգնություն՝ Neighborhood Legal Services",
+    legalAidNote: "Անվճար իրավաբանական օգնություն ԼԱ շրջանի բնակիչներին (կան եկամտի սահմանափակումներ)։ Կայքն ունի նաև հայերեն էջ։",
+    reportScam: "Հաղորդել խարդախության մասին FTC-ին",
+  },
 };
 
 const es: Strings = {
@@ -348,6 +428,37 @@ const es: Strings = {
   shareFamily: "Enviar a la familia",
   shareCopied: "Copiado: péguelo en un mensaje",
   shareIntro: "¿Me puedes ayudar con esto?",
+  askTitle: "Pregunte sobre este documento",
+  askPlaceholder: "Escriba su pregunta…",
+  askSend: "Preguntar",
+  askThinking: "Pensando…",
+  askFailed: "No se pudo responder ahora. Inténtelo de nuevo.",
+  askSuggestions: {
+    parking_ticket: ["¿Puedo pagar en partes?", "¿Y si ya vendí el carro?", "¿Tengo que ir en persona?"],
+    official_letter: ["¿Puedo posponerlo?", "¿Y si no hablo bien inglés?", "¿Esta carta es real?"],
+    contractor_quote: [
+      "¿Cuánto depósito es normal?",
+      "¿Este trabajo necesita permiso de la ciudad?",
+      "¿Qué debe incluir un presupuesto justo?",
+    ],
+    other_document: ["¿Qué tengo que hacer primero?", "¿Hay una fecha límite?", "¿Quién me puede ayudar?"],
+  },
+  fillDetails: (f, n) => `Llene las partes amarillas (${f}/${n})`,
+  readAloud: "Leer en voz alta",
+  stopReading: "Detener",
+  showEnglish: "Ver en inglés",
+  backTo: (l) => `Volver a ${l}`,
+  helpTitle: "Ayuda gratis cerca de usted",
+  help: {
+    glendaleParking: "Multas de estacionamiento de la Ciudad de Glendale",
+    glendaleParkingNote: "Pague o pida una revisión. Para multas de Glendale tiene 21 días desde la fecha de la multa.",
+    cslb: "Verificar la licencia del contratista (CSLB)",
+    glendalePermits: "Permisos y construcción en Glendale",
+    glendalePermitsNote: "Pregunte si este trabajo necesita permiso de la ciudad.",
+    legalAid: "Ayuda legal gratis — Neighborhood Legal Services",
+    legalAidNote: "Ayuda legal gratis para residentes del condado de LA (hay límites de ingresos). Sitio web también en español.",
+    reportScam: "Reportar una estafa a la FTC",
+  },
 };
 
 const ko: Strings = {
@@ -428,6 +539,33 @@ const ko: Strings = {
   shareFamily: "가족에게 보내기",
   shareCopied: "복사됐어요. 메시지에 붙여 넣으세요",
   shareIntro: "이것 좀 도와줄 수 있어?",
+  askTitle: "이 서류에 대해 물어보세요",
+  askPlaceholder: "질문을 입력하세요…",
+  askSend: "질문",
+  askThinking: "생각 중…",
+  askFailed: "지금은 답할 수 없어요. 다시 시도해 주세요.",
+  askSuggestions: {
+    parking_ticket: ["나눠서 낼 수 있나요?", "차를 이미 팔았다면요?", "직접 가야 하나요?"],
+    official_letter: ["날짜를 미룰 수 있나요?", "영어를 잘 못하면 어떻게 하나요?", "이 편지가 진짜인가요?"],
+    contractor_quote: ["계약금은 얼마가 보통인가요?", "이 공사에 시 허가가 필요한가요?", "적정한 견적서에는 무엇이 들어가야 하나요?"],
+    other_document: ["먼저 무엇을 해야 하나요?", "마감일이 있나요?", "누가 도와줄 수 있나요?"],
+  },
+  fillDetails: (f, n) => `노란색 부분 채우기 (${f}/${n})`,
+  readAloud: "소리 내어 읽기",
+  stopReading: "멈추기",
+  showEnglish: "영어로 보기",
+  backTo: (l) => `${l}로 보기`,
+  helpTitle: "가까운 무료 도움",
+  help: {
+    glendaleParking: "글렌데일시 주차 위반 딱지",
+    glendaleParkingNote: "벌금을 내거나 재검토를 요청하세요. 글렌데일 딱지는 발부일로부터 21일 안에 해야 해요.",
+    cslb: "시공업자 면허 확인 (CSLB)",
+    glendalePermits: "글렌데일 허가 및 건축 문의",
+    glendalePermitsNote: "이 공사에 시 허가가 필요한지 물어보세요.",
+    legalAid: "무료 법률 도움 — Neighborhood Legal Services",
+    legalAidNote: "LA 카운티 주민을 위한 무료 법률 도움이에요(소득 기준 있음). 웹사이트에 한국어 안내도 있어요.",
+    reportScam: "FTC에 사기 신고하기",
+  },
 };
 
 const tl: Strings = {
@@ -518,6 +656,45 @@ const tl: Strings = {
   shareFamily: "Ipadala sa pamilya",
   shareCopied: "Nakopya — i-paste sa mensahe",
   shareIntro: "Matutulungan mo ba ako dito?",
+  askTitle: "Magtanong tungkol sa dokumentong ito",
+  askPlaceholder: "I-type ang tanong mo…",
+  askSend: "Itanong",
+  askThinking: "Nag-iisip…",
+  askFailed: "Hindi makasagot ngayon. Subukan ulit.",
+  askSuggestions: {
+    parking_ticket: [
+      "Puwede ko bang bayaran nang hulugan?",
+      "Paano kung naibenta ko na ang kotse?",
+      "Kailangan ko bang pumunta nang personal?",
+    ],
+    official_letter: [
+      "Puwede ko bang ipagpaliban ito?",
+      "Paano kung hindi ako magaling mag-Ingles?",
+      "Totoo ba ang sulat na ito?",
+    ],
+    contractor_quote: [
+      "Magkano ang normal na deposit?",
+      "Kailangan ba ng permit mula sa lungsod?",
+      "Ano ang dapat nasa patas na quote?",
+    ],
+    other_document: ["Ano ang una kong dapat gawin?", "May deadline ba?", "Sino ang puwedeng tumulong sa akin?"],
+  },
+  fillDetails: (f, n) => `Punan ang mga dilaw na bahagi (${f}/${n})`,
+  readAloud: "Basahin nang malakas",
+  stopReading: "Ihinto",
+  showEnglish: "Ipakita sa Ingles",
+  backTo: (l) => `Bumalik sa ${l}`,
+  helpTitle: "Libreng tulong malapit sa iyo",
+  help: {
+    glendaleParking: "Mga tiket sa paradahan ng Lungsod ng Glendale",
+    glendaleParkingNote: "Magbayad o humingi ng review. Para sa tiket ng Glendale, may 21 araw ka mula sa petsa ng tiket.",
+    cslb: "I-check ang lisensya ng kontratista (CSLB)",
+    glendalePermits: "Mga permit at tanong sa building sa Glendale",
+    glendalePermitsNote: "Itanong kung kailangan ng permit mula sa lungsod ang trabahong ito.",
+    legalAid: "Libreng legal na tulong — Neighborhood Legal Services",
+    legalAidNote: "Libreng legal na tulong para sa mga residente ng LA County (may limitasyon sa kita).",
+    reportScam: "I-report ang scam sa FTC",
+  },
 };
 
 export const STRINGS: Record<Lang, Strings> = { en, hy, es, ko, tl };
