@@ -636,7 +636,7 @@ export default function Results({
       ) : (
         <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
       )}
-      {!busy && <ActionRow a={a} t={t} dateLabel={dateLabel} i={i++} noCalendar={isScam} />}
+      {!busy && <ActionRow a={a} t={t} lang={lang} dateLabel={dateLabel} i={i++} noCalendar={isScam} />}
 
       {/* official phone-number check (scam guard) */}
       <NumberCheckBanner a={a} t={t} i={i++} />

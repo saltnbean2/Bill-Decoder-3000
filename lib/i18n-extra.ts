@@ -51,6 +51,8 @@ export interface ExtraStrings {
   directoryButton: string;
   directoryTitle: string;
   directorySub: string;
+  sharedBanner: string;
+  linkIncluded: string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -105,6 +107,8 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directoryButton: "Glendale help numbers",
     directoryTitle: "Glendale help numbers",
     directorySub: "Free and official help lines for Glendale residents. Tap to call.",
+    sharedBanner: "Shared with you. This explanation lives only in the link — nothing is stored online.",
+    linkIncluded: "Includes a link to the full explanation.",
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
@@ -157,6 +161,8 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directoryButton: "Գլենդելի օգնության համարներ",
     directoryTitle: "Գլենդելի օգնության համարներ",
     directorySub: "Անվճար և պաշտոնական օգնության գծեր Գլենդելի բնակիչների համար։ Սեղմեք՝ զանգելու համար։",
+    sharedBanner: "Կիսվել են ձեզ հետ։ Այս բացատրությունը միայն հղման մեջ է․ ոչինչ առցանց չի պահվում։",
+    linkIncluded: "Ներառում է հղում ամբողջական բացատրությանը։",
   },
   es: {
     sampleScam: "Carta sospechosa",
@@ -209,6 +215,8 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directoryButton: "Números de ayuda en Glendale",
     directoryTitle: "Números de ayuda en Glendale",
     directorySub: "Líneas de ayuda gratis y oficiales para residentes de Glendale. Toque para llamar.",
+    sharedBanner: "Compartido con usted. Esta explicación vive solo en el enlace; no se guarda nada en internet.",
+    linkIncluded: "Incluye un enlace a la explicación completa.",
   },
   ko: {
     sampleScam: "수상한 편지",
@@ -261,6 +269,8 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directoryButton: "글렌데일 도움 전화번호",
     directoryTitle: "글렌데일 도움 전화번호",
     directorySub: "글렌데일 주민을 위한 무료·공식 도움 전화예요. 눌러서 전화하세요.",
+    sharedBanner: "공유받은 내용이에요. 이 설명은 링크 안에만 있고, 온라인에 저장되지 않아요.",
+    linkIncluded: "전체 설명 링크가 함께 보내져요.",
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
@@ -313,5 +323,7 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directoryButton: "Mga numero ng tulong sa Glendale",
     directoryTitle: "Mga numero ng tulong sa Glendale",
     directorySub: "Libre at opisyal na mga linya ng tulong para sa mga taga-Glendale. I-tap para tumawag.",
+    sharedBanner: "Ibinahagi sa iyo. Nasa link lang ang paliwanag na ito — walang naka-save online.",
+    linkIncluded: "May kasamang link sa buong paliwanag.",
   },
 };

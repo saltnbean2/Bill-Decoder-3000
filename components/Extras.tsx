@@ -6,6 +6,7 @@ import type { Strings } from "@/lib/i18n";
 import { googleUrl, outlookUrl, type CalEvent } from "@/lib/calendar";
 import { checkOfficialNumbers, formatPhone, helpFor, type HelpResource } from "@/lib/resources";
 import { DIRECTORY } from "@/lib/directory";
+import { buildShareLink } from "@/lib/sharelink";
 import { Linkify } from "./linkify";
 
 const cardCls =
@@ -78,16 +79,28 @@ export function ActionRow({
   dateLabel,
   i,
   noCalendar = false,
+  lang,
 }: {
   a: Analysis;
   t: Strings;
   dateLabel: string | null;
   i: number;
   noCalendar?: boolean;
+  lang: Lang;
 }) {
   const [open, setOpen] = useState<"cal" | "share" | null>(null);
+  const [link, setLink] = useState<string | null>(null);
   const event = noCalendar ? null : eventFor(a, t);
-  const text = shareTextFor(a, t, dateLabel);
+
+  // A link that opens the full explanation on the family member's phone (the data rides in the #fragment).
+  useEffect(() => {
+    let live = true;
+    void buildShareLink(a, lang).then((l) => live && setLink(l));
+    return () => {
+      live = false;
+    };
+  }, [a, lang]);
+  const text = shareTextFor(a, t, dateLabel) + (link ? `\n${link}` : "");
 
   async function onShare() {
     if (navigator.share) {
@@ -141,7 +154,9 @@ export function ActionRow({
 
       {open === "share" && (
         <div className="fade-msg rounded-2xl bg-white p-4 ring-1 ring-line">
-          <p className="mb-3 text-[15px] text-muted">{t.shareSub}</p>
+          <p className="mb-3 text-[15px] text-muted">
+            {t.shareSub} {link && t.linkIncluded}
+          </p>
           <div className="grid grid-cols-2 gap-2">
             <a href={`sms:?&body=${encodeURIComponent(text)}`} className={`${pill} bg-white text-ink ring-line`}>
               💬 {t.shareText}

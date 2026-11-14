@@ -9,7 +9,8 @@
     "lint": "eslint",
     "samples": "node scripts/make-samples.mjs",
     "record-cache": "node scripts/record-cache.mjs",
-    "check": "node scripts/check-consistency.mjs"
+    "check": "node scripts/check-consistency.mjs",
+    "icons": "node scripts/make-icons.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",

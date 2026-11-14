@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
+import { clearShareLink, readShareLink } from "@/lib/sharelink";
 import { AskCard, Directory } from "./Extras";
 import { prepareFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
@@ -107,6 +108,19 @@ export default function ExplainApp() {
 
   const t = STRINGS[lang];
 
+  // Opened from a family share link: show that explanation right away (data is in the #fragment).
+  const [shared, setShared] = useState(false);
+  useEffect(() => {
+    void readShareLink().then((s) => {
+      if (!s) return;
+      setResults({ [s.lang]: s.analysis });
+      setShownLang(s.lang);
+      setLang(s.lang);
+      setShared(true);
+      setScreen("results");
+    });
+  }, []);
+
   // Read ?demo=1 and remembered language on the client only.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -139,6 +153,8 @@ export default function ExplainApp() {
   const loadingMsg = tick >= STILL_READING_TICK ? t.stillReading : t.loading[msgIdx];
 
   const reset = useCallback(() => {
+    clearShareLink();
+    setShared(false);
     runId.current++;
     pending.current = {};
     setScreen("home");
@@ -562,6 +578,7 @@ export default function ExplainApp() {
             </p>
           )}
           {notice && <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[15px] text-amber-900">{notice}</p>}
+          {shared && <p className="mb-3 rounded-xl bg-teal-soft px-4 py-3 text-[15px] leading-snug text-teal-900">👪 {t.sharedBanner}</p>}
           {shownLang !== "en" && lang !== "en" && !translating && (
             <div className="mb-3 flex justify-end">
               <button
