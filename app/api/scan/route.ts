@@ -11,7 +11,7 @@ type ImageType = (typeof IMAGE_TYPES)[number];
 const MAX_BASE64 = 12 * 1024 * 1024; // ~9 MB decoded; compressed photos are ~300 KB
 
 export async function POST(req: Request) {
-  let body: { image?: unknown; mediaType?: unknown; language?: unknown };
+  let body: { image?: unknown; mediaType?: unknown; language?: unknown; pages?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -26,19 +26,38 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "bad_image" }, { status: 400 });
   }
 
-  let block: Anthropic.Beta.Messages.BetaContentBlockParam;
-  if (mediaType === "application/pdf") {
-    block = { type: "document", source: { type: "base64", media_type: "application/pdf", data: image } };
-  } else if ((IMAGE_TYPES as readonly string[]).includes(mediaType)) {
-    block = { type: "image", source: { type: "base64", media_type: mediaType as ImageType, data: image } };
-  } else {
-    return NextResponse.json({ error: "bad_type" }, { status: 400 });
+  const toBlock = (data: string, type: string): Anthropic.Beta.Messages.BetaContentBlockParam | null =>
+    type === "application/pdf"
+      ? { type: "document", source: { type: "base64", media_type: "application/pdf", data } }
+      : (IMAGE_TYPES as readonly string[]).includes(type)
+        ? { type: "image", source: { type: "base64", media_type: type as ImageType, data } }
+        : null;
+
+  const first = toBlock(image, mediaType);
+  if (!first) return NextResponse.json({ error: "bad_type" }, { status: 400 });
+
+  // Optional extra pages of the same letter (multi-page scan), up to 5 pages in total.
+  const extra = Array.isArray(body.pages) ? (body.pages as { image?: unknown; mediaType?: unknown }[]).slice(0, 4) : [];
+  const blocks: Anthropic.Beta.Messages.BetaContentBlockParam[] = [first];
+  let total = image.length;
+  for (const pg of extra) {
+    const data = typeof pg.image === "string" ? pg.image.replace(/^data:[^,]+,/, "") : "";
+    const blk = data ? toBlock(data, typeof pg.mediaType === "string" ? pg.mediaType : "") : null;
+    total += data.length;
+    if (!blk || total > MAX_BASE64) return NextResponse.json({ error: "bad_image" }, { status: 400 });
+    blocks.push(blk);
   }
 
   try {
     const result = await runAnalysis(buildScanSystemPrompt(language), [
-      block,
-      { type: "text", text: "Here is my document. Please explain it." },
+      ...blocks,
+      {
+        type: "text",
+        text:
+          blocks.length > 1
+            ? `Here is my document. It has ${blocks.length} pages, in order. Please explain the whole document.`
+            : "Here is my document. Please explain it.",
+      },
     ]);
     return NextResponse.json({ result });
   } catch (err) {

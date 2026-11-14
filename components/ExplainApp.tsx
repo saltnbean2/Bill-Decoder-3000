@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
 import { clearShareLink, readShareLink } from "@/lib/sharelink";
+import { clearRecent, loadRecent, saveRecent, type RecentItem } from "@/lib/recent";
+import { refreshDeadline } from "@/lib/normalize";
 import { AskCard, Directory } from "./Extras";
-import { prepareFile } from "@/lib/compress";
+import { prepareFile, type PreparedFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
 
-type Screen = "home" | "loading" | "results" | "error" | "chat" | "directory";
+type Screen = "home" | "loading" | "results" | "error" | "chat" | "directory" | "pages";
 /** "server": network / API trouble (photo is fine). "photo": we couldn't use the file. "pdf": PDF too big. */
 type ErrorKind = "server" | "photo" | "pdf";
 
@@ -87,7 +89,10 @@ export default function ExplainApp() {
   // The compressed document, kept in memory only, so follow-up questions can look at it again.
   const [image, setImage] = useState<{ base64: string; mediaType: string } | null>(null);
   const sampleRef = useRef<SampleId | null>(null);
-  const lastInput = useRef<{ file: Blob; sample: SampleId | null } | null>(null);
+  const lastInput = useRef<{ file: Blob; sample: SampleId | null; more?: PreparedFile[] } | null>(null);
+  // Multi-page scan: pages collected before sending (already compressed).
+  const [pages, setPages] = useState<PreparedFile[]>([]);
+  const collectingPages = useRef(false);
   const runId = useRef(0);
   // Refs mirror state so async work always sees the latest language.
   const langRef = useRef<Lang>("en");
@@ -107,6 +112,41 @@ export default function ExplainApp() {
   };
 
   const t = STRINGS[lang];
+
+  // Recent results, stored only on this phone.
+  const [recent, setRecent] = useState<RecentItem[]>([]);
+  useEffect(() => {
+    setRecent(loadRecent());
+  }, []);
+
+  function openRecent(r: RecentItem) {
+    runId.current++;
+    sampleRef.current = null;
+    setImage(null);
+    setLetters([]);
+    setResults({ [r.lang]: refreshDeadline(r.analysis) });
+    setShownLang(r.lang);
+    setScreen("results");
+    window.scrollTo({ top: 0 });
+  }
+
+  // Bigger text for older eyes: zooms the whole page, remembered on this phone.
+  const [bigText, setBigText] = useState(false);
+  useEffect(() => {
+    try {
+      setBigText(localStorage.getItem("explainit.big") === "1");
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
+  useEffect(() => {
+    document.documentElement.style.zoom = bigText ? "1.18" : "";
+    try {
+      localStorage.setItem("explainit.big", bigText ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }, [bigText]);
 
   // Opened from a family share link: show that explanation right away (data is in the #fragment).
   const [shared, setShared] = useState(false);
@@ -155,6 +195,7 @@ export default function ExplainApp() {
   const reset = useCallback(() => {
     clearShareLink();
     setShared(false);
+    collectingPages.current = false;
     runId.current++;
     pending.current = {};
     setScreen("home");
@@ -192,11 +233,11 @@ export default function ExplainApp() {
     return p;
   }
 
-  async function analyze(file: Blob, sample: SampleId | null) {
+  async function analyze(file: Blob, sample: SampleId | null, more: PreparedFile[] = []) {
     const id = ++runId.current;
     const scanLang = langRef.current;
     sampleRef.current = sample;
-    lastInput.current = { file, sample };
+    lastInput.current = { file, sample, more };
     pending.current = {};
     setImage(null);
     setNotice("");
@@ -243,7 +284,12 @@ export default function ExplainApp() {
         try {
           const res = await postJson<{ result: Analysis }>(
             "/api/scan",
-            { image: prepared.base64, mediaType: prepared.mediaType, language: scanLang },
+            {
+              image: prepared.base64,
+              mediaType: prepared.mediaType,
+              language: scanLang,
+              ...(more.length ? { pages: more.map((p) => ({ image: p.base64, mediaType: p.mediaType })) } : {}),
+            },
             sample ? SAMPLE_TIMEOUT : LIVE_TIMEOUT,
           );
           result = res.result;
@@ -267,6 +313,7 @@ export default function ExplainApp() {
     setResults(have);
     setShownLang(gotLang);
     setScreen("results");
+    setRecent(saveRecent(result, gotLang));
 
     // The person may have changed language while we were loading, or a cached fallback may be English.
     const want = langRef.current;
@@ -292,7 +339,7 @@ export default function ExplainApp() {
 
   function retryLast() {
     const last = lastInput.current;
-    if (last) void analyze(last.file, last.sample);
+    if (last) void analyze(last.file, last.sample, last.more);
     else reset();
   }
 
@@ -355,7 +402,29 @@ export default function ExplainApp() {
   function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
     e.target.value = "";
-    if (f) void analyze(f, null);
+    if (!f) return;
+    if (collectingPages.current) void addPage(f);
+    else void analyze(f, null);
+  }
+
+  async function addPage(f: Blob) {
+    try {
+      const p = await prepareFile(f);
+      if (p.mediaType === "application/pdf") return; // multi-page mode is for photos
+      setPages((list) => (list.length >= 5 ? list : [...list, p]));
+    } catch {
+      /* unreadable photo: ignore it, the person can retake */
+    }
+  }
+
+  function explainPages() {
+    if (!pages.length) return;
+    collectingPages.current = false;
+    const [first, ...rest] = pages;
+    // The first page is re-sent as a Blob so retry and the thumbnail work as for a single photo.
+    const bytes = Uint8Array.from(atob(first.base64), (c) => c.charCodeAt(0));
+    void analyze(new Blob([bytes], { type: first.mediaType }), null, rest);
+    setPages([]);
   }
 
   const shown = results[shownLang] ?? Object.values(results)[0];
@@ -393,6 +462,18 @@ export default function ExplainApp() {
           {t.appName}
           {demo && <span className="rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800">DEMO</span>}
         </button>
+        <div className="flex items-center gap-2">
+        <button
+          onClick={() => setBigText((b) => !b)}
+          aria-pressed={bigText}
+          aria-label={t.bigText}
+          title={t.bigText}
+          className={`flex h-11 w-11 items-center justify-center rounded-full text-[17px] font-bold ring-1 ${
+            bigText ? "bg-ink text-white ring-ink" : "bg-white text-ink ring-line"
+          }`}
+        >
+          A<span className="text-[22px]">A</span>
+        </button>
         <label className="relative">
           <span className="sr-only">{t.language}</span>
           <select
@@ -409,6 +490,7 @@ export default function ExplainApp() {
           </select>
           <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm">🌐</span>
         </label>
+        </div>
       </div>
 
       <input ref={cameraRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={onFile} />
@@ -434,6 +516,18 @@ export default function ExplainApp() {
             style={{ animationDelay: "150ms" }}
           >
             {t.upload}
+          </button>
+          <button
+            onClick={() => {
+              collectingPages.current = true;
+              setPages([]);
+              setScreen("pages");
+              window.scrollTo({ top: 0 });
+            }}
+            className="rise mx-auto min-h-[44px] px-4 text-[16px] font-medium text-muted underline decoration-line underline-offset-4"
+            style={{ animationDelay: "160ms" }}
+          >
+            📄 {t.multiPage}
           </button>
 
           <button
@@ -461,6 +555,36 @@ export default function ExplainApp() {
             <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
             <div className="flex flex-wrap justify-center gap-2">{samples}</div>
           </div>
+          {recent.length > 0 && (
+            <div className="rise mt-10" style={{ animationDelay: "230ms" }}>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-[13px] font-semibold uppercase tracking-wide text-muted">🕘 {t.recentTitle}</p>
+                <button
+                  onClick={() => {
+                    clearRecent();
+                    setRecent([]);
+                  }}
+                  className="min-h-[44px] px-2 text-[14px] font-semibold text-muted underline"
+                >
+                  {t.clearRecent}
+                </button>
+              </div>
+              <ul className="space-y-2">
+                {recent.map((r) => (
+                  <li key={r.id}>
+                    <button
+                      onClick={() => openRecent(r)}
+                      className="flex min-h-[56px] w-full items-center gap-3 rounded-xl bg-white px-4 py-3 text-left ring-1 ring-line active:bg-teal-soft"
+                    >
+                      <span className="text-xl">{STRINGS[r.lang].docType[r.analysis.document_type].split(" ")[0]}</span>
+                      <span className="line-clamp-2 flex-1 text-[15px] leading-snug">{r.analysis.headline}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2 text-[13px] text-muted">{t.recentNote}</p>
+            </div>
+          )}
           <p className="rise mt-10 text-center text-[14px] text-muted" style={{ animationDelay: "250ms" }}>
             🔒 {t.privacy}
           </p>
@@ -478,6 +602,64 @@ export default function ExplainApp() {
           </p>
           <Directory t={t} lang={lang} />
           <p className="mt-8 text-center text-[14px] text-muted">{t.disclaimer}</p>
+        </div>
+      )}
+
+      {screen === "pages" && (
+        <div className="pt-3 pb-10">
+          <button
+            onClick={() => {
+              collectingPages.current = false;
+              reset();
+            }}
+            className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal"
+          >
+            ← {t.back}
+          </button>
+          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">📄 {t.pagesTitle}</h1>
+          <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
+            {t.pagesSub}
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {pages.map((p, n) => (
+              <div key={n} className="fade-msg relative overflow-hidden rounded-xl bg-white ring-1 ring-line">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={p.previewUrl} alt={t.pageN(n + 1)} className="block aspect-[3/4] w-full object-cover" />
+                <span className="absolute top-1.5 left-1.5 rounded-full bg-ink/80 px-2 py-0.5 text-[13px] font-semibold text-white">
+                  {n + 1}
+                </span>
+                <button
+                  onClick={() => setPages((list) => list.filter((_, k) => k !== n))}
+                  aria-label={`${t.removePage} ${t.pageN(n + 1)}`}
+                  className="absolute top-1 right-1 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[16px] text-ink shadow"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+            {pages.length < 5 && (
+              <button
+                onClick={() => cameraRef.current?.click()}
+                className="flex aspect-[3/4] flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-teal/40 bg-teal-soft text-[15px] font-semibold text-teal active:bg-teal/10"
+              >
+                <span className="text-3xl">📷</span>
+                {t.addPage}
+              </button>
+            )}
+          </div>
+          <button
+            onClick={() => uploadRef.current?.click()}
+            className="mt-3 min-h-[44px] text-[16px] font-semibold text-teal underline underline-offset-4"
+          >
+            {t.upload}
+          </button>
+          <button
+            onClick={explainPages}
+            disabled={!pages.length}
+            className="mt-6 min-h-[64px] w-full rounded-2xl bg-teal text-[19px] font-bold text-white transition-transform active:scale-[0.98] disabled:opacity-40"
+          >
+            {t.explainPages(Math.max(pages.length, 1))}
+          </button>
         </div>
       )}
 

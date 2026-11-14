@@ -360,6 +360,12 @@ function TicketCards({
               ✉️ {t.email}
             </a>
           </div>
+          <button
+            onClick={() => printLetter(letter, t.emailSubject)}
+            className="mt-2 flex min-h-[48px] w-full items-center justify-center rounded-xl bg-white text-[16px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+          >
+            🖨️ {t.printLetter}
+          </button>
           {/* Customize with plain-language instructions */}
           <div className="mt-5 rounded-xl bg-teal-soft p-4">
             <p className="mb-2 font-semibold text-teal-900">✨ {t.customizeTitle}</p>
@@ -573,6 +579,20 @@ function AmountLine({ text, label }: { text: string; label: string }) {
       {rest && <p className={`${big ? "mt-1 text-[15px] text-muted" : "text-[19px] font-semibold"}`}>{rest}</p>}
     </div>
   );
+}
+
+/** Opens the letter alone in a clean page and brings up the print dialog (also "Save as PDF"). */
+function printLetter(letter: string, title: string) {
+  const w = window.open("", "_blank");
+  if (!w) return;
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  w.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><title>${esc(title)}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>@page{margin:1in}body{font:12pt/1.55 Georgia,"Times New Roman",serif;color:#111;max-width:6.5in;margin:24px auto;padding:0 16px;white-space:pre-wrap}</style>
+</head><body>${esc(letter)}</body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 300);
 }
 
 /* ---------- Main ---------- */

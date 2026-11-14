@@ -53,6 +53,18 @@ export interface ExtraStrings {
   directorySub: string;
   sharedBanner: string;
   linkIncluded: string;
+  multiPage: string;
+  pagesTitle: string;
+  pagesSub: string;
+  addPage: string;
+  removePage: string;
+  bigText: string;
+  printLetter: string;
+  recentTitle: string;
+  clearRecent: string;
+  recentNote: string;
+  explainPages: (n: number) => string;
+  pageN: (n: number) => string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -109,6 +121,18 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directorySub: "Free and official help lines for Glendale residents. Tap to call.",
     sharedBanner: "Shared with you. This explanation lives only in the link — nothing is stored online.",
     linkIncluded: "Includes a link to the full explanation.",
+    multiPage: "Letter has several pages?",
+    pagesTitle: "Scan every page",
+    pagesSub: "Take a photo of each page, in order. Up to 5 pages.",
+    addPage: "Add a page",
+    removePage: "Remove",
+    bigText: "Bigger text",
+    printLetter: "Print / save as PDF",
+    recentTitle: "Recent",
+    clearRecent: "Clear",
+    recentNote: "Saved only on this phone.",
+    explainPages: (n) => `Explain ${n === 1 ? "this page" : `these ${n} pages`}`,
+    pageN: (n) => `Page ${n}`,
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
@@ -163,6 +187,18 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directorySub: "Անվճար և պաշտոնական օգնության գծեր Գլենդելի բնակիչների համար։ Սեղմեք՝ զանգելու համար։",
     sharedBanner: "Կիսվել են ձեզ հետ։ Այս բացատրությունը միայն հղման մեջ է․ ոչինչ առցանց չի պահվում։",
     linkIncluded: "Ներառում է հղում ամբողջական բացատրությանը։",
+    multiPage: "Նամակը մի քանի էջ ունի՞",
+    pagesTitle: "Լուսանկարեք բոլոր էջերը",
+    pagesSub: "Լուսանկարեք յուրաքանչյուր էջ՝ հերթականությամբ։ Մինչև 5 էջ։",
+    addPage: "Ավելացնել էջ",
+    removePage: "Հեռացնել",
+    bigText: "Ավելի մեծ տառեր",
+    printLetter: "Տպել / պահել PDF",
+    recentTitle: "Վերջինները",
+    clearRecent: "Մաքրել",
+    recentNote: "Պահված է միայն այս հեռախոսում։",
+    explainPages: (n) => `Բացատրել ${n} էջը`,
+    pageN: (n) => `Էջ ${n}`,
   },
   es: {
     sampleScam: "Carta sospechosa",
@@ -217,6 +253,18 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directorySub: "Líneas de ayuda gratis y oficiales para residentes de Glendale. Toque para llamar.",
     sharedBanner: "Compartido con usted. Esta explicación vive solo en el enlace; no se guarda nada en internet.",
     linkIncluded: "Incluye un enlace a la explicación completa.",
+    multiPage: "¿La carta tiene varias páginas?",
+    pagesTitle: "Escanee todas las páginas",
+    pagesSub: "Tome una foto de cada página, en orden. Hasta 5 páginas.",
+    addPage: "Agregar página",
+    removePage: "Quitar",
+    bigText: "Letra más grande",
+    printLetter: "Imprimir / guardar PDF",
+    recentTitle: "Recientes",
+    clearRecent: "Borrar",
+    recentNote: "Guardado solo en este teléfono.",
+    explainPages: (n) => `Explicar ${n === 1 ? "esta página" : `estas ${n} páginas`}`,
+    pageN: (n) => `Página ${n}`,
   },
   ko: {
     sampleScam: "수상한 편지",
@@ -271,6 +319,18 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directorySub: "글렌데일 주민을 위한 무료·공식 도움 전화예요. 눌러서 전화하세요.",
     sharedBanner: "공유받은 내용이에요. 이 설명은 링크 안에만 있고, 온라인에 저장되지 않아요.",
     linkIncluded: "전체 설명 링크가 함께 보내져요.",
+    multiPage: "여러 장짜리 편지인가요?",
+    pagesTitle: "모든 페이지 촬영",
+    pagesSub: "각 페이지를 순서대로 찍어 주세요. 최대 5장.",
+    addPage: "페이지 추가",
+    removePage: "삭제",
+    bigText: "글자 크게",
+    printLetter: "인쇄 / PDF로 저장",
+    recentTitle: "최근 문서",
+    clearRecent: "지우기",
+    recentNote: "이 휴대폰에만 저장돼요.",
+    explainPages: (n) => `${n}장 설명하기`,
+    pageN: (n) => `${n}페이지`,
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
@@ -325,5 +385,17 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     directorySub: "Libre at opisyal na mga linya ng tulong para sa mga taga-Glendale. I-tap para tumawag.",
     sharedBanner: "Ibinahagi sa iyo. Nasa link lang ang paliwanag na ito — walang naka-save online.",
     linkIncluded: "May kasamang link sa buong paliwanag.",
+    multiPage: "Maraming pahina ang sulat?",
+    pagesTitle: "I-scan ang bawat pahina",
+    pagesSub: "Kunan ng litrato ang bawat pahina, ayon sa ayos. Hanggang 5 pahina.",
+    addPage: "Magdagdag ng pahina",
+    removePage: "Alisin",
+    bigText: "Mas malaking letra",
+    printLetter: "I-print / i-save bilang PDF",
+    recentTitle: "Kamakailan",
+    clearRecent: "Burahin",
+    recentNote: "Naka-save lang sa phone na ito.",
+    explainPages: (n) => `Ipaliwanag ang ${n} pahina`,
+    pageN: (n) => `Pahina ${n}`,
   },
 };
