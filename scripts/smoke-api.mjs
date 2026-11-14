@@ -70,7 +70,7 @@ check("Translate rejects bad language", (await post("/api/translate", { result: 
 const a1 = await post("/api/ask", { result: ticketEn, question: "How many days do I have left?", language: "en" });
 check("Ask about a document", a1.status === 200 && (a1.json?.answer ?? "").length > 20, `${a1.secs}s`);
 const a2 = await post("/api/ask", { question: "Someone from (818) 555-0199 says they are the IRS and wants gift cards. Real?", language: "es" });
-check("Ask agent (no document, Spanish, scam check)", a2.status === 200 && /800.?829.?1040/.test(a2.json?.answer ?? ""), `${a2.secs}s, gave real IRS number: ${/800.?829.?1040/.test(a2.json?.answer ?? "")}`);
+check("Ask agent (no document, Spanish, scam check)", a2.status === 200 && /800\D{0,3}829\D{0,3}1040/.test(a2.json?.answer ?? ""), `${a2.secs}s, gave real IRS number: ${/800\D{0,3}829\D{0,3}1040/.test(a2.json?.answer ?? "")}`);
 check("Ask rejects empty question", (await post("/api/ask", { question: "" })).status === 400);
 
 // --- Letter editing (live AI)
