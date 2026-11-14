@@ -317,7 +317,7 @@ function TicketCards({
           ) : (
             <div
               lang="en"
-              className={`relative mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line ${
+              className={`scroll-contain relative mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line ${
                 working ? "opacity-50" : ""
               }`}
               tabIndex={0}
@@ -410,7 +410,7 @@ function TicketCards({
             <div
               key={toast.n}
               role="status"
-              className="toast fixed bottom-8 left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
+              className="toast fixed bottom-[calc(2rem+env(safe-area-inset-bottom,0px))] left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
             >
               {toast.msg}
             </div>

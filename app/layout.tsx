@@ -29,7 +29,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  // Android: the keyboard shrinks the layout, like iOS, so inputs near the bottom stay visible.
+  interactiveWidget: "resizes-content",
   themeColor: "#FAF8F5",
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

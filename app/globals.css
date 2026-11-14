@@ -15,6 +15,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent; /* no gray flash on tap; every control has its own :active */
+  overscroll-behavior: none; /* no pull-to-refresh or page rubber-band behind the app */
   background: #faf8f5;
 }
 
@@ -25,16 +27,39 @@ body {
   font-size: 17px;
   line-height: 1.5;
   min-height: 100dvh;
-  overscroll-behavior-y: none;
-  -webkit-tap-highlight-color: transparent;
 }
 
+/* No 300ms double-tap wait on controls */
 button,
-a {
+a,
+[role="button"],
+[role="checkbox"],
+summary {
   touch-action: manipulation;
 }
 
-@media (hover: hover) {
+/* Long-press on a control shouldn't select its label or pop the link callout. Content text stays selectable. */
+button,
+[role="button"],
+summary {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* iOS zooms into any input under 16px and never zooms back out */
+input,
+textarea,
+select {
+  font-size: max(16px, 1em);
+}
+
+/* Inner scroll areas (the appeal letter) keep their own bounce without dragging the page */
+.scroll-contain {
+  overscroll-behavior: contain;
+}
+
+@media (hover: hover) and (pointer: fine) {
   .hover-lift:hover {
     transform: translateY(-1px);
   }
