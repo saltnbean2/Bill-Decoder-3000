@@ -2,145 +2,144 @@
   "document_type": "contractor_quote",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": "Premier Valley Roofing (R. Dale, Sales), Fairview Glen, CA",
-  "headline": "Ito ay isang $20,250 na quote para sa pagpapalit ng bubong na may ilang babala.",
-  "summary": "Gusto ng Premier Valley Roofing na $20,250 ang bayad para palitan ang bubong mo (mga 1,800 sq ft). Mataas ang presyo para sa laki ng trabaho. Walang license number ang quote, humihingi ito ng 40% na deposito, at pinipilit kang pumirma ngayon. Huwag munang pumirma o magbayad. Maglaan ng oras para magkumpara.",
-  "amount_due": "$20,250.00 total; $8,100.00 deposit asked at signing",
+  "sender": "Premier Valley Roofing (sales rep: R. Dale), Fairview Glen, CA",
+  "headline": "Ito ay $20,250 na estimate para sa pagpapalit ng bubong na may ilang babala.",
+  "summary": "Gusto ng Premier Valley Roofing ng $20,250 para palitan ang iyong 1,800 sq ft na shingle na bubong. Mas mataas ang presyo kaysa karaniwan para sa ganitong laki ng bubong. Walang license number ng kontratista ang papel, humihingi ito ng napakalaking deposito, at pinipilit kang pumirma ngayon. Huwag pang pumirma o magbayad.",
+  "amount_due": "$20,250.00 total; $8,100.00 deposit (40%) due at signing",
   "deadline": {
     "date": null,
     "days_remaining": null,
-    "what_is_due": "Sabi ng quote, 'good today only' ang presyo. Taktika lang ito ng pamimilit sa pagbebenta, hindi totoong deadline. Ang quote ay may petsang {{ISO:-1}}. Hindi mo kailangang pumirma."
+    "what_is_due": "Sinasabi ng estimate na 'good today only' ang presyo, pero walang totoong deadline. Hindi mo kailangang magdesisyon ngayon. Ang estimate ay may petsang {{DATE:-1}}."
   },
   "urgency": "no_rush",
-  "if_ignored": "Walang masamang mangyayari kung hindi ka pipirma. Maaaring magbago ang presyo, pero magbibigay ng bagong quote ang tunay na roofer. Mas malaking panganib ang pagpirma agad at pagbabayad ng malaking deposito.",
+  "if_ignored": "Walang mangyayari kung hindi ka pipirma. Alok ito, hindi singil. Maaaring magbago ang presyo, pero bibigyan ka ng patas na kontratista ng oras para ikumpara ang mga quote.",
   "action_steps": [
     {
       "title": "Huwag pumirma o magbayad ngayon",
-      "detail": "Sabihin sa salesperson na kailangan mo ng ilang araw. Papayag ang mabuting contractor. Huwag munang magbayad ng cash o deposito.",
+      "detail": "Ang presyong 'good today only' ay taktika ng pamimilit. Sabihin sa tindero na kailangan mo ng ilang araw para ikumpara ang mga quote.",
       "contact": "(818) 555-0188"
     },
     {
-      "title": "Tingnan ang license",
-      "detail": "Walang license number sa quote. Hingin ito nang nakasulat. Pagkatapos, hanapin ito at tiyaking aktibo, at may workers' comp insurance at bond.",
+      "title": "Tingnan ang lisensya ng kontratista",
+      "detail": "Walang license number sa estimate na ito. Hingin ito nang nakasulat, saka hanapin sa website ng California Contractors State License Board. Tiyaking aktibo ito at tugma sa pangalan ng negosyo.",
       "contact": "cslb.ca.gov"
     },
     {
-      "title": "Kumuha ng 2 o 3 pang nakasulat na quote",
-      "detail": "Hilingin sa bawat roofer na ilista ang parehong trabaho: tear-off, 18 squares ng shingles, underlayment, flashing, at mga vent. Pagkatapos ay ikumpara ang mga presyo.",
+      "title": "Kumuha ng 2–3 pang nakasulat na quote",
+      "detail": "Hilingin sa bawat roofer na presyuhan ang parehong trabaho: 18 squares ng shingles, underlayment, flashing, at tear-off. Ikumpara bawat linya.",
       "contact": null
     },
     {
-      "title": "Humingi ng detalyadong kontrata",
-      "detail": "Dapat nakalista rito ang brand at uri ng shingle, oras o gastos ng paggawa, petsa ng simula at tapos, nakasulat na warranty, at ang ibig sabihin ng 'misc materials'.",
+      "title": "Humingi ng mas maliit na deposito",
+      "detail": "Sa California, ang deposito sa trabaho sa bahay ay hindi lalampas sa 10% ng presyo o $1,000, alinman ang mas mababa. Mas mataas nang husto ang $8,100 na deposito. Huwag itong bayaran.",
       "contact": null
     },
     {
-      "title": "Pababain ang deposito",
-      "detail": "Nililimitahan ng batas ng California ang down payment sa 10% ng presyo o $1,000, alinman ang mas mababa. Humingi ng hindi hihigit sa $1,000. Magbayad sa check o card, hindi cash, para may talaan ka.",
+      "title": "Humingi ng detalyadong nakasulat na kontrata",
+      "detail": "Dapat nitong ipaliwanag ang 'misc materials' at 'labor,' pangalanan ang brand ng shingle at warranty, magbigay ng petsa ng simula at tapos, at sabihin kung sino ang kukuha ng city permit.",
       "contact": null
     },
     {
-      "title": "Humingi ng libreng tulong kung napipilitan ka",
-      "detail": "Maaari kang mag-ulat ng problema sa Contractors State License Board.",
-      "contact": "cslb.ca.gov or 800-321-2752"
+      "title": "Iwasan ang pagbabayad ng cash",
+      "detail": "Ang 5% na diskwento sa cash ay walang iiwang rekord ng bayad. Magbayad sa check o card para mapatunayan mo ang binayaran mo.",
+      "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "high",
-      "text": "Walang nakalistang California contractor license number. Dapat licensed contractor ang gagawa ng ganito kalaking roofing job."
+      "text": "Walang California contractor license number kahit saan. Ang ganito kalaking trabaho sa bubong ay dapat gawin ng lisensyadong kontratista."
     },
     {
       "severity": "high",
-      "text": "Ang deposito ay 40% ($8,100). Karaniwang nililimitahan ng California ang down payment sa 10% o $1,000, alinman ang mas mababa."
+      "text": "Ang deposito ay 40% ($8,100). Nililimitahan ito ng batas ng California sa 10% o $1,000, alinman ang mas mababa."
     },
     {
       "severity": "high",
-      "text": "Pamimilit na pumirma dahil 'good today only.' Pinapayagan ng tapat na roofer na magkumpara ka ng quote."
-    },
-    {
-      "severity": "high",
-      "text": "5% na diskwento kung cash ang bayad. Walang talaan ang cash at karaniwang senyales ito ng mapanganib na contractor."
+      "text": "Ang 'Special price good today only' at 'price goes up if not signed today' ay mapilit na taktika sa pagbebenta."
     },
     {
       "severity": "medium",
-      "text": "Malabo ang 'Misc materials' na $2,400. Dagdag pa ito sa singil sa shingles, underlayment, at flashing."
+      "text": "Malabo ang 'Misc materials' ($2,400) at walang detalye."
     },
     {
       "severity": "medium",
-      "text": "Walang nakalistang oras ang 'Labor' na $1,750. Mukhang mababa ito kumpara sa $3,200 na tear-off at $9,450 na install, na marahil kasama na ang labor. Kaya hindi malinaw ang tunay na hatian ng gastos."
+      "text": "Ang 'Labor' ay $1,750 lang na walang oras o laki ng crew. Mukhang mababa ito para sa buong pagpapalit ng bubong."
     },
     {
       "severity": "medium",
-      "text": "Walang petsa ng simula o tapos ('to be scheduled') at walang nakasulat na warranty."
+      "text": "Ang 5% diskwento sa bayad na cash ay maaaring mangahulugang walang papel na rekord."
+    },
+    {
+      "severity": "medium",
+      "text": "Ang simula ay 'to be scheduled,' walang petsa ng tapos, walang nakasulat na warranty, at walang banggit ng mga permit."
     },
     {
       "severity": "low",
-      "text": "May marka ang pahina na 'SAMPLE — DEMO ONLY,' kaya baka hindi ito totoong quote. Mag-ingat."
+      "text": "Medyo mataas ang presyo ng tear-off ($3,200) at underlayment ($1,800)."
     }
   ],
   "legitimacy_check": {
     "verdict": "be_careful",
     "reasons": [
-      "Walang ipinakitang contractor license number.",
-      "Matinding pamimilit na pumirma ngayon at magbayad ng cash.",
-      "Napakalaking deposito.",
-      "Malabong line items at walang petsa o warranty.",
-      "May marka ang pahina bilang sample/demo."
+      "Walang ipinapakitang contractor license number.",
+      "Karaniwan sa mga panloloko sa bubong ang pamimilit na pumirma ngayon at ang malaking deposito.",
+      "Dahil sa malalabong item at walang petsa ng simula o tapos, kaunti ang proteksyon mo.",
+      "Ikaw mismo ang mag-verify ng lisensya at address ng negosyo bago magbayad ng anuman."
     ]
   },
   "ticket": null,
   "quote": {
     "business_name": "Premier Valley Roofing",
     "license_number": null,
-    "quoted_total": null,
-    "typical_total_low": 12500,
-    "typical_total_high": 17500,
-    "percent_vs_typical": 35,
+    "quoted_total": 20250,
+    "typical_total_low": 13000,
+    "typical_total_high": 18000,
+    "percent_vs_typical": 31,
     "verdict": "high",
     "line_items": [
       {
         "item": "Pagtanggal ng lumang shingles (1 layer) at pagtapon ng kalat",
         "price": 3200,
-        "typical_range": "$1,500–$2,800 (tantiya)",
+        "typical_range": "$1,800–$2,800 (tantiya)",
         "rating": "high"
       },
       {
-        "item": "Architectural shingles, 18 squares, naka-install",
+        "item": "Architectural shingles, 18 squares, nakakabit na",
         "price": 9450,
-        "typical_range": "$7,500–$10,500 (tantiya)",
+        "typical_range": "$7,500–$11,000 (tantiya)",
         "rating": "fair"
       },
       {
         "item": "Synthetic underlayment",
         "price": 1800,
-        "typical_range": "$800–$1,500 (tantiya)",
+        "typical_range": "$900–$1,500 (tantiya)",
         "rating": "high"
       },
       {
         "item": "Flashing, drip edge, pipe boots at ridge vents",
         "price": 1650,
-        "typical_range": "$1,000–$2,000 (tantiya)",
+        "typical_range": "$1,000–$1,800 (tantiya)",
         "rating": "fair"
       },
       {
         "item": "Misc materials",
         "price": 2400,
-        "typical_range": "$0–$500, karaniwang kasama na sa ibang item (tantiya)",
+        "typical_range": "$300–$800 (tantiya)",
         "rating": "very_high"
       },
       {
         "item": "Labor",
         "price": 1750,
-        "typical_range": "Karaniwang kasama na sa presyo ng install; walang nakalistang oras (tantiya)",
+        "typical_range": "Walang ibinigay na oras; karaniwang kasama na ang labor sa presyo ng pagkakabit (tantiya)",
         "rating": "unclear"
       }
     ],
     "questions_to_ask": [
-      "Ano ang CSLB license number mo, at puwede ko bang makita ang patunay ng insurance at workers' comp?",
-      "Ano ba talaga ang laman ng 'Misc materials' at 'Labor,' at bakit hiwalay ang singil sa mga ito?",
-      "Puwede bang $1,000 o mas mababa ang deposito, bayad sa check o card, na may iskedyul ng bayad ayon sa usad ng trabaho?",
-      "Ano ang petsa ng simula at tapos, at anong nakasulat na warranty ang ibibigay ninyo para sa materyales at pagkakagawa?"
+      "Ano ang California contractor license number ninyo, at maipapakita ba ninyo ang patunay ng insurance at workers' compensation?",
+      "Ano eksakto ang laman ng 'misc materials' at ano ang saklaw ng 'labor,' kasama ang oras at laki ng crew?",
+      "Pwede bang ibaba ang deposito sa $1,000 o 10% (alinman ang mas mababa), at bayaran ang natitira nang paunti-unti habang natatapos ang trabaho?",
+      "Ano ang petsa ng simula at tapos, brand ng shingle, at nakasulat na warranty? Sino ang kukuha ng city permit?"
     ]
   }
 }

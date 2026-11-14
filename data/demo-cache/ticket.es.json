@@ -2,74 +2,70 @@
   "document_type": "parking_ticket",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": null,
-  "headline": "Esta es una multa de estacionamiento de $73 por limpieza de calles, y tiene errores que puede usar a su favor.",
-  "summary": "Usted recibió una multa el lunes 9 de noviembre de 2026 por estacionarse durante el horario de limpieza de calles. La multa dice que su carro es un Honda, pero la nota del oficial dice Toyota Camry. Además, el nombre del oficial y su número de identificación están en blanco. Estos errores pueden ayudarle a impugnarla. La fecha para pagar o impugnar es el 30 de noviembre de 2026. Está marcada como MUESTRA (SAMPLE), así que es un documento de demostración.",
-  "amount_due": null,
-  "deadline": null,
+  "sender": "City Parking Services, 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299",
+  "headline": "Esta es una multa de estacionamiento de $73 por limpieza de calles, y tiene algunos errores.",
+  "summary": "Recibió una multa por estacionarse en un día de limpieza de calles. La multa dice que su carro es un Honda, pero la nota del oficial dice Toyota Camry. Además, el nombre y el número de identificación del oficial están en blanco. Estos errores pueden ayudarle a disputarla.",
+  "amount_due": "$73.00 if paid by {{DATE:+16}}",
+  "deadline": {
+    "date": "{{ISO:+16}}",
+    "days_remaining": 16,
+    "what_is_due": "Pague los $73 o dispute la multa. La multa dice que puede pedir una revisión inicial dentro de 21 días a partir de la fecha de emisión (09/11/2026), es decir, el 30 de noviembre de 2026."
+  },
   "urgency": "soon",
-  "if_ignored": "Se agrega un cargo por pago tardío de $73, y el total sube a $146. Pueden poner un bloqueo en el registro de su vehículo con el DMV, y no podría renovarlo hasta pagar. También perdería la oportunidad fácil de impugnar la multa.",
+  "if_ignored": "Se agrega un recargo por pago tardío de $73, y el total sube a $146. Pueden poner un bloqueo en el registro de su vehículo en el DMV. También podría perder su derecho a disputar la multa.",
   "action_steps": [
     {
-      "title": "Revise su carro y sus notas",
-      "detail": "Mire su carro. ¿Es un Honda o un Toyota Camry? ¿De verdad estuvo estacionado en la cuadra 1200 de Maple Grove Ave el 9 de nov. a las 8:14 AM? Si puede, tome fotos del letrero de la calle y de la banqueta.",
+      "title": "Revise su carro y sus fotos",
+      "detail": "¿Su carro es un Honda plateado con placa 8ABC123? ¿O es un Toyota Camry? Tome fotos del carro y de la placa.",
       "contact": null
     },
     {
-      "title": "Tome fotos como evidencia",
-      "detail": "Fotografíe los letreros de limpieza de calles de la cuadra, cualquier letrero que falte o esté tapado, y la placa y la marca de su carro. Guarde recibos o pruebas de que estaba en otro lugar.",
+      "title": "Revise los letreros de la calle",
+      "detail": "Vaya a la cuadra 1200 de Maple Grove Ave, en el lado norte. Tome fotos de los letreros cerca de la banqueta y en la esquina. Anote si faltan, están tapados o son confusos.",
       "contact": null
     },
     {
       "title": "Pida una revisión inicial",
-      "detail": "Hágalo pronto, y antes del 30 de noviembre de 2026. Incluya su número de multa FG-4471902 y su evidencia. Puede hacerlo en línea, por correo o por teléfono (lunes a viernes, 8 AM–5 PM).",
-      "contact": "www.cityparkingservices-sample.org/contest or (818) 555-0172 or 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
+      "detail": "Hágalo pronto, no el último día. Incluya el número de multa FG-4471902, sus fotos y la carta de apelación de este reporte.",
+      "contact": "www.cityparkingservices-sample.org/contest, phone (818) 555-0172 (Mon–Fri, 8 AM–5 PM), or mail to 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
     },
     {
-      "title": "Use la carta de apelación de abajo",
-      "detail": "Cambie las partes que están entre [CORCHETES] para que sean verdad en su caso. Adjunte sus fotos. Guarde una copia y la prueba de envío o una captura de pantalla.",
+      "title": "Guarde comprobantes",
+      "detail": "Guarde copias de todo lo que envíe y cualquier número de confirmación. Si llama, anote la fecha y el nombre de la persona.",
       "contact": null
     },
     {
-      "title": "Si decide no impugnar, pague a tiempo",
-      "detail": "Pague $73.00 antes del 30 de noviembre de 2026, en línea o por correo. No envíe dinero en efectivo.",
+      "title": "Si decide no disputarla, pague a tiempo",
+      "detail": "Pague $73 antes del 30 de noviembre de 2026 para evitar el recargo. No envíe dinero en efectivo.",
       "contact": "www.cityparkingservices-sample.org/pay"
     },
     {
-      "title": "Si la rechazan, pida una audiencia",
-      "detail": "Si niegan la revisión inicial, puede pedir una audiencia administrativa (una revisión con una persona neutral). Pregunte qué tiene que pagar primero, o si puede pedir una exención de cargos si no puede pagar.",
-      "contact": "(818) 555-0172"
+      "title": "Si se la niegan, pida una audiencia",
+      "detail": "Si la revisión inicial es negada, puede pedir una audiencia administrativa (una reunión donde una persona neutral revisa su caso). Es posible que tenga que pagar primero o mostrar que no puede pagar. Revise el aviso de negación para ver la fecha límite.",
+      "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "high",
-      "text": "La marca del vehículo dice HONDA, pero las observaciones del oficial dicen 'Silver Toyota Camry' (Toyota Camry plateado). No coinciden."
-    },
-    {
-      "severity": "high",
-      "text": "El nombre y el número de identificación del oficial que puso la multa están en blanco."
+      "text": "La casilla de marca del vehículo dice HONDA, pero las notas del oficial dicen Toyota Camry. Uno de los dos está mal."
     },
     {
       "severity": "medium",
-      "text": "El código de la infracción es FGMC 10.36.120 y la ciudad es 'Fairview Glen', no Glendale. Verifique que esta multa sea de un lugar donde de verdad se estacionó."
+      "text": "El nombre y el número de identificación del oficial que puso la multa están en blanco."
     },
     {
       "severity": "low",
-      "text": "La multa tiene el sello 'SAMPLE — DEMO ONLY' (muestra, solo demostración), así que puede que no sea una multa real."
-    },
-    {
-      "severity": "low",
-      "text": "El lugar dice 'lado norte' de una cuadra, pero no da una dirección exacta ni el día y las horas de limpieza anunciados."
+      "text": "La multa no da el texto exacto del letrero. Las notas solo dicen que había un letrero en la esquina."
     }
   ],
   "legitimacy_check": {
-    "verdict": "be_careful",
+    "verdict": "looks_legitimate",
     "reasons": [
-      "La multa tiene el sello SAMPLE — DEMO ONLY (muestra, solo demostración).",
-      "Quien la emite es 'City Parking Services' en 'Fairview Glen', no la Ciudad de Glendale.",
-      "El sitio web y el teléfono no son de un sitio oficial .gov ni de la ciudad. Verifíquelos en el sitio web oficial de la ciudad antes de pagar.",
-      "No pide tarjetas de regalo, transferencias ni criptomonedas, y eso es buena señal. Dice que no envíe efectivo."
+      "Tiene número de multa, lugar, hora y código de la infracción.",
+      "Explica cómo disputar y cómo pagar.",
+      "No pide tarjetas de regalo, transferencias ni criptomonedas, y dice que no envíe efectivo.",
+      "Para mayor seguridad, confirme el sitio web y el teléfono en el sitio web oficial de la ciudad que emitió la multa antes de pagar."
     ]
   },
   "ticket": {
@@ -77,20 +73,21 @@
     "violation": "FGMC 10.36.120 — Street sweeping: no parking 8 AM–10 AM on posted sweeping day",
     "missing_or_wrong_fields": [
       "Issuing officer name / ID number is blank",
-      "Vehicle make is HONDA, but officer remarks say Toyota Camry",
-      "Location is only a block ('1200 block') and side, not an exact address",
-      "The ticket does not say which sweeping day or sign was posted"
+      "Vehicle make conflict: HONDA in the vehicle box, but 'Toyota Camry' in officer remarks",
+      "Exact sign wording and location are vague; remarks say only 'sign posted at corner'",
+      "Location is a block range ('1200 block'), not an exact address"
     ],
     "possible_grounds": [
-      "Vehicle make does not match (Honda vs. Toyota Camry). It may be the wrong car.",
-      "Officer ID is missing.",
-      "[Confirm: signs were missing, blocked, or unclear. Attach photos.]",
-      "[Confirm: street sweeping did not happen that day, or no sign was posted at your spot.]",
-      "[Confirm: your car was not there, was sold, or was moved before 8 AM.]"
+      "Vehicle make does not match: the ticket lists two different makes, so it may not describe your car.",
+      "Missing officer name/ID, so the ticket cannot be verified.",
+      "[Confirm: the sweeping sign was missing, blocked, faded or not visible from where you parked. Attach photos.]",
+      "[Confirm: the sign was only at the corner, not along the block where you parked.]",
+      "[Confirm: your car was not there, or you had already sold it.]",
+      "[Confirm: sweeping was cancelled that day, for example for a holiday or rain.]"
     ],
     "contest_strength": "strong",
-    "contest_strength_reason": "The ticket has a clear mismatch between the vehicle make (Honda) and the officer's note (Toyota Camry), and the officer ID is blank. These are defects on the ticket itself. Results are not guaranteed.",
-    "appeal_letter": "[Your Full Name]\n[Your Address]\n[City, State ZIP]\n[Phone / Email]\n\n[Date]\n\nCity Parking Services\nAttn: Initial Review\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No.: FG-4471902\nDate of Violation: {{DATE:-5}}, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense Plate: 8ABC123 (CA)\nViolation: FGMC 10.36.120 – Street Sweeping\n\nTo Whom It May Concern:\n\nI am requesting an initial review of the above citation and ask that it be dismissed for these reasons:\n\n1. The citation lists the vehicle make as HONDA, but the officer remarks describe a \"Silver Toyota Camry.\" These details do not match, so the citation is inconsistent and may not describe my vehicle. [Confirm and edit: My vehicle is a (make/model/color) ______.]\n\n2. The space for the issuing officer's name and ID number is blank. I cannot verify who issued the citation.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, or hard to read at my parking spot. I have attached photos.]\n\n4. [Edit or delete if not true: My vehicle was not parked at this location at the time listed. I have attached (receipt/other proof).]\n\nI have attached: [list photos, registration, receipts].\n\nPlease send me the written result of this review. If it is denied, I would like to request an administrative hearing.\n\nThank you for your time.\n\nSincerely,\n[Your Signature]\n[Your Printed Name]"
+    "contest_strength_reason": "The ticket itself has clear defects: two different vehicle makes (Honda vs. Toyota Camry) and no officer name or ID. These are good reasons to ask for dismissal.",
+    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State, ZIP]\n[Phone number] | [Email]\n\n[Date]\n\nCity Parking Services\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No. FG-4471902\nDate of violation: 11/09/2026, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense plate: 8ABC123 (CA)\n\nTo Whom It May Concern:\n\nI am writing to request an initial review of the citation above. I respectfully ask that it be dismissed for the following reasons.\n\n1. The citation has conflicting vehicle information. The vehicle make box lists \"HONDA,\" but the officer's remarks describe a \"Silver Toyota Camry.\" [State what your vehicle really is (make, model, color) and attach a copy of your registration.] Because the citation describes two different vehicles, I believe it is not accurate.\n\n2. The space for the issuing officer's name and ID number is blank. Without this, I cannot confirm who issued the citation or review the officer's account.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, faded or hard to read where I parked. I have attached photos.]\n\n4. [Edit or delete if not true: The only sign was at the corner. There was no sign along the block where I parked.]\n\nI have attached: [copy of vehicle registration] [photos of my vehicle and plate] [photos of the street and signs] [any other evidence].\n\nPlease send me the result of this review in writing. If the citation is not dismissed, please tell me how to request an administrative hearing.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your signature]\n[Your printed name]"
   },
   "quote": null
 }

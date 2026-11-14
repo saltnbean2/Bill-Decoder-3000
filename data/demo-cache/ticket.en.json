@@ -2,76 +2,92 @@
   "document_type": "parking_ticket",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": "City Parking Services, Fairview Glen",
-  "headline": "This is a $73 street sweeping parking ticket from City Parking Services.",
-  "summary": "You got a ticket for parking during street sweeping hours on Maple Grove Ave. You can pay $73 or ask the city to review it. The ticket has two real mistakes: it says your car is a HONDA, but the officer wrote that it was a Toyota Camry. And the officer's name and ID number are missing. These mistakes can help you get the ticket cancelled.",
-  "amount_due": "$73.00",
+  "sender": "City Parking Services, 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299",
+  "headline": "This is a $73 street sweeping parking ticket with some mistakes on it.",
+  "summary": "You got a ticket for parking on a street sweeping day. The ticket says your car is a Honda, but the officer's note says Toyota Camry. The officer's name and ID are also blank. These mistakes may help you contest it.",
+  "amount_due": "$73.00 if paid by {{DATE:+16}}",
   "deadline": {
     "date": "{{ISO:+16}}",
     "days_remaining": 16,
-    "what_is_due": "Pay $73 or ask for an initial review before the late fee is added."
+    "what_is_due": "Pay the $73 or contest the ticket. The ticket says you can ask for an initial review within 21 days of the issue date (11/09/2026), which is {{DATE:+16}}."
   },
   "urgency": "soon",
-  "if_ignored": "A $73 late fee will be added, so you would owe $146. The city may also put a hold on your car registration at the DMV, which means you can't renew it until you pay. You would also lose the chance to fight the ticket.",
+  "if_ignored": "A late penalty of $73 is added, making it $146. A hold may be placed on your vehicle registration with the DMV. You could also lose your right to contest.",
   "action_steps": [
     {
-      "title": "Check your car and the street",
-      "detail": "Make sure plate 8ABC123 is yours and note your car's real make. If you can, go back to the 1200 block of Maple Grove Ave and take photos of the street sweeping signs and the curb.",
+      "title": "Check your car and your photos",
+      "detail": "Is your car a silver Honda with plate 8ABC123? Or a Toyota Camry? Take photos of the car and the plate.",
       "contact": null
     },
     {
-      "title": "Send your appeal letter",
-      "detail": "Use the ready-made letter below. Fill in the yellow parts. Submit it online, by mail, or call. Do this before {{DATE:+16}}.",
-      "contact": "www.cityparkingservices-sample.org/contest"
+      "title": "Check the street signs",
+      "detail": "Go to the 1200 block of Maple Grove Ave, north side. Photograph the signs near the curb and at the corner. Note if they are missing, blocked, or confusing.",
+      "contact": null
     },
     {
-      "title": "Call if you have questions",
-      "detail": "City Parking Services answers Monday to Friday, 8 AM to 5 PM. Have citation number FG-4471902 ready.",
-      "contact": "(818) 555-0172"
+      "title": "Ask for an initial review",
+      "detail": "Do this soon, not on the last day. Include citation number FG-4471902, your photos, and the appeal letter in this report.",
+      "contact": "www.cityparkingservices-sample.org/contest, phone (818) 555-0172 (Mon–Fri, 8 AM–5 PM), or mail to 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
     },
     {
       "title": "Keep proof",
-      "detail": "Save a copy of your letter, your photos, and any confirmation number. If the review says no, you can ask for an administrative hearing (a meeting with a hearing officer).",
+      "detail": "Save copies of everything you send and any confirmation number. If you call, write down the date and the person's name.",
+      "contact": null
+    },
+    {
+      "title": "If you decide not to contest, pay on time",
+      "detail": "Pay $73 by {{DATE:+16}} to avoid the late penalty. Do not send cash.",
+      "contact": "www.cityparkingservices-sample.org/pay"
+    },
+    {
+      "title": "If denied, ask for a hearing",
+      "detail": "If the initial review is denied, you can ask for an administrative hearing (a meeting where a neutral person reviews your case). You may need to pay first or show you cannot afford to. Check the denial notice for the deadline.",
       "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "high",
-      "text": "The vehicle make says HONDA, but the officer's note says the car was a Toyota Camry. The ticket doesn't agree with itself."
+      "text": "The vehicle make box says HONDA, but the officer's remarks say Toyota Camry. One of these is wrong."
     },
     {
-      "severity": "high",
-      "text": "The issuing officer name / ID box is empty. A valid ticket should say who wrote it."
+      "severity": "medium",
+      "text": "The issuing officer name / ID number is blank."
     },
     {
       "severity": "low",
-      "text": "The ticket does not say which sign or which side of the street had the sweeping schedule. Check that the sign was clear and visible."
+      "text": "The ticket does not give the exact sign wording. The remarks only say a sign was posted at the corner."
     }
   ],
   "legitimacy_check": {
     "verdict": "looks_legitimate",
     "reasons": [
-      "It has a citation number, a mailing address, and normal ways to pay or contest.",
-      "It does not ask for gift cards, wire transfers or crypto."
+      "It has a citation number, location, time and violation code.",
+      "It explains how to contest and pay.",
+      "It does not ask for gift cards, wire transfers or crypto, and it says not to send cash.",
+      "To be safe, confirm the website and phone number on the issuing city's official website before paying."
     ]
   },
   "ticket": {
     "citation_number": "FG-4471902",
-    "violation": "FGMC 10.36.120 — Street sweeping (no parking 8–10 AM on posted sweeping day)",
+    "violation": "FGMC 10.36.120 — Street sweeping: no parking 8 AM–10 AM on posted sweeping day",
     "missing_or_wrong_fields": [
-      "Vehicle make says HONDA, but remarks say Toyota Camry",
-      "Officer name / ID is blank"
+      "Issuing officer name / ID number is blank",
+      "Vehicle make conflict: HONDA in the vehicle box, but 'Toyota Camry' in officer remarks",
+      "Exact sign wording and location are vague; remarks say only 'sign posted at corner'",
+      "Location is a block range ('1200 block'), not an exact address"
     ],
     "possible_grounds": [
-      "Street sweeping signs were missing, blocked or hard to read",
-      "The street was not actually swept that day",
-      "Your car was sold or not there at that time",
-      "There was an emergency"
+      "Vehicle make does not match: the ticket lists two different makes, so it may not describe your car.",
+      "Missing officer name/ID, so the ticket cannot be verified.",
+      "[Confirm: the sweeping sign was missing, blocked, faded or not visible from where you parked. Attach photos.]",
+      "[Confirm: the sign was only at the corner, not along the block where you parked.]",
+      "[Confirm: your car was not there, or you had already sold it.]",
+      "[Confirm: sweeping was cancelled that day, for example for a holiday or rain.]"
     ],
     "contest_strength": "strong",
-    "contest_strength_reason": "The ticket has clear mistakes on its face: the car make doesn't match the officer's own description, and there is no officer ID. Agencies often cancel tickets with errors like these.",
-    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State ZIP]\n[Phone or email]\n\n{{DATE:+0}}\n\nCity Parking Services\nAttn: Initial Review\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review — Citation No. FG-4471902\nLicense Plate: 8ABC123 (CA)\nDate of Violation: {{DATE:-5}}, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\n\nTo Whom It May Concern:\n\nI respectfully request an initial review and dismissal of the citation listed above, for the following reasons.\n\n1. The vehicle information on the citation is inconsistent. The \"Vehicle Make\" field states HONDA, while the officer's remarks on the same citation describe the vehicle as a \"Silver Toyota Camry.\" My vehicle with plate 8ABC123 is a [your car's make and model]. Because the citation contradicts itself, it does not reliably identify the vehicle that was cited.\n\n2. The \"Issuing Officer Name / ID No.\" field is blank. Without the issuing officer's identification, the citation is incomplete and cannot be verified.\n\n[Optional: add any other reason that applies, for example: \"The street sweeping sign at this location was blocked by a tree. See attached photo.\"]\n\nFor these reasons, I ask that this citation be dismissed. I have attached [list your attachments, e.g. a copy of my vehicle registration and photos of the location].\n\nThank you for your time and consideration.\n\nSincerely,\n\n[Your signature]\n[Your printed name]"
+    "contest_strength_reason": "The ticket itself has clear defects: two different vehicle makes (Honda vs. Toyota Camry) and no officer name or ID. These are good reasons to ask for dismissal.",
+    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State, ZIP]\n[Phone number] | [Email]\n\n[Date]\n\nCity Parking Services\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No. FG-4471902\nDate of violation: 11/09/2026, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense plate: 8ABC123 (CA)\n\nTo Whom It May Concern:\n\nI am writing to request an initial review of the citation above. I respectfully ask that it be dismissed for the following reasons.\n\n1. The citation has conflicting vehicle information. The vehicle make box lists \"HONDA,\" but the officer's remarks describe a \"Silver Toyota Camry.\" [State what your vehicle really is (make, model, color) and attach a copy of your registration.] Because the citation describes two different vehicles, I believe it is not accurate.\n\n2. The space for the issuing officer's name and ID number is blank. Without this, I cannot confirm who issued the citation or review the officer's account.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, faded or hard to read where I parked. I have attached photos.]\n\n4. [Edit or delete if not true: The only sign was at the corner. There was no sign along the block where I parked.]\n\nI have attached: [copy of vehicle registration] [photos of my vehicle and plate] [photos of the street and signs] [any other evidence].\n\nPlease send me the result of this review in writing. If the citation is not dismissed, please tell me how to request an administrative hearing.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your signature]\n[Your printed name]"
   },
   "quote": null
 }

@@ -2,76 +2,92 @@
   "document_type": "parking_ticket",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": "City Parking Services, Fairview Glen",
-  "headline": "Սա $73 կայանման տուգանք է՝ փողոցի մաքրման ժամին կայանելու համար։",
-  "summary": "Դուք տուգանք եք ստացել Maple Grove Ave-ում փողոցի մաքրման ժամերին կայանելու համար։ Կարող եք վճարել $73 կամ խնդրել քաղաքին վերանայել այն։ Տուգանքում երկու իրական սխալ կա. գրված է, որ ձեր մեքենան HONDA է, բայց աշխատակիցը նշել է, որ այն Toyota Camry էր։ Նաև աշխատակցի անունը և ID համարը բացակայում են։ Այս սխալները կարող են օգնել չեղարկել տուգանքը։",
-  "amount_due": "$73.00",
+  "sender": "City Parking Services, 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299",
+  "headline": "Սա 73 դոլարանոց տուգանք է փողոցի մաքրման օրը կայանելու համար, և վրան սխալներ կան։",
+  "summary": "Դուք տուգանք եք ստացել փողոցի մաքրման օրը կայանելու համար։ Տուգանքի վրա գրված է, որ մեքենան Honda է, բայց ոստիկանի նշման մեջ գրված է Toyota Camry։ Ոստիկանի անունն ու ID-ն էլ դատարկ են։ Այս սխալները կարող են օգնել ձեզ վիճարկելու տուգանքը։",
+  "amount_due": "$73.00 if paid by {{DATE:+16}}",
   "deadline": {
     "date": "{{ISO:+16}}",
     "days_remaining": 16,
-    "what_is_due": "Վճարեք $73 կամ խնդրեք նախնական վերանայում, մինչև ուշացման տուգանք կավելացվի։"
+    "what_is_due": "Վճարեք 73 դոլարը կամ վիճարկեք տուգանքը։ Տուգանքում ասվում է, որ նախնական վերանայում կարող եք խնդրել տրման օրվանից (11/09/2026) 21 օրվա ընթացքում, այսինքն՝ մինչև 2026 թվականի նոյեմբերի 30-ը։"
   },
   "urgency": "soon",
-  "if_ignored": "Կավելացվի $73 ուշացման տուգանք, և դուք պարտք կլինեք $146։ Քաղաքը կարող է նաև արգելանք դնել ձեր մեքենայի գրանցման վրա DMV-ում, այսինքն՝ չեք կարող թարմացնել այն, մինչև չվճարեք։ Նաև կկորցնեք տուգանքը բողոքարկելու հնարավորությունը։",
+  "if_ignored": "Կավելանա 73 դոլար ուշացման տույժ, և ընդհանուրը կդառնա 146 դոլար։ DMV-ում ձեր մեքենայի գրանցման վրա կարող է արգելք դրվել։ Կարող եք նաև կորցնել վիճարկելու իրավունքը։",
   "action_steps": [
     {
-      "title": "Ստուգեք ձեր մեքենան և փողոցը",
-      "detail": "Համոզվեք, որ 8ABC123 համարանիշը ձերն է, և նշեք ձեր մեքենայի իրական մակնիշը։ Եթե կարող եք, վերադարձեք Maple Grove Ave-ի 1200 թաղամաս և լուսանկարեք փողոցի մաքրման ցուցանակները և մայթեզրը։",
+      "title": "Ստուգեք ձեր մեքենան և լուսանկարները",
+      "detail": "Ձեր մեքենան արծաթագույն Honda՞ է՝ 8ABC123 համարանիշով, թե՞ Toyota Camry։ Լուսանկարեք մեքենան և համարանիշը։",
       "contact": null
     },
     {
-      "title": "Ուղարկեք ձեր բողոքի նամակը",
-      "detail": "Օգտագործեք ներքևում պատրաստված նամակը։ Լրացրեք դեղին մասերը։ Ուղարկեք առցանց, փոստով կամ զանգեք։ Արեք սա մինչև {{DATE:+16}}։",
-      "contact": "www.cityparkingservices-sample.org/contest"
+      "title": "Ստուգեք փողոցի ցուցանակները",
+      "detail": "Գնացեք Maple Grove Ave-ի 1200-րդ հատված, հյուսիսային կողմ։ Լուսանկարեք եզրաքարի մոտ և անկյունում գտնվող ցուցանակները։ Նշեք՝ դրանք բացակայո՞ւմ են, փակ են, թե՞ շփոթեցնող են։",
+      "contact": null
     },
     {
-      "title": "Զանգեք, եթե հարցեր ունեք",
-      "detail": "City Parking Services-ը պատասխանում է երկուշաբթիից ուրբաթ, 8:00-ից 5:00։ Պատրաստ պահեք FG-4471902 տուգանքի համարը։",
-      "contact": "(818) 555-0172"
+      "title": "Խնդրեք նախնական վերանայում",
+      "detail": "Արեք դա շուտ, ոչ թե վերջին օրը։ Կցեք տուգանքի համարը՝ FG-4471902, ձեր լուսանկարները և այս զեկույցի բողոքի նամակը։",
+      "contact": "www.cityparkingservices-sample.org/contest, phone (818) 555-0172 (Mon–Fri, 8 AM–5 PM), or mail to 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
     },
     {
-      "title": "Պահեք ապացույցները",
-      "detail": "Պահեք ձեր նամակի պատճենը, լուսանկարները և ցանկացած հաստատման համար։ Եթե վերանայումը մերժվի, կարող եք խնդրել վարչական լսում (հանդիպում լսումներ վարող պաշտոնյայի հետ)։",
+      "title": "Պահպանեք ապացույցները",
+      "detail": "Պահեք ուղարկած ամեն ինչի պատճենները և հաստատման համարը։ Եթե զանգեք, գրի առեք ամսաթիվը և մարդու անունը։",
+      "contact": null
+    },
+    {
+      "title": "Եթե չեք վիճարկում, վճարեք ժամանակին",
+      "detail": "Վճարեք 73 դոլար մինչև 2026 թվականի նոյեմբերի 30-ը, որպեսզի ուշացման տույժ չավելանա։ Կանխիկ չուղարկեք։",
+      "contact": "www.cityparkingservices-sample.org/pay"
+    },
+    {
+      "title": "Եթե մերժեն, խնդրեք լսում",
+      "detail": "Եթե նախնական վերանայումը մերժվի, կարող եք խնդրել վարչական լսում (հանդիպում, որտեղ չեզոք մարդ ուսումնասիրում է ձեր գործը)։ Գուցե նախ պետք լինի վճարել կամ ցույց տալ, որ վճարելու հնարավորություն չունեք։ Վերջնաժամկետը նայեք մերժման ծանուցման մեջ։",
       "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "high",
-      "text": "Մեքենայի մակնիշը գրված է HONDA, բայց աշխատակցի նշումում ասվում է Toyota Camry։ Տուգանքն ինքն իրեն հակասում է։"
+      "text": "Մեքենայի մակնիշի վանդակում գրված է HONDA, բայց ոստիկանի նշումներում՝ Toyota Camry։ Դրանցից մեկը սխալ է։"
     },
     {
-      "severity": "high",
-      "text": "Տուգանք գրած աշխատակցի անվան / ID-ի դաշտը դատարկ է։ Վավեր տուգանքում պետք է նշված լինի, թե ով է այն գրել։"
+      "severity": "medium",
+      "text": "Տուգանք տվող ոստիկանի անունը/ID համարը դատարկ է։"
     },
     {
       "severity": "low",
-      "text": "Տուգանքում նշված չէ, թե որ ցուցանակի վրա էր մաքրման ժամանակացույցը։ Ստուգեք, որ ցուցանակը պարզ և տեսանելի էր։"
+      "text": "Տուգանքում ցուցանակի ճշգրիտ տեքստը նշված չէ։ Նշումներում միայն ասվում է, որ անկյունում ցուցանակ է եղել։"
     }
   ],
   "legitimacy_check": {
     "verdict": "looks_legitimate",
     "reasons": [
-      "Այն ունի տուգանքի համար, փոստային հասցե և վճարելու կամ բողոքարկելու սովորական եղանակներ։",
-      "Այն նվեր քարտեր, դրամական փոխանցումներ կամ կրիպտոարժույթ չի պահանջում։"
+      "Այն ունի տուգանքի համար, վայր, ժամ և խախտման կոդ։",
+      "Բացատրում է, թե ինչպես վիճարկել և վճարել։",
+      "Նվեր քարտեր, փոխանցումներ կամ կրիպտո չի պահանջում, և ասում է՝ կանխիկ չուղարկել։",
+      "Ապահովության համար վճարելուց առաջ ստուգեք կայքը և հեռախոսահամարը տուգանք տվող քաղաքի պաշտոնական կայքում։"
     ]
   },
   "ticket": {
     "citation_number": "FG-4471902",
-    "violation": "FGMC 10.36.120 — Փողոցի մաքրում (կայանելն արգելված է 8–10-ը՝ մաքրման օրը)",
+    "violation": "FGMC 10.36.120 — Street sweeping: no parking 8 AM–10 AM on posted sweeping day",
     "missing_or_wrong_fields": [
-      "Մակնիշը գրված է HONDA, իսկ նշումում՝ Toyota Camry",
-      "Աշխատակցի անունը / ID-ն դատարկ է"
+      "Issuing officer name / ID number is blank",
+      "Vehicle make conflict: HONDA in the vehicle box, but 'Toyota Camry' in officer remarks",
+      "Exact sign wording and location are vague; remarks say only 'sign posted at corner'",
+      "Location is a block range ('1200 block'), not an exact address"
     ],
     "possible_grounds": [
-      "Մաքրման ցուցանակները բացակայում էին, փակված էին կամ դժվար էր կարդալ",
-      "Փողոցն իրականում չի մաքրվել այդ օրը",
-      "Ձեր մեքենան վաճառված էր կամ այդ ժամին այնտեղ չէր",
-      "Արտակարգ իրավիճակ կար"
+      "Vehicle make does not match: the ticket lists two different makes, so it may not describe your car.",
+      "Missing officer name/ID, so the ticket cannot be verified.",
+      "[Confirm: the sweeping sign was missing, blocked, faded or not visible from where you parked. Attach photos.]",
+      "[Confirm: the sign was only at the corner, not along the block where you parked.]",
+      "[Confirm: your car was not there, or you had already sold it.]",
+      "[Confirm: sweeping was cancelled that day, for example for a holiday or rain.]"
     ],
     "contest_strength": "strong",
-    "contest_strength_reason": "Տուգանքի վրա ակնհայտ սխալներ կան. մեքենայի մակնիշը չի համընկնում աշխատակցի իսկ նկարագրության հետ, և աշխատակցի ID չկա։ Նման սխալներով տուգանքները հաճախ չեղարկվում են։",
-    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State ZIP]\n[Phone or email]\n\n{{DATE:+0}}\n\nCity Parking Services\nAttn: Initial Review\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review — Citation No. FG-4471902\nLicense Plate: 8ABC123 (CA)\nDate of Violation: {{DATE:-5}}, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\n\nTo Whom It May Concern:\n\nI respectfully request an initial review and dismissal of the citation listed above, for the following reasons.\n\n1. The vehicle information on the citation is inconsistent. The \"Vehicle Make\" field states HONDA, while the officer's remarks on the same citation describe the vehicle as a \"Silver Toyota Camry.\" My vehicle with plate 8ABC123 is a [your car's make and model]. Because the citation contradicts itself, it does not reliably identify the vehicle that was cited.\n\n2. The \"Issuing Officer Name / ID No.\" field is blank. Without the issuing officer's identification, the citation is incomplete and cannot be verified.\n\n[Optional: add any other reason that applies, for example: \"The street sweeping sign at this location was blocked by a tree. See attached photo.\"]\n\nFor these reasons, I ask that this citation be dismissed. I have attached [list your attachments, e.g. a copy of my vehicle registration and photos of the location].\n\nThank you for your time and consideration.\n\nSincerely,\n\n[Your signature]\n[Your printed name]"
+    "contest_strength_reason": "The ticket itself has clear defects: two different vehicle makes (Honda vs. Toyota Camry) and no officer name or ID. These are good reasons to ask for dismissal.",
+    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State, ZIP]\n[Phone number] | [Email]\n\n[Date]\n\nCity Parking Services\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No. FG-4471902\nDate of violation: 11/09/2026, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense plate: 8ABC123 (CA)\n\nTo Whom It May Concern:\n\nI am writing to request an initial review of the citation above. I respectfully ask that it be dismissed for the following reasons.\n\n1. The citation has conflicting vehicle information. The vehicle make box lists \"HONDA,\" but the officer's remarks describe a \"Silver Toyota Camry.\" [State what your vehicle really is (make, model, color) and attach a copy of your registration.] Because the citation describes two different vehicles, I believe it is not accurate.\n\n2. The space for the issuing officer's name and ID number is blank. Without this, I cannot confirm who issued the citation or review the officer's account.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, faded or hard to read where I parked. I have attached photos.]\n\n4. [Edit or delete if not true: The only sign was at the corner. There was no sign along the block where I parked.]\n\nI have attached: [copy of vehicle registration] [photos of my vehicle and plate] [photos of the street and signs] [any other evidence].\n\nPlease send me the result of this review in writing. If the citation is not dismissed, please tell me how to request an administrative hearing.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your signature]\n[Your printed name]"
   },
   "quote": null
 }

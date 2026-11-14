@@ -2,75 +2,61 @@
   "document_type": "official_letter",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": "Oficina de Servicios de Jurado del Tribunal Superior, Distrito Judicial de Valley Crest (Comisionado de Jurados)",
-  "headline": "Esta es una citación para servir como jurado. Le pide presentarse el 24 de noviembre de 2026.",
-  "summary": "La Oficina de Servicios de Jurado del Tribunal Superior lo eligió para servir como jurado. Debe responder antes de su fecha de presentación, incluso si quiere pedir un aplazamiento o una excusa. Si no hace nada, podrían ponerle una multa. La fecha de presentación es dentro de 10 días a partir de hoy.",
+  "sender": "Oficina de Servicios para Jurados del Tribunal Superior, Distrito Judicial de Valley Crest",
+  "headline": "Esta es una citación para servir como jurado. Debe presentarse el 24 de noviembre de 2026.",
+  "summary": "La Oficina de Servicios para Jurados del Tribunal Superior lo eligió al azar para servir como jurado. Debe presentarse el martes 24 de noviembre de 2026 a las 7:45 a. m. También debe responder al tribunal antes de esa fecha. Puede confirmar que irá, o pedir que le cambien la fecha o que lo excusen.",
   "amount_due": null,
   "deadline": {
     "date": "{{ISO:+10}}",
     "days_remaining": 10,
-    "what_is_due": "Responda a la citación (confirme, o pida un aplazamiento o una excusa) antes de esta fecha. Después, preséntese en persona a las 7:45 AM el 24 de noviembre de 2026, si todavía lo necesitan."
+    "what_is_due": "Responda a la citación (confirme, o pida un aplazamiento o una excusa) antes de presentarse. Preséntese en persona a las 7:45 a. m. en esta fecha. La carta no da una fecha límite anterior para responder, así que responda lo antes posible."
   },
   "urgency": "urgent",
-  "if_ignored": "La carta dice que podrían multarlo hasta con $1,500 y ordenarle ir a una audiencia en la corte (una \\\"orden para mostrar causa\\\") por no obedecer una orden de la corte. Si responde a tiempo, evita esto.",
+  "if_ignored": "La carta dice que le pueden poner una multa de hasta $1,500 y ordenarle ir a una audiencia en la corte (llamada orden para mostrar causa) por no obedecer una orden del tribunal. Responder es rápido y por lo general evita todo esto.",
   "action_steps": [
     {
-      "title": "Responda a la citación ahora",
-      "detail": "Entre a www.jurysvc-sample.org e ingrese su número de jurado JX-302-8817. Ahí puede confirmar su servicio, o pedir un aplazamiento o una excusa. Hágalo mucho antes del 24 de noviembre.",
-      "contact": "www.jurysvc-sample.org"
+      "title": "Responda al tribunal ahora",
+      "detail": "Entre a www.jurysvc-sample.org e ingrese su número de jurado JX-302-8817. O llame al (818) 555-0143, de lunes a viernes, de 8:00 a. m. a 4:30 p. m. Confirme que va a servir, o pida un aplazamiento o una excusa.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
     },
     {
-      "title": "O responda por teléfono",
-      "detail": "Llame de lunes a viernes, de 8:00 AM a 4:30 PM. Tenga a la mano su número de jurado (JX-302-8817).",
-      "contact": "(818) 555-0143"
-    },
-    {
-      "title": "Avise si necesita ayuda",
-      "detail": "Cuando responda, diga si necesita un intérprete o una adaptación por discapacidad. Si no puede servir en esa fecha, pida un aplazamiento o una excusa al mismo tiempo.",
+      "title": "Pida ayuda si la necesita",
+      "detail": "Si necesita un intérprete o una adaptación por una discapacidad, avíselo al responder. Si necesita otra fecha, pida un aplazamiento. Tenga lista su razón, como trabajo, salud, viaje o cuidar a alguien.",
       "contact": "(818) 555-0143"
     },
     {
       "title": "Vuelva a revisar la noche anterior",
-      "detail": "Después de las 5:00 PM del lunes 23 de noviembre, llame o revise el sitio web para confirmar que todavía tiene que presentarse.",
+      "detail": "El lunes 23 de noviembre, después de las 5:00 p. m., llame o revise el sitio web para confirmar que todavía tiene que ir.",
       "contact": "www.jurysvc-sample.org or (818) 555-0143"
     },
     {
-      "title": "Vaya a la corte en la fecha indicada",
-      "detail": "Esté en la Sala de Reunión de Jurados, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, a las 7:45 AM del martes 24 de noviembre de 2026. Lleve esta citación y una identificación con foto. El estacionamiento está en el Lote B.",
+      "title": "Prepárese para ir",
+      "detail": "Lleve esta citación y una identificación con foto. Preséntese en la Sala de Reunión de Jurados, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, a las 7:45 a. m. del martes 24 de noviembre de 2026. El estacionamiento es en el Lote B.",
       "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
     },
     {
       "title": "Avise a su empleador",
-      "detail": "La carta dice que su empleador no puede despedirlo por servir como jurado. Dele una copia de la citación para que se organice. El pago es de $15 por día a partir del día 2, más millaje.",
+      "detail": "Dígale a su empleador las fechas. La carta dice que no lo pueden despedir por servir como jurado. Le pagarán $15 al día a partir del segundo día, más millaje.",
       "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "low",
-      "text": "La línea de la fecha se repite: \"{{WD:+10}}, {{DATE:+10}}, {{DATE:+10}}.\" Parece un error de impresión. La fecha se entiende bien, pero puede confirmarla cuando llame."
+      "text": "La carta no da una fecha límite aparte para responder. Solo dice que responda antes de su fecha de presentación. No espere hasta el último día."
     },
     {
       "severity": "low",
-      "text": "La carta tiene el sello \"SAMPLE — DEMO ONLY\" (muestra, solo demostración). Si de verdad la recibió por correo, llame a la corte para confirmar que es real. Si es solo una demostración, no tiene que hacer nada."
-    },
-    {
-      "severity": "low",
-      "text": "La carta dice que usted vive en Fairview Glen, pero esta app ayuda a residentes de Glendale. Revise que la carta sea para usted y que su dirección esté correcta."
-    },
-    {
-      "severity": "low",
-      "text": "El teléfono es el mismo que el número principal de la corte en la carta. El sitio web termina en \"-sample.org\", lo cual es raro para una corte. Los sitios reales de las cortes de California normalmente terminan en .gov o ca.gov."
+      "text": "El número de teléfono de la carta es el mismo que está en el encabezado. Si quiere verificar, busque el número del tribunal en su sitio web oficial."
     }
   ],
   "legitimacy_check": {
-    "verdict": "be_careful",
+    "verdict": "looks_legitimate",
     "reasons": [
-      "Buenas señales: no pide pagos, ni tarjetas de regalo, ni su número de Seguro Social, ni su acceso al banco. No amenaza con arresto.",
-      "Buenas señales: tiene un número de jurado, una fecha de envío, su nombre y dirección, y un proceso normal de la corte.",
-      "Conviene revisar: el sitio web es \"jurysvc-sample.org\" y no una dirección .gov o court.ca.gov.",
-      "Conviene revisar: la página tiene el sello \"SAMPLE — DEMO ONLY\" y la línea de la fecha tiene una frase repetida.",
-      "Para estar seguro, busque el teléfono del Tribunal Superior de su condado en su sitio web oficial (debe terminar en .gov o courts.ca.gov). Llame a ese número para confirmar que tiene una citación de jurado. No ingrese datos personales en un sitio del que no esté seguro."
+      "No pide dinero, tarjetas de regalo, transferencias, número de Seguro Social ni datos del banco.",
+      "Incluye un número de jurado, una fecha, hora y lugar claros, e instrucciones normales del tribunal.",
+      "La multa que menciona es por no responder, no es un cobro. No amenaza con arresto inmediato.",
+      "Consejo: para estar seguro, busque usted mismo la página de jurados de su tribunal e ingrese ahí su número de jurado. Nunca dé su Seguro Social ni pague dinero por teléfono por el servicio de jurado."
     ]
   },
   "ticket": null,

@@ -60,10 +60,12 @@ Or from the terminal: `npx vercel` then `npx vercel env add ANTHROPIC_API_KEY` a
 - Jury summons: report date in 10 days.
 - Roofing quote: $20,250 (~35% above typical), no license, 40% deposit, "$2,400 misc materials".
 
-**Re-render the PNGs the morning of the demo** so the dates match the day:
+**The morning of the demo**, re-render the PNGs and re-record the cache so every date matches the day. English dates in the cache are stored as relative tokens, but dates written out in other languages are not:
 
 ```bash
 npm run samples
+BASE_URL=https://bill-decoder-3000.vercel.app npm run record-cache
+git commit -am "Refresh demo samples" && git push   # Vercel redeploys
 ```
 
 **Cached responses:** `data/demo-cache/` comes seeded with hand-written English and Armenian results that use relative date tokens (`{{ISO:+10}}`, `{{DATE:+10}}`). Once your API key works, replace them with real model output, then rebuild or redeploy:

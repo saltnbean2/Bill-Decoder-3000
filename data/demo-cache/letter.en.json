@@ -2,51 +2,61 @@
   "document_type": "official_letter",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": "The Superior Court Jury Services Office (Valley Crest Judicial District)",
-  "headline": "This is a jury duty summons. You must respond before {{DATE:+10}}.",
-  "summary": "The court picked you at random to serve on a jury. You need to go to the courthouse on {{DATE:+10}} at 7:45 AM, unless you ask to postpone or be excused. Before that day, you must answer this summons online or by phone. Your job cannot fire you for going.",
+  "sender": "Superior Court Jury Services Office, Valley Crest Judicial District",
+  "headline": "This is a jury duty summons telling you to report on {{DATE:+10}}.",
+  "summary": "The Superior Court Jury Services Office picked you at random to serve as a juror. You must report on {{WD:+10}}, {{DATE:+10}} at 7:45 AM. You must also respond to the court before that date. You can confirm, or ask for a delay or an excuse.",
   "amount_due": null,
   "deadline": {
     "date": "{{ISO:+10}}",
     "days_remaining": 10,
-    "what_is_due": "Respond to the summons, then report to the courthouse at 7:45 AM."
+    "what_is_due": "Respond to the summons (confirm, or ask for a postponement or excuse) before you report. Report in person at 7:45 AM on this date. The letter does not give an earlier response deadline, so respond as soon as you can."
   },
-  "urgency": "soon",
-  "if_ignored": "If you don't respond or don't show up, the court can fine you up to $1,500 and order you to come to a hearing to explain why. It's much easier to respond now, even if you need to ask for a later date.",
+  "urgency": "urgent",
+  "if_ignored": "The letter says you could be fined up to $1,500 and be ordered to come to a court hearing (called an order to show cause) for not obeying a court order. Responding is quick and usually avoids all of this.",
   "action_steps": [
     {
-      "title": "Respond online or by phone",
-      "detail": "Go to the jury website and enter your Juror ID JX-302-8817. Confirm you can come, or ask for a postponement if the date doesn't work.",
-      "contact": "www.jurysvc-sample.org"
+      "title": "Respond to the court now",
+      "detail": "Go to www.jurysvc-sample.org and enter your Juror ID JX-302-8817. Or call (818) 555-0143, Monday to Friday, 8:00 AM to 4:30 PM. Confirm you will serve, or ask for a postponement or excuse.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
     },
     {
-      "title": "Or call the jury office",
-      "detail": "They answer Monday to Friday, 8:00 AM to 4:30 PM. Tell them if you need an interpreter or a disability accommodation.",
+      "title": "Ask for help if you need it",
+      "detail": "If you need a language interpreter or a disability accommodation, say so when you respond. If you need a different date, ask for a postponement. Have your reason ready, such as work, health, travel or caring for someone.",
       "contact": "(818) 555-0143"
     },
     {
-      "title": "Check the night before",
-      "detail": "After 5:00 PM on the business day before {{DATE:+10}}, call or check the website to see if you still need to come in.",
-      "contact": null
+      "title": "Check again the night before",
+      "detail": "On {{WD:+9}}, {{MD:+9}}, after 5:00 PM, call or check the website to make sure you still need to come in.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
     },
     {
-      "title": "Go to the courthouse",
-      "detail": "Be there at 7:45 AM. Bring this summons and a photo ID. Park in Lot B.",
+      "title": "Get ready to go",
+      "detail": "Bring this summons and a photo ID. Report to the Jury Assembly Room, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, by 7:45 AM on {{WD:+10}}, {{DATE:+10}}. Parking is in Lot B.",
       "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
+    },
+    {
+      "title": "Tell your employer",
+      "detail": "Let your employer know about the dates. The letter says they may not fire you for jury service. You will be paid $15 per day starting on the second day, plus mileage.",
+      "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "low",
-      "text": "Real courts never ask for payment, gift cards or your bank details by phone for jury duty. If anyone calls asking for money about this summons, hang up."
+      "text": "The letter gives no separate response deadline. It only says to respond before your report date. Do not wait until the last day."
+    },
+    {
+      "severity": "low",
+      "text": "The phone number in the letter is the same as the one in the header. If you want to double-check, find the court's number on its official website."
     }
   ],
   "legitimacy_check": {
     "verdict": "looks_legitimate",
     "reasons": [
-      "It has a juror ID, a courthouse address and normal ways to respond.",
-      "It does not ask for money, your Social Security number or bank details.",
-      "To be extra safe, call the court using the number on the court's official website."
+      "It does not ask for money, gift cards, wire transfers, SSN or bank logins.",
+      "It gives a Juror ID, a clear report date, time and place, and normal court instructions.",
+      "The fine mentioned is for not responding, not a payment demand. It does not threaten immediate arrest.",
+      "Tip: to be safe, look up your court's jury page yourself and enter your Juror ID there. Never give your SSN or pay money by phone for jury duty."
     ]
   },
   "ticket": null,

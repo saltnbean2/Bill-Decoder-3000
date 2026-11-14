@@ -2,74 +2,70 @@
   "document_type": "parking_ticket",
   "confidence": "high",
   "unreadable_reason": null,
-  "sender": null,
-  "headline": "Ito ay $73 na tiket sa pag-park habang may street sweeping, at may mga mali dito na puwede mong magamit.",
-  "summary": "Nakatanggap ka ng tiket noong Lunes, Nobyembre 9, 2026 dahil sa pag-park sa oras ng street sweeping. Sinasabi ng tiket na Honda ang sasakyan mo, pero sinasabi ng tala ng opisyal na Toyota Camry. Blangko rin ang pangalan at ID number ng opisyal. Baka makatulong ang mga pagkakamaling ito para kontrahin ang tiket. Ang huling araw para magbayad o kumontra ay Nobyembre 30, 2026. Naka-tatak itong SAMPLE, kaya isa itong demo na dokumento.",
-  "amount_due": null,
-  "deadline": null,
+  "sender": "City Parking Services, 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299",
+  "headline": "Ito ay $73 na tiket sa pag-park dahil sa street sweeping, at may mga mali ito.",
+  "summary": "Nakatanggap ka ng tiket dahil nag-park ka sa araw ng street sweeping. Sinasabi ng tiket na Honda ang kotse mo, pero sa tala ng opisyal ay Toyota Camry. Blangko rin ang pangalan at ID ng opisyal. Makakatulong ang mga pagkakamaling ito kung kokontestahin mo ito.",
+  "amount_due": "$73.00 if paid by {{DATE:+16}}",
+  "deadline": {
+    "date": "{{ISO:+16}}",
+    "days_remaining": 16,
+    "what_is_due": "Bayaran ang $73 o kontestahin ang tiket. Sabi ng tiket, maaari kang humiling ng unang pagsusuri sa loob ng 21 araw mula sa petsa ng pagbibigay nito (11/09/2026), na pumapatak sa {{DATE:+16}}."
+  },
   "urgency": "soon",
-  "if_ignored": "May idaragdag na multa sa pagkahuli na $73, kaya magiging $146 na. Maaaring lagyan ng hold ang rehistro ng sasakyan mo sa DMV, kaya hindi mo ito mai-renew hangga't hindi ka nagbabayad. Mawawala rin ang madaling pagkakataon mong kumontra.",
+  "if_ignored": "May idadagdag na late penalty na $73, kaya magiging $146 ito. Maaaring haluan ng hold ang rehistro ng sasakyan mo sa DMV. Maaari mo ring mawala ang karapatan mong kontestahin ito.",
   "action_steps": [
     {
-      "title": "Tingnan ang sasakyan at ang mga tala mo",
-      "detail": "Tingnan ang kotse mo. Honda ba ito o Toyota Camry? Talaga bang naka-park ito sa 1200 block ng Maple Grove Ave noong Nob 9 ng 8:14 AM? Kumuha ng litrato ng karatula sa kalsada at ng gilid ng kalye kung kaya.",
+      "title": "Suriin ang kotse mo at ang mga litrato",
+      "detail": "Silver na Honda ba ang kotse mo na may plakang 8ABC123? O Toyota Camry? Kunan ng litrato ang kotse at ang plaka.",
       "contact": null
     },
     {
-      "title": "Kumuha ng litrato bilang ebidensya",
-      "detail": "Kunan ng litrato ang mga karatula ng street sweeping sa block, anumang nawawala o nakaharang na karatula, at ang plaka at tatak ng kotse mo. Itago ang mga resibo o patunay na nasa ibang lugar ka.",
+      "title": "Tingnan ang mga karatula sa kalsada",
+      "detail": "Pumunta sa 1200 block ng Maple Grove Ave, hilagang bahagi. Kunan ng litrato ang mga karatula malapit sa gilid ng kalsada at sa kanto. Isulat kung nawawala, natatakpan, o nakakalito ang mga ito.",
       "contact": null
     },
     {
       "title": "Humiling ng unang pagsusuri",
-      "detail": "Gawin ito agad, at bago ang Nobyembre 30, 2026. Isama ang citation number mo na FG-4471902 at ang mga ebidensya mo. Puwede online, sa koreo, o sa telepono (Lun–Biy, 8 AM–5 PM).",
-      "contact": "www.cityparkingservices-sample.org/contest or (818) 555-0172 or 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
+      "detail": "Gawin ito agad, huwag sa huling araw. Isama ang citation number FG-4471902, ang mga litrato mo, at ang appeal letter sa ulat na ito.",
+      "contact": "www.cityparkingservices-sample.org/contest, phone (818) 555-0172 (Mon–Fri, 8 AM–5 PM), or mail to 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
     },
     {
-      "title": "Gamitin ang liham ng apela sa ibaba",
-      "detail": "Baguhin ang mga nasa [BRACKETS] para maging totoo ang mga ito para sa iyo. Ilakip ang mga litrato mo. Magtabi ng kopya at patunay ng pagpapadala o screenshot.",
+      "title": "Magtabi ng patunay",
+      "detail": "Itabi ang kopya ng lahat ng ipapadala mo at anumang confirmation number. Kung tatawag ka, isulat ang petsa at pangalan ng nakausap mo.",
       "contact": null
     },
     {
-      "title": "Kung hindi ka kokontra, magbayad sa tamang oras",
-      "detail": "Magbayad ng $73.00 bago ang Nobyembre 30, 2026, online o sa koreo. Huwag magpadala ng cash.",
+      "title": "Kung hindi mo kokontestahin, magbayad sa oras",
+      "detail": "Bayaran ang $73 bago ang {{DATE:+16}} para makaiwas sa late penalty. Huwag magpadala ng cash.",
       "contact": "www.cityparkingservices-sample.org/pay"
     },
     {
-      "title": "Kung tinanggihan, humiling ng hearing",
-      "detail": "Kung tinanggihan ang unang pagsusuri, puwede kang humiling ng administrative hearing (pagsusuri ng isang walang kinikilingang tao). Itanong kung ano muna ang kailangan mong bayaran, o kung puwede kang humingi ng waiver sa bayad kung hindi mo kaya.",
-      "contact": "(818) 555-0172"
+      "title": "Kung tanggihan, humiling ng hearing",
+      "detail": "Kung tanggihan ang unang pagsusuri, maaari kang humiling ng administrative hearing (isang pagpupulong kung saan sinusuri ng walang kinikilingang tao ang kaso mo). Maaaring kailangan mo munang magbayad o magpakita na hindi mo kaya. Tingnan ang abiso ng pagtanggi para sa deadline.",
+      "contact": null
     }
   ],
   "red_flags": [
     {
       "severity": "high",
-      "text": "Ang tatak ng sasakyan ay HONDA, pero sinasabi ng tala ng opisyal na 'Silver Toyota Camry'. Hindi magkatugma ang mga ito."
-    },
-    {
-      "severity": "high",
-      "text": "Blangko ang pangalan / ID number ng opisyal na nag-isyu."
+      "text": "Nakasulat na HONDA sa kahon ng uri ng sasakyan, pero sa tala ng opisyal ay Toyota Camry. May isang mali dito."
     },
     {
       "severity": "medium",
-      "text": "Ang violation code ay FGMC 10.36.120 at ang lungsod ay 'Fairview Glen', hindi Glendale. Tiyaking ang tiket na ito ay para sa lugar na talagang pinag-parkan mo."
+      "text": "Blangko ang pangalan / ID number ng opisyal na nag-isyu."
     },
     {
       "severity": "low",
-      "text": "May tatak ang tiket na 'SAMPLE — DEMO ONLY', kaya maaaring hindi ito totoong citation."
-    },
-    {
-      "severity": "low",
-      "text": "Sinasabi ng lokasyon na 'north side' ng isang block pero walang eksaktong address o araw at oras ng sweeping na nakapaskil."
+      "text": "Hindi nakasaad sa tiket ang eksaktong nakasulat sa karatula. Sinasabi lang sa tala na may karatula sa kanto."
     }
   ],
   "legitimacy_check": {
-    "verdict": "be_careful",
+    "verdict": "looks_legitimate",
     "reasons": [
-      "May tatak ang tiket na SAMPLE — DEMO ONLY.",
-      "Ang nag-isyu ay 'City Parking Services' sa 'Fairview Glen', hindi ang City of Glendale.",
-      "Ang website at numero ng telepono ay wala sa opisyal na .gov o site ng lungsod. Tingnan ito sa opisyal na website ng lungsod bago magbayad.",
-      "Hindi ito humihingi ng gift card, wire o crypto, na maganda. Sinasabi nitong huwag magpadala ng cash."
+      "May citation number, lokasyon, oras at violation code ito.",
+      "Ipinapaliwanag nito kung paano kontestahin at magbayad.",
+      "Hindi ito humihingi ng gift card, wire transfer o crypto, at sinasabi nitong huwag magpadala ng cash.",
+      "Para sigurado, tiyakin ang website at numero ng telepono sa opisyal na website ng lungsod na nag-isyu bago magbayad."
     ]
   },
   "ticket": {
@@ -77,20 +73,21 @@
     "violation": "FGMC 10.36.120 — Street sweeping: no parking 8 AM–10 AM on posted sweeping day",
     "missing_or_wrong_fields": [
       "Issuing officer name / ID number is blank",
-      "Vehicle make is HONDA, but officer remarks say Toyota Camry",
-      "Location is only a block ('1200 block') and side, not an exact address",
-      "The ticket does not say which sweeping day or sign was posted"
+      "Vehicle make conflict: HONDA in the vehicle box, but 'Toyota Camry' in officer remarks",
+      "Exact sign wording and location are vague; remarks say only 'sign posted at corner'",
+      "Location is a block range ('1200 block'), not an exact address"
     ],
     "possible_grounds": [
-      "Vehicle make does not match (Honda vs. Toyota Camry). It may be the wrong car.",
-      "Officer ID is missing.",
-      "[Confirm: signs were missing, blocked, or unclear. Attach photos.]",
-      "[Confirm: street sweeping did not happen that day, or no sign was posted at your spot.]",
-      "[Confirm: your car was not there, was sold, or was moved before 8 AM.]"
+      "Vehicle make does not match: the ticket lists two different makes, so it may not describe your car.",
+      "Missing officer name/ID, so the ticket cannot be verified.",
+      "[Confirm: the sweeping sign was missing, blocked, faded or not visible from where you parked. Attach photos.]",
+      "[Confirm: the sign was only at the corner, not along the block where you parked.]",
+      "[Confirm: your car was not there, or you had already sold it.]",
+      "[Confirm: sweeping was cancelled that day, for example for a holiday or rain.]"
     ],
     "contest_strength": "strong",
-    "contest_strength_reason": "The ticket has a clear mismatch between the vehicle make (Honda) and the officer's note (Toyota Camry), and the officer ID is blank. These are defects on the ticket itself. Results are not guaranteed.",
-    "appeal_letter": "[Your Full Name]\n[Your Address]\n[City, State ZIP]\n[Phone / Email]\n\n[Date]\n\nCity Parking Services\nAttn: Initial Review\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No.: FG-4471902\nDate of Violation: {{DATE:-5}}, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense Plate: 8ABC123 (CA)\nViolation: FGMC 10.36.120 – Street Sweeping\n\nTo Whom It May Concern:\n\nI am requesting an initial review of the above citation and ask that it be dismissed for these reasons:\n\n1. The citation lists the vehicle make as HONDA, but the officer remarks describe a \"Silver Toyota Camry.\" These details do not match, so the citation is inconsistent and may not describe my vehicle. [Confirm and edit: My vehicle is a (make/model/color) ______.]\n\n2. The space for the issuing officer's name and ID number is blank. I cannot verify who issued the citation.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, or hard to read at my parking spot. I have attached photos.]\n\n4. [Edit or delete if not true: My vehicle was not parked at this location at the time listed. I have attached (receipt/other proof).]\n\nI have attached: [list photos, registration, receipts].\n\nPlease send me the written result of this review. If it is denied, I would like to request an administrative hearing.\n\nThank you for your time.\n\nSincerely,\n[Your Signature]\n[Your Printed Name]"
+    "contest_strength_reason": "The ticket itself has clear defects: two different vehicle makes (Honda vs. Toyota Camry) and no officer name or ID. These are good reasons to ask for dismissal.",
+    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State, ZIP]\n[Phone number] | [Email]\n\n[Date]\n\nCity Parking Services\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No. FG-4471902\nDate of violation: 11/09/2026, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense plate: 8ABC123 (CA)\n\nTo Whom It May Concern:\n\nI am writing to request an initial review of the citation above. I respectfully ask that it be dismissed for the following reasons.\n\n1. The citation has conflicting vehicle information. The vehicle make box lists \"HONDA,\" but the officer's remarks describe a \"Silver Toyota Camry.\" [State what your vehicle really is (make, model, color) and attach a copy of your registration.] Because the citation describes two different vehicles, I believe it is not accurate.\n\n2. The space for the issuing officer's name and ID number is blank. Without this, I cannot confirm who issued the citation or review the officer's account.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, faded or hard to read where I parked. I have attached photos.]\n\n4. [Edit or delete if not true: The only sign was at the corner. There was no sign along the block where I parked.]\n\nI have attached: [copy of vehicle registration] [photos of my vehicle and plate] [photos of the street and signs] [any other evidence].\n\nPlease send me the result of this review in writing. If the citation is not dismissed, please tell me how to request an administrative hearing.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your signature]\n[Your printed name]"
   },
   "quote": null
 }
