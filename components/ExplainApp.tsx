@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
-import { AskCard } from "./Extras";
+import { AskCard, Directory } from "./Extras";
 import { prepareFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
 
-type Screen = "home" | "loading" | "results" | "error" | "chat";
+type Screen = "home" | "loading" | "results" | "error" | "chat" | "directory";
 
 const LOCALE: Record<Lang, string> = { en: "en-US", hy: "hy-AM", es: "es-US", ko: "ko-KR", tl: "fil-PH" };
 const SAMPLE_FILES: Record<SampleId, string> = {
@@ -185,12 +185,15 @@ export default function ExplainApp() {
     } catch {
       /* ignore */
     }
-    if (screen === "home" || screen === "loading" || screen === "error") {
-      if (!Object.keys(have).length) {
-        setShownLang(next);
-        return;
-      }
+    if (!Object.keys(have).length) {
+      setShownLang(next);
+      return;
     }
+    await showContent(next, have);
+  }
+
+  /** Show the result in another language without changing the person's own language setting. */
+  async function showContent(next: Lang, have: Partial<Record<Lang, Analysis>> = results) {
     if (have[next]) {
       setShownLang(next);
       return;
@@ -293,6 +296,16 @@ export default function ExplainApp() {
           >
             💬 {t.agentButton}
           </button>
+          <button
+            onClick={() => {
+              setScreen("directory");
+              window.scrollTo({ top: 0 });
+            }}
+            className="rise mt-3 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
+            style={{ animationDelay: "190ms" }}
+          >
+            📍 {t.directoryButton}
+          </button>
 
           <div className="rise mt-10" style={{ animationDelay: "200ms" }}>
             <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
@@ -318,6 +331,20 @@ export default function ExplainApp() {
           <p className="rise mt-10 text-center text-[14px] text-muted" style={{ animationDelay: "250ms" }}>
             🔒 {t.privacy}
           </p>
+        </div>
+      )}
+
+      {screen === "directory" && (
+        <div className="pt-3 pb-10">
+          <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
+            ← {t.back}
+          </button>
+          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">📍 {t.directoryTitle}</h1>
+          <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
+            {t.directorySub}
+          </p>
+          <Directory t={t} lang={lang} />
+          <p className="mt-8 text-center text-[14px] text-muted">{t.disclaimer}</p>
         </div>
       )}
 
@@ -395,6 +422,16 @@ export default function ExplainApp() {
             </p>
           )}
           {notice && <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[15px] text-amber-900">{notice}</p>}
+          {!translating && (shownLang !== "en" || lang !== "en") && (
+            <div className="mb-3 flex justify-end">
+              <button
+                onClick={() => void showContent(shownLang === "en" ? lang : "en")}
+                className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-semibold text-ink ring-1 ring-line active:bg-teal-soft"
+              >
+                {shownLang === "en" ? `↩ ${LANG_FULL[lang]}` : `🇺🇸 ${STRINGS[lang].showEnglish}`}
+              </button>
+            </div>
+          )}
           <Results
             key={shownLang}
             a={shown}

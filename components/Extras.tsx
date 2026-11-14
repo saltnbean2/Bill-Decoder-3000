@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import type { Analysis, Lang } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { googleUrl, outlookUrl, type CalEvent } from "@/lib/calendar";
-import { checkOfficialNumbers, formatPhone, helpFor } from "@/lib/resources";
+import { checkOfficialNumbers, formatPhone, helpFor, type HelpResource } from "@/lib/resources";
+import { DIRECTORY } from "@/lib/directory";
 import { Linkify } from "./linkify";
 
 const cardCls =
@@ -200,7 +201,16 @@ export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lan
       <p className="mb-3 text-[15px] text-muted">{t.helpSub}</p>
       <ul className="space-y-2">
         {list.map((r) => (
-          <li key={r.name} className="rounded-xl bg-paper p-3">
+          <HelpItem key={r.name} r={r} t={t} lang={lang} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function HelpItem({ r, t, lang }: { r: HelpResource; t: Strings; lang: Lang }) {
+  return (
+          <li className="rounded-xl bg-paper p-3">
             <p className="font-semibold leading-snug">{r.name}</p>
             <p className="mt-0.5 text-[15px] leading-snug text-stone-700">{r.desc[lang]}</p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -224,9 +234,26 @@ export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lan
               )}
             </div>
           </li>
-        ))}
-      </ul>
-    </section>
+  );
+}
+
+/** Full Glendale help directory (home screen). */
+export function Directory({ t, lang }: { t: Strings; lang: Lang }) {
+  return (
+    <div className="space-y-4">
+      {DIRECTORY.map((sec, n) => (
+        <section key={sec.icon} className={cardCls} style={{ animationDelay: `${(n + 2) * 50}ms` }}>
+          <h2 className="mb-3 text-[17px] font-bold">
+            {sec.icon} {sec.title[lang]}
+          </h2>
+          <ul className="space-y-2">
+            {sec.items.map((r) => (
+              <HelpItem key={r.name} r={r} t={t} lang={lang} />
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
   );
 }
 
@@ -337,60 +364,129 @@ export function AskCard({
 
 const VOICE_PREFIX: Record<Lang, string[]> = { en: ["en"], hy: ["hy"], es: ["es"], ko: ["ko"], tl: ["fil", "tl"] };
 
+/** Start (and immediately stop) a muted play inside the tap, so iPhone allows playback after the fetch. */
+function unlockAudio(el: HTMLAudioElement) {
+  el.muted = true;
+  void el.play().catch(() => {});
+  el.pause();
+  el.muted = false;
+}
+
+function playUrl(el: HTMLAudioElement, url: string, onEnd: () => void) {
+  el.src = url;
+  el.onended = onEnd;
+  return el.play();
+}
+
+// Ask the server once whether natural cloud voices are set up.
+let cloudVoices: Promise<boolean> | null = null;
+function cloudEnabled() {
+  cloudVoices ??= fetch("/api/tts")
+    .then((r) => r.json())
+    .then((j: { enabled?: boolean }) => !!j.enabled)
+    .catch(() => false);
+  return cloudVoices;
+}
+
 export function ReadAloud({ a, t, lang, dateLabel }: { a: Analysis; t: Strings; lang: Lang; dateLabel: string | null }) {
-  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
-  const [speaking, setSpeaking] = useState(false);
-  const utter = useRef<SpeechSynthesisUtterance | null>(null);
+  const [deviceVoice, setDeviceVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [cloud, setCloud] = useState(false);
+  const [state, setState] = useState<"idle" | "loading" | "playing">("idle");
+  const audio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const pick = () => {
-      const voices = window.speechSynthesis.getVoices();
-      const v = voices.find((x) => VOICE_PREFIX[lang].some((p) => x.lang.toLowerCase().startsWith(p)));
-      setVoice(v ?? null);
-    };
-    pick();
-    window.speechSynthesis.addEventListener("voiceschanged", pick);
+    let live = true;
+    void cloudEnabled().then((ok) => live && setCloud(ok));
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      const pick = () => {
+        const v = window.speechSynthesis.getVoices().find((x) => VOICE_PREFIX[lang].some((p) => x.lang.toLowerCase().startsWith(p)));
+        if (live) setDeviceVoice(v ?? null);
+      };
+      pick();
+      window.speechSynthesis.addEventListener("voiceschanged", pick);
+      return () => {
+        live = false;
+        window.speechSynthesis.removeEventListener("voiceschanged", pick);
+        window.speechSynthesis.cancel();
+        audio.current?.pause();
+      };
+    }
     return () => {
-      window.speechSynthesis.removeEventListener("voiceschanged", pick);
-      window.speechSynthesis.cancel();
+      live = false;
+      audio.current?.pause();
     };
   }, [lang]);
 
-  // Only offer it when the phone actually has a voice for this language.
-  if (!voice) return null;
+  if (!cloud && !deviceVoice) return null;
 
-  function toggle() {
-    const s = window.speechSynthesis;
-    if (speaking) {
-      s.cancel();
-      setSpeaking(false);
-      return;
-    }
-    const parts = [
-      a.headline,
-      a.deadline?.what_is_due ? `${t.dueWord}${dateLabel ? `, ${dateLabel}` : ""}. ${a.deadline.what_is_due}` : "",
-      a.summary,
-      a.action_steps.length ? `${t.stepsWord}.` : "",
-      ...a.action_steps.map((st, n) => `${n + 1}. ${st.title}. ${st.detail}`),
-    ].filter(Boolean);
-    const u = new SpeechSynthesisUtterance(parts.join("\n"));
-    u.voice = voice;
-    u.lang = voice!.lang;
+  const script = [
+    a.headline,
+    a.deadline?.what_is_due ? `${t.dueWord}${dateLabel ? `, ${dateLabel}` : ""}. ${a.deadline.what_is_due}` : "",
+    a.summary,
+    a.action_steps.length ? `${t.stepsWord}.` : "",
+    ...a.action_steps.map((st, n) => `${n + 1}. ${st.title}. ${st.detail}`),
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  function stop() {
+    audio.current?.pause();
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    setState("idle");
+  }
+
+  function speakOnDevice() {
+    if (!deviceVoice) return setState("idle");
+    const u = new SpeechSynthesisUtterance(script);
+    u.voice = deviceVoice;
+    u.lang = deviceVoice.lang;
     u.rate = 0.92;
-    u.onend = u.onerror = () => setSpeaking(false);
-    utter.current = u;
-    s.cancel();
-    s.speak(u);
-    setSpeaking(true);
+    u.onend = u.onerror = () => setState("idle");
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+    setState("playing");
+  }
+
+  async function play() {
+    if (state !== "idle") return stop();
+    if (!cloud) return speakOnDevice();
+    // Create and "unlock" the audio element inside the tap, so iPhone allows playback later.
+    const el = audio.current ?? new Audio();
+    audio.current = el;
+    unlockAudio(el);
+    setState("loading");
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ text: script, lang }),
+      });
+      if (!res.ok) throw new Error();
+      const url = URL.createObjectURL(await res.blob());
+      await playUrl(el, url, () => {
+        setState("idle");
+        URL.revokeObjectURL(url);
+      });
+      setState("playing");
+    } catch {
+      speakOnDevice(); // fall back to the phone's voice
+    }
   }
 
   return (
     <button
-      onClick={toggle}
+      onClick={() => void play()}
       className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
     >
-      {speaking ? `⏹ ${t.stopReading}` : `🔊 ${t.readAloud}`}
+      {state === "loading" ? (
+        <>
+          <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.readAloud}
+        </>
+      ) : state === "playing" ? (
+        `⏹ ${t.stopReading}`
+      ) : (
+        `🔊 ${t.readAloud}`
+      )}
     </button>
   );
 }
