@@ -1,0 +1,54 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "The Superior Court Jury Services Office (Valley Crest Judicial District)",
+  "headline": "This is a jury duty summons. You must respond before {{DATE:+10}}.",
+  "summary": "The court picked you at random to serve on a jury. You need to go to the courthouse on {{DATE:+10}} at 7:45 AM, unless you ask to postpone or be excused. Before that day, you must answer this summons online or by phone. Your job cannot fire you for going.",
+  "amount_due": null,
+  "deadline": {
+    "date": "{{ISO:+10}}",
+    "days_remaining": 10,
+    "what_is_due": "Respond to the summons, then report to the courthouse at 7:45 AM."
+  },
+  "urgency": "soon",
+  "if_ignored": "If you don't respond or don't show up, the court can fine you up to $1,500 and order you to come to a hearing to explain why. It's much easier to respond now, even if you need to ask for a later date.",
+  "action_steps": [
+    {
+      "title": "Respond online or by phone",
+      "detail": "Go to the jury website and enter your Juror ID JX-302-8817. Confirm you can come, or ask for a postponement if the date doesn't work.",
+      "contact": "www.jurysvc-sample.org"
+    },
+    {
+      "title": "Or call the jury office",
+      "detail": "They answer Monday to Friday, 8:00 AM to 4:30 PM. Tell them if you need an interpreter or a disability accommodation.",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Check the night before",
+      "detail": "After 5:00 PM on the business day before {{DATE:+10}}, call or check the website to see if you still need to come in.",
+      "contact": null
+    },
+    {
+      "title": "Go to the courthouse",
+      "detail": "Be there at 7:45 AM. Bring this summons and a photo ID. Park in Lot B.",
+      "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "low",
+      "text": "Real courts never ask for payment, gift cards or your bank details by phone for jury duty. If anyone calls asking for money about this summons, hang up."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "looks_legitimate",
+    "reasons": [
+      "It has a juror ID, a courthouse address and normal ways to respond.",
+      "It does not ask for money, your Social Security number or bank details.",
+      "To be extra safe, call the court using the number on the court's official website."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

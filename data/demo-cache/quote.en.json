@@ -1,0 +1,85 @@
+{
+  "document_type": "contractor_quote",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Premier Valley Roofing",
+  "headline": "This $20,250 roof quote is about 35% higher than usual.",
+  "summary": "Premier Valley Roofing wants $20,250 to replace a roof of about 1,800 sq ft. A typical price in the LA area is about $12,500 to $17,500. The quote has no California contractor license number and asks for a $8,100 deposit up front, which is much more than the law allows. Don't sign today.",
+  "amount_due": "$20,250.00",
+  "deadline": null,
+  "urgency": "soon",
+  "if_ignored": "Nothing bad happens if you don't sign. The \"today only\" price is a pressure tactic. Take your time and get 2 or 3 other quotes.",
+  "action_steps": [
+    {
+      "title": "Don't sign or pay today",
+      "detail": "A \"price good today only\" offer is a common pressure tactic. A fair contractor will give you time to decide.",
+      "contact": null
+    },
+    {
+      "title": "Ask for their license number and check it",
+      "detail": "Roof work this big needs a California contractor license. Ask for the number, then look it up for free on the CSLB website.",
+      "contact": "cslb.ca.gov"
+    },
+    {
+      "title": "Get 2–3 more quotes",
+      "detail": "Ask other licensed roofers to quote the same job: tear-off, 18 squares of architectural shingles, underlayment and flashing. Compare line by line.",
+      "contact": null
+    },
+    {
+      "title": "Never pay a big deposit",
+      "detail": "In California, the deposit for home improvement work can't be more than 10% of the price or $1,000, whichever is less. For this job, that's $1,000 at most, not $8,100.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "No California contractor license number on the quote. Work over $500 needs a CSLB license."
+    },
+    {
+      "severity": "high",
+      "text": "They want a 40% deposit ($8,100). The legal limit is $1,000 for this job."
+    },
+    {
+      "severity": "medium",
+      "text": "\"Misc materials\" for $2,400 is vague. Ask exactly what it covers."
+    },
+    {
+      "severity": "medium",
+      "text": "\"Special price good today only\" is pressure to sign fast."
+    },
+    {
+      "severity": "medium",
+      "text": "A discount for cash can mean no paper trail. Pay by check or card so you have proof."
+    },
+    {
+      "severity": "low",
+      "text": "No start date, finish date or written warranty."
+    }
+  ],
+  "legitimacy_check": null,
+  "ticket": null,
+  "quote": {
+    "business_name": "Premier Valley Roofing",
+    "license_number": null,
+    "quoted_total": 20250,
+    "typical_total_low": 12500,
+    "typical_total_high": 17500,
+    "percent_vs_typical": 35,
+    "verdict": "high",
+    "line_items": [
+      { "item": "Tear-off existing shingles & haul away", "price": 3200, "typical_range": "$1,800–$2,700", "rating": "high" },
+      { "item": "Architectural shingles, 18 squares, installed", "price": 9450, "typical_range": "$7,200–$9,900", "rating": "fair" },
+      { "item": "Synthetic underlayment", "price": 1800, "typical_range": "$900–$1,400", "rating": "high" },
+      { "item": "Flashing, drip edge, pipe boots & ridge vents", "price": 1650, "typical_range": "$900–$1,600", "rating": "fair" },
+      { "item": "Misc materials", "price": 2400, "typical_range": null, "rating": "unclear" },
+      { "item": "Labor", "price": 1750, "typical_range": null, "rating": "unclear" }
+    ],
+    "questions_to_ask": [
+      "What is your California contractor license number?",
+      "What exactly is in the $2,400 \"misc materials\"? Can you list it?",
+      "Shingle installation already includes labor. What is the extra $1,750 labor for?",
+      "Can we do a $1,000 deposit, with the rest paid as the work is finished, and a written warranty?"
+    ]
+  }
+}
