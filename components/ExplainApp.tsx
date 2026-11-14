@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
-import { AskCard, type QA } from "./Extras";
+import { AskCard } from "./Extras";
 import { prepareFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
 
-type Screen = "home" | "loading" | "results" | "error";
+type Screen = "home" | "loading" | "results" | "error" | "chat";
 /** "server": network / API trouble (photo is fine). "photo": we couldn't use the file. "pdf": PDF too big. */
 type ErrorKind = "server" | "photo" | "pdf";
 
@@ -16,6 +16,7 @@ const SAMPLE_FILES: Record<SampleId, string> = {
   ticket: "/samples/parking-ticket.png",
   letter: "/samples/jury-summons.png",
   quote: "/samples/roofing-quote.png",
+  scam: "/samples/scam-letter.png",
 };
 const SAMPLE_TIMEOUT = 20_000;
 // Server budget is 55s inside a 60s maxDuration; give the response a moment to arrive.
@@ -78,14 +79,12 @@ export default function ExplainApp() {
   const [notice, setNotice] = useState("");
   const [demo, setDemo] = useState(false);
   const [tick, setTick] = useState(0);
-  // Follow-up questions about the current document.
-  const [qa, setQa] = useState<QA[]>([]);
-  const [asking, setAsking] = useState<string | null>(null);
-  const [askFailed, setAskFailed] = useState(false);
+  // Edited versions of the appeal letter (last one is current), kept across language switches.
+  const [letters, setLetters] = useState<string[]>([]);
   // "Show in English" (e.g. to show a clerk), without changing the chosen language.
   const [showEnglish, setShowEnglish] = useState(false);
   // The compressed document, kept in memory only, so follow-up questions can look at it again.
-  const docRef = useRef<{ base64: string; mediaType: string } | null>(null);
+  const [image, setImage] = useState<{ base64: string; mediaType: string } | null>(null);
   const sampleRef = useRef<SampleId | null>(null);
   const lastInput = useRef<{ file: Blob; sample: SampleId | null } | null>(null);
   const runId = useRef(0);
@@ -147,11 +146,9 @@ export default function ExplainApp() {
     setPreview("");
     setNotice("");
     setTranslating(false);
-    setQa([]);
-    setAsking(null);
-    setAskFailed(false);
+    setLetters([]);
     setShowEnglish(false);
-    docRef.current = null;
+    setImage(null);
     sampleRef.current = null;
     window.scrollTo({ top: 0 });
   }, []);
@@ -185,12 +182,10 @@ export default function ExplainApp() {
     sampleRef.current = sample;
     lastInput.current = { file, sample };
     pending.current = {};
-    docRef.current = null;
+    setImage(null);
     setNotice("");
     setTranslating(false);
-    setQa([]);
-    setAsking(null);
-    setAskFailed(false);
+    setLetters([]);
     setShowEnglish(false);
     setResults({});
     setScreen("loading");
@@ -216,7 +211,7 @@ export default function ExplainApp() {
     }
     if (id !== runId.current) return;
     setPreview(prepared.previewUrl);
-    docRef.current = { base64: prepared.base64, mediaType: prepared.mediaType };
+    setImage({ base64: prepared.base64, mediaType: prepared.mediaType });
     if (prepared.mediaType === "application/pdf" && prepared.base64.length > MAX_PDF_BASE64) {
       setErrorKind("pdf");
       setScreen("error");
@@ -323,35 +318,6 @@ export default function ExplainApp() {
     }
   }
 
-  async function ask(question: string) {
-    const base = showEnglish ? results.en : results[shownLangRef.current];
-    if (!base) return;
-    const id = runId.current;
-    setAsking(question);
-    setAskFailed(false);
-    try {
-      const doc = docRef.current;
-      const res = await postJson<{ answer: string }>(
-        "/api/ask",
-        {
-          question,
-          language: showEnglish ? "en" : langRef.current,
-          result: base,
-          history: qa.slice(-3),
-          image: doc?.base64,
-          mediaType: doc?.mediaType,
-        },
-        45_000,
-      );
-      if (id !== runId.current) return;
-      setQa((prev) => [...prev, { q: question, a: res.answer }]);
-    } catch {
-      if (id === runId.current) setAskFailed(true);
-    } finally {
-      if (id === runId.current) setAsking(null);
-    }
-  }
-
   async function toggleEnglish() {
     if (showEnglish) return setShowEnglish(false);
     if (results.en) return setShowEnglish(true);
@@ -386,6 +352,7 @@ export default function ExplainApp() {
       ["ticket", "🅿️", t.sampleTicket],
       ["letter", "✉️", t.sampleLetter],
       ["quote", "🔨", t.sampleQuote],
+      ["scam", "🚩", t.sampleScam],
     ] as const
   ).map(([id, icon, label]) => (
     <button
@@ -453,6 +420,17 @@ export default function ExplainApp() {
             {t.upload}
           </button>
 
+          <button
+            onClick={() => {
+              setScreen("chat");
+              window.scrollTo({ top: 0 });
+            }}
+            className="rise mt-4 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
+            style={{ animationDelay: "175ms" }}
+          >
+            💬 {t.agentButton}
+          </button>
+
           <div className="rise mt-10" style={{ animationDelay: "200ms" }}>
             <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
             <div className="flex flex-wrap justify-center gap-2">{samples}</div>
@@ -460,6 +438,20 @@ export default function ExplainApp() {
           <p className="rise mt-10 text-center text-[14px] text-muted" style={{ animationDelay: "250ms" }}>
             🔒 {t.privacy}
           </p>
+        </div>
+      )}
+
+      {screen === "chat" && (
+        <div className="pt-3 pb-10">
+          <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
+            ← {t.back}
+          </button>
+          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">💬 {t.agentTitle}</h1>
+          <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
+            {t.agentSub}
+          </p>
+          <AskCard key={lang} a={null} t={t} lang={lang} image={null} i={2} bare />
+          <p className="mt-8 text-center text-[14px] text-muted">{t.disclaimer}</p>
         </div>
       )}
 
@@ -559,22 +551,14 @@ export default function ExplainApp() {
           <Results
             key={viewEnglish ? "en-view" : shownLang}
             a={view}
-            english={results.en}
             t={viewT}
             locale={viewEnglish ? LOCALE.en : LOCALE[shownLang]}
             busy={translating}
+            lang={viewEnglish ? "en" : shownLang}
+            image={image}
+            letters={letters}
+            onLetters={setLetters}
             onScanAnother={reset}
-            askSlot={
-              <AskCard
-                docType={view.document_type}
-                t={viewT}
-                i={8}
-                qa={qa}
-                asking={asking}
-                failed={askFailed}
-                onAsk={(q) => void ask(q)}
-              />
-            }
           />
         </div>
       )}

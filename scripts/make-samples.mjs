@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const today = process.argv[2]; // optional YYYY-MM-DD
-const samples = ["parking-ticket", "jury-summons", "roofing-quote"];
+const samples = ["parking-ticket", "jury-summons", "roofing-quote", "scam-letter"];
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ deviceScaleFactor: 2, viewport: { width: 800, height: 1200 } });

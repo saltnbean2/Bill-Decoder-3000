@@ -1,0 +1,64 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Superior Court Jury Services Office, Valley Crest Judicial District",
+  "headline": "Ito ay isang summons para sa jury duty na nag-uutos sa iyong magreport sa {{DATE:+10}}.",
+  "summary": "Pinili ka nang random ng Superior Court Jury Services Office para maging juror. Kailangan mong magreport sa Martes, {{DATE:+10}} ng 7:45 AM. Kailangan mo ring sumagot sa korte bago ang petsang iyon. Maaari kang magkumpirma, humingi ng pagpapaliban, o humingi ng exemption.",
+  "amount_due": null,
+  "deadline": {
+    "date": "{{ISO:+10}}",
+    "days_remaining": 10,
+    "what_is_due": "Sumagot sa summons (magkumpirma, o humingi ng pagpapaliban o exemption) bago ka magreport. Magreport nang personal ng 7:45 AM sa petsang ito. Walang nakasaad sa sulat na mas maagang deadline sa pagsagot, kaya sumagot sa lalong madaling panahon."
+  },
+  "urgency": "urgent",
+  "if_ignored": "Sinasabi sa sulat na maaari kang pagmultahin ng hanggang $1,500 at utusang humarap sa isang hearing sa korte (tinatawag na order to show cause) dahil hindi mo sinunod ang utos ng korte. Mabilis lang ang pagsagot at kadalasan ay naiiwasan nito ang lahat ng ito.",
+  "action_steps": [
+    {
+      "title": "Sumagot sa korte ngayon na",
+      "detail": "Pumunta sa www.jurysvc-sample.org at ilagay ang Juror ID mo na JX-302-8817. O tumawag sa (818) 555-0143, Lunes hanggang Biyernes, 8:00 AM hanggang 4:30 PM. Kumpirmahin na maglilingkod ka, o humingi ng pagpapaliban o exemption.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
+    },
+    {
+      "title": "Humingi ng tulong kung kailangan",
+      "detail": "Kung kailangan mo ng interpreter o akomodasyon dahil sa kapansanan, sabihin ito kapag sumagot ka. Kung kailangan mo ng ibang petsa, humingi ng pagpapaliban. Ihanda ang dahilan mo, tulad ng trabaho, kalusugan, biyahe, o pag-aalaga ng ibang tao.",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Tingnan ulit sa gabi bago ang araw na iyon",
+      "detail": "Sa Lunes, {{MD:+9}}, pagkatapos ng 5:00 PM, tumawag o tingnan ang website para matiyak kung kailangan mo pa ring pumunta.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
+    },
+    {
+      "title": "Maghanda sa pagpunta",
+      "detail": "Dalhin ang summons na ito at isang photo ID. Magreport sa Jury Assembly Room, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, bago mag-7:45 AM sa Martes, {{DATE:+10}}. Ang paradahan ay sa Lot B.",
+      "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
+    },
+    {
+      "title": "Sabihin sa employer mo",
+      "detail": "Ipaalam sa employer mo ang mga petsa. Sinasabi sa sulat na hindi ka nila maaaring tanggalin dahil sa jury service. Babayaran ka ng $15 kada araw simula sa ikalawang araw, kasama ang mileage.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "low",
+      "text": "Walang hiwalay na deadline sa pagsagot ang sulat. Sinasabi lang nito na sumagot bago ang petsa ng report mo. Huwag maghintay hanggang sa huling araw."
+    },
+    {
+      "severity": "low",
+      "text": "Ang numero ng telepono sa sulat ay pareho sa nasa itaas ng sulat. Kung gusto mong makasigurado, hanapin ang numero ng korte sa opisyal nitong website."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "looks_legitimate",
+    "reasons": [
+      "Hindi ito humihingi ng pera, gift card, wire transfer, SSN, o bank login.",
+      "May Juror ID ito, malinaw na petsa, oras at lugar ng pag-report, at karaniwang tagubilin ng korte.",
+      "Ang multang binanggit ay para sa hindi pagsagot, hindi paniningil. Hindi ito nagbabanta ng agarang pag-aresto.",
+      "Payo: para sigurado, hanapin mo mismo ang jury page ng korte at doon ilagay ang Juror ID mo. Huwag kailanman ibigay ang SSN mo o magbayad ng pera sa telepono para sa jury duty."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

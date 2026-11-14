@@ -1,0 +1,93 @@
+{
+  "document_type": "parking_ticket",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "City Parking Services, 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299",
+  "headline": "이 티켓은 73달러짜리 street sweeping(도로 청소일) 주차 위반 티켓이고, 잘못 적힌 부분이 있어요.",
+  "summary": "도로 청소일에 주차해서 티켓을 받으셨어요. 티켓에는 차가 Honda라고 적혀 있는데, 경찰관 메모에는 Toyota Camry라고 되어 있어요. 경찰관 이름과 ID도 비어 있어요. 이런 실수들이 이의 신청에 도움이 될 수 있어요.",
+  "amount_due": "$73.00 if paid by {{DATE:+16}}",
+  "deadline": {
+    "date": "{{ISO:+16}}",
+    "days_remaining": 16,
+    "what_is_due": "73달러를 내거나 티켓에 이의를 제기하세요. 티켓에 따르면 발급일(11/09/2026)로부터 21일 안에 초기 검토를 요청할 수 있고, 그날은 2026년 11월 30일이에요."
+  },
+  "urgency": "soon",
+  "if_ignored": "연체 벌금 73달러가 더해져 146달러가 돼요. DMV에서 차량 등록이 보류될 수도 있어요. 이의 제기할 권리도 잃을 수 있어요.",
+  "action_steps": [
+    {
+      "title": "내 차와 사진 확인하기",
+      "detail": "내 차가 번호판 8ABC123의 은색 Honda인가요? 아니면 Toyota Camry인가요? 차와 번호판 사진을 찍어 두세요.",
+      "contact": null
+    },
+    {
+      "title": "도로 표지판 확인하기",
+      "detail": "Maple Grove Ave 1200 block 북쪽에 가 보세요. 연석 근처와 모퉁이에 있는 표지판을 사진으로 찍으세요. 표지판이 없거나, 가려졌거나, 헷갈리게 되어 있는지 적어 두세요.",
+      "contact": null
+    },
+    {
+      "title": "초기 검토 요청하기",
+      "detail": "마지막 날까지 기다리지 말고 서둘러 하세요. 위반 번호 FG-4471902, 사진, 이 보고서의 이의 신청 편지를 함께 보내세요.",
+      "contact": "www.cityparkingservices-sample.org/contest, phone (818) 555-0172 (Mon–Fri, 8 AM–5 PM), or mail to 410 Oakmont Plaza, Suite 2, Fairview Glen, CA 91299"
+    },
+    {
+      "title": "증거 보관하기",
+      "detail": "보낸 모든 자료의 사본과 확인 번호를 보관하세요. 전화했다면 날짜와 상대방 이름을 적어 두세요.",
+      "contact": null
+    },
+    {
+      "title": "이의 제기를 안 한다면 기한 안에 내기",
+      "detail": "연체 벌금을 피하려면 2026년 11월 30일까지 73달러를 내세요. 현금은 보내지 마세요.",
+      "contact": "www.cityparkingservices-sample.org/pay"
+    },
+    {
+      "title": "거부되면 청문회 요청하기",
+      "detail": "초기 검토가 거부되면 행정 청문회(중립적인 사람이 사건을 검토하는 자리)를 요청할 수 있어요. 먼저 돈을 내거나 낼 형편이 안 된다는 것을 보여 줘야 할 수도 있어요. 기한은 거부 통지서를 확인하세요.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "차량 제조사 칸에는 HONDA라고 되어 있는데, 경찰관 메모에는 Toyota Camry라고 되어 있어요. 둘 중 하나는 틀렸어요."
+    },
+    {
+      "severity": "medium",
+      "text": "발급한 경찰관 이름/ID 번호가 비어 있어요."
+    },
+    {
+      "severity": "low",
+      "text": "티켓에 표지판 문구가 정확히 적혀 있지 않아요. 메모에는 모퉁이에 표지판이 있었다고만 되어 있어요."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "looks_legitimate",
+    "reasons": [
+      "위반 번호, 장소, 시간, 위반 코드가 있어요.",
+      "이의 제기 방법과 납부 방법이 설명되어 있어요.",
+      "기프트 카드, 송금, 암호화폐를 요구하지 않고 현금도 보내지 말라고 해요.",
+      "안전을 위해 내기 전에 발급한 시의 공식 웹사이트에서 웹사이트 주소와 전화번호가 맞는지 확인하세요."
+    ]
+  },
+  "ticket": {
+    "citation_number": "FG-4471902",
+    "violation": "FGMC 10.36.120 — Street sweeping: no parking 8 AM–10 AM on posted sweeping day",
+    "missing_or_wrong_fields": [
+      "Issuing officer name / ID number is blank",
+      "Vehicle make conflict: HONDA in the vehicle box, but 'Toyota Camry' in officer remarks",
+      "Exact sign wording and location are vague; remarks say only 'sign posted at corner'",
+      "Location is a block range ('1200 block'), not an exact address"
+    ],
+    "possible_grounds": [
+      "Vehicle make does not match: the ticket lists two different makes, so it may not describe your car.",
+      "Missing officer name/ID, so the ticket cannot be verified.",
+      "[Confirm: the sweeping sign was missing, blocked, faded or not visible from where you parked. Attach photos.]",
+      "[Confirm: the sign was only at the corner, not along the block where you parked.]",
+      "[Confirm: your car was not there, or you had already sold it.]",
+      "[Confirm: sweeping was cancelled that day, for example for a holiday or rain.]"
+    ],
+    "contest_strength": "strong",
+    "contest_strength_reason": "The ticket itself has clear defects: two different vehicle makes (Honda vs. Toyota Camry) and no officer name or ID. These are good reasons to ask for dismissal.",
+    "appeal_letter": "[Your full name]\n[Your street address]\n[City, State, ZIP]\n[Phone number] | [Email]\n\n[Date]\n\nCity Parking Services\n410 Oakmont Plaza, Suite 2\nFairview Glen, CA 91299\n\nRe: Request for Initial Review\nCitation No. FG-4471902\nDate of violation: 11/09/2026, 8:14 AM\nLocation: 1200 block Maple Grove Ave, north side\nLicense plate: 8ABC123 (CA)\n\nTo Whom It May Concern:\n\nI am writing to request an initial review of the citation above. I respectfully ask that it be dismissed for the following reasons.\n\n1. The citation has conflicting vehicle information. The vehicle make box lists \"HONDA,\" but the officer's remarks describe a \"Silver Toyota Camry.\" [State what your vehicle really is (make, model, color) and attach a copy of your registration.] Because the citation describes two different vehicles, I believe it is not accurate.\n\n2. The space for the issuing officer's name and ID number is blank. Without this, I cannot confirm who issued the citation or review the officer's account.\n\n3. [Edit or delete if not true: The street sweeping sign was missing, blocked, faded or hard to read where I parked. I have attached photos.]\n\n4. [Edit or delete if not true: The only sign was at the corner. There was no sign along the block where I parked.]\n\nI have attached: [copy of vehicle registration] [photos of my vehicle and plate] [photos of the street and signs] [any other evidence].\n\nPlease send me the result of this review in writing. If the citation is not dismissed, please tell me how to request an administrative hearing.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your signature]\n[Your printed name]"
+  },
+  "quote": null
+}

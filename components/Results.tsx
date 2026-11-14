@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
-import { HelpCard, ReadAloudButton } from "./Extras";
+import { ActionRow, AskCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
+import type { Lang } from "@/lib/types";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
 const URGENCY_BADGE: Record<Urgency, string> = { urgent: "#B91C1C", soon: "#B45309", no_rush: "#15803D" };
@@ -17,21 +18,23 @@ const SEVERITY_STYLE: Record<Severity, string> = {
 };
 const SEVERITY_DOT: Record<Severity, string> = { high: "bg-red-500", medium: "bg-amber-500", low: "bg-stone-400" };
 
-
 /* ---------- Deadline (hero) ---------- */
 function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; locale: string; i: number; busy: boolean }) {
   const d = a.deadline;
   const days = d?.days_remaining ?? null;
-  if (!d || (days === null && !d.date && !d.what_is_due)) {
+  if (!d || (days === null && !d.date)) {
     // A green "no deadline" at the top of an overpriced quote reads as "all good" — skip it there.
     if (a.document_type === "contractor_quote") return null;
     return (
       <section
-        className="rise flex items-center gap-3 rounded-2xl p-5 ring-1 ring-green-200"
+        className="rise rounded-2xl p-5 ring-1 ring-green-200"
         style={{ background: URGENCY_BG.no_rush, animationDelay: `${i * 50}ms` }}
       >
-        <span className="text-2xl">✅</span>
-        <p className="text-lg font-semibold text-green-800">{t.noDeadline}</p>
+        <p className="flex items-center gap-3 text-lg font-semibold text-green-800">
+          <span className="text-2xl">✅</span>
+          {t.noDeadline}
+        </p>
+        {d?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-green-900">{d.what_is_due}</p>}
       </section>
     );
   }
@@ -61,117 +64,7 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
         ) : (
           <p className="mt-1 text-[17px] leading-snug opacity-95">{d.what_is_due}</p>
         ))}
-      {d.date && !passed && (
-        <button
-          onClick={() => downloadIcs(a, d.date!, t)}
-          className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white/20 px-4 text-[16px] font-semibold text-white ring-1 ring-white/50 active:bg-white/30"
-        >
-          📅 {t.addToCalendar}
-        </button>
-      )}
     </section>
-  );
-}
-
-/* ---------- Calendar (.ics) ---------- */
-function icsEscape(s: string) {
-  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
-}
-
-function downloadIcs(a: Analysis, iso: string, t: Strings) {
-  const day = iso.slice(0, 10).replace(/-/g, "");
-  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
-  if (!m) return;
-  const next = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + 1)).toISOString().slice(0, 10).replace(/-/g, "");
-  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const steps = a.action_steps.map((s, n) => `${n + 1}. ${s.title}${s.contact ? ` (${s.contact})` : ""}`).join("\n");
-  const description = [a.deadline?.what_is_due, a.summary, steps].filter(Boolean).join("\n\n");
-  const ics = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Explain It//EN",
-    "BEGIN:VEVENT",
-    `UID:${day}-${Math.random().toString(36).slice(2)}@explain-it`,
-    `DTSTAMP:${stamp}`,
-    `DTSTART;VALUE=DATE:${day}`,
-    `DTEND;VALUE=DATE:${next}`,
-    `SUMMARY:${icsEscape(`⏰ ${a.deadline?.what_is_due || a.headline}`)}`,
-    `DESCRIPTION:${icsEscape(description)}`,
-    "BEGIN:VALARM",
-    "TRIGGER:-P2D",
-    "ACTION:DISPLAY",
-    `DESCRIPTION:${icsEscape(t.deadlineUnknownDate)}`,
-    "END:VALARM",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "explain-it-deadline.ics";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 10_000);
-}
-
-/* ---------- Share with family ---------- */
-function shareText(a: Analysis, t: Strings, locale: string, english?: Analysis) {
-  const block = (x: Analysis, deadlineLabel: string, stepsLabel: string, loc: string) => {
-    const lines = [x.headline];
-    if (x.deadline?.date || x.deadline?.what_is_due) {
-      const date = formatDate(x.deadline.date, loc);
-      lines.push(`⏰ ${deadlineLabel}: ${[date, x.deadline.what_is_due].filter(Boolean).join(" — ")}`);
-    }
-    if (x.amount_due) lines.push(`💵 ${x.amount_due}`);
-    if (x.action_steps.length) {
-      lines.push("", `${stepsLabel}:`);
-      x.action_steps.forEach((s, n) => lines.push(`${n + 1}. ${s.title}${s.contact ? ` — ${s.contact}` : ""}`));
-    }
-    return lines.join("\n");
-  };
-  const parts = [t.shareIntro, "", block(a, t.deadlineUnknownDate, t.whatToDo, locale)];
-  if (english && english !== a) parts.push("", "— English —", block(english, "Deadline", "What to do", "en-US"));
-  return parts.join("\n");
-}
-
-function ShareButton({ a, t, locale, english }: { a: Analysis; t: Strings; locale: string; english?: Analysis }) {
-  const [toast, setToast] = useState(0);
-  async function share() {
-    const text = shareText(a, t, locale, english);
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "Explain It", text });
-        return;
-      } catch (err) {
-        if (err instanceof DOMException && err.name === "AbortError") return; // they closed the sheet
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(text);
-      setToast((n) => n + 1);
-    } catch {
-      /* nothing else we can do */
-    }
-  }
-  return (
-    <>
-      <button
-        onClick={share}
-        className="min-h-[56px] w-full rounded-2xl bg-white px-6 text-[18px] font-semibold text-teal ring-1 ring-teal/40 transition-transform active:scale-[0.98]"
-      >
-        👨‍👩‍👧 {t.shareFamily}
-      </button>
-      {toast > 0 && (
-        <div
-          key={toast}
-          role="status"
-          className="toast fixed bottom-8 left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
-        >
-          {t.shareCopied}
-        </div>
-      )}
-    </>
   );
 }
 
@@ -258,111 +151,97 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
 }
 
 /* ---------- Ticket ---------- */
-const IS_BRACKET = /^\[[^\]]+\]$/;
-/** "[Optional: …]" / "[If …]" parts are dropped from the sent letter when left empty. */
-const isOptional = (p: string) => /^\[\s*(optional|if\b)/i.test(p);
-
-function fillLetter(letter: string, vals: Record<string, string>) {
-  return letter
-    .replace(/\[[^\]]+\]/g, (m) => vals[m]?.trim() || (isOptional(m) ? "" : m))
-    .replace(/\n{3,}/g, "\n\n");
-}
-
-// What the person typed, kept in memory only (never saved) so it survives a language switch.
-const letterFills = new Map<string, Record<string, string>>();
-
-function LetterPreview({
-  letter,
-  vals,
-  onPick,
-}: {
-  letter: string;
-  vals: Record<string, string>;
-  onPick: (placeholder: string) => void;
-}) {
-  const parts = letter.split(/(\[[^\]]+\])/g);
+function HighlightedLetter({ text }: { text: string }) {
+  const parts = text.split(/(\[[^\]]+\])/g);
   return (
     <>
-      {parts.map((p, i) => {
-        if (!IS_BRACKET.test(p)) return <span key={i}>{p}</span>;
-        const v = vals[p]?.trim();
-        if (v)
-          return (
-            <mark key={i} className="rounded bg-green-100 px-0.5 text-ink" onClick={() => onPick(p)}>
-              {v}
-            </mark>
-          );
-        return (
-          <mark
-            key={i}
-            role="button"
-            tabIndex={0}
-            onClick={() => onPick(p)}
-            onKeyDown={(e) => e.key === "Enter" && onPick(p)}
-            className={`cursor-pointer rounded px-0.5 text-ink ${isOptional(p) ? "bg-yellow-100" : "bg-yellow-200"}`}
-          >
+      {parts.map((p, i) =>
+        /^\[[^\]]+\]$/.test(p) ? (
+          <mark key={i} className="rounded bg-yellow-200 px-0.5 text-ink">
             {p}
           </mark>
-        );
-      })}
+        ) : (
+          <span key={i}>{p}</span>
+        ),
+      )}
     </>
   );
 }
 
-function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i: number; busy: boolean }) {
-  const [toast, setToast] = useState(0);
-  const [vals, setVals] = useState<Record<string, string>>(() => letterFills.get(ticket.appeal_letter) ?? {});
-  const [fillOpen, setFillOpen] = useState(false);
+function TicketCards({
+  ticket,
+  t,
+  i,
+  busy,
+  letters,
+  onLetters,
+}: {
+  ticket: TicketInfo;
+  t: Strings;
+  i: number;
+  busy: boolean;
+  letters: string[];
+  onLetters: (next: string[]) => void;
+}) {
+  const [toast, setToast] = useState<{ n: number; msg: string }>({ n: 0, msg: "" });
+  const [editing, setEditing] = useState(false);
+  const [instruction, setInstruction] = useState("");
+  const [working, setWorking] = useState(false);
+  const [err, setErr] = useState(false);
+  const letter = letters.length ? letters[letters.length - 1] : ticket.appeal_letter;
+  const showToast = (msg: string) => setToast((x) => ({ n: x.n + 1, msg }));
+
+  async function customize(change: string) {
+    change = change.trim();
+    if (!change || working) return;
+    setWorking(true);
+    setErr(false);
+    setEditing(false);
+    try {
+      const res = await fetch("/api/letter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          letter,
+          instruction: change,
+          ticket: {
+            citation_number: ticket.citation_number,
+            violation: ticket.violation,
+            problems_found: ticket.missing_or_wrong_fields,
+          },
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const { letter: next } = (await res.json()) as { letter: string };
+      onLetters([...(letters.length ? letters : [ticket.appeal_letter]), next]);
+      setInstruction("");
+      showToast(t.letterUpdated);
+    } catch {
+      setErr(true);
+    } finally {
+      setWorking(false);
+    }
+  }
   const levels = ["weak", "possible", "strong"] as const;
   const idx = levels.indexOf(ticket.contest_strength);
   const color = { weak: "#DC2626", possible: "#D97706", strong: "#16A34A" }[ticket.contest_strength];
 
-  const placeholders = [...new Set(ticket.appeal_letter.match(/\[[^\]]+\]/g) ?? [])];
-  // "[Your printed name]" reuses "[Your full name]" so nobody types their name twice.
-  const fullNameKey = placeholders.find((p) => /full name/i.test(p));
-  const effective: Record<string, string> = { ...vals };
-  for (const p of placeholders) {
-    if (/printed name/i.test(p) && vals[p] === undefined && fullNameKey && vals[fullNameKey]?.trim()) {
-      effective[p] = vals[fullNameKey];
-    }
-  }
-  const filledCount = placeholders.filter((p) => effective[p]?.trim()).length;
-  const finalLetter = fillLetter(ticket.appeal_letter, effective);
-
-  function setVal(p: string, v: string) {
-    setVals((prev) => {
-      const next = { ...prev, [p]: v };
-      letterFills.set(ticket.appeal_letter, next);
-      return next;
-    });
-  }
-
-  function pick(p: string) {
-    setFillOpen(true);
-    const n = placeholders.indexOf(p);
-    requestAnimationFrame(() => {
-      const el = document.getElementById(`fill-${n}`);
-      el?.scrollIntoView({ block: "center", behavior: "smooth" });
-      el?.focus({ preventScroll: true });
-    });
-  }
-
   async function copy() {
     try {
-      await navigator.clipboard.writeText(finalLetter);
+      await navigator.clipboard.writeText(letter);
     } catch {
       const ta = document.createElement("textarea");
-      ta.value = finalLetter;
+      ta.value = letter;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");
       ta.remove();
     }
-    setToast((n) => n + 1);
+    showToast(t.copied);
   }
   const mailto = `mailto:?subject=${encodeURIComponent(
     t.emailSubject + (ticket.citation_number ? ` #${ticket.citation_number}` : ""),
-  )}&body=${encodeURIComponent(finalLetter)}`;
+  )}&body=${encodeURIComponent(letter)}`;
 
   return (
     <>
@@ -423,62 +302,49 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
             <h2 className="text-xl font-bold">{t.letterReady}</h2>
           </div>
           <p className="text-[15px] text-muted">{t.letterNote}</p>
-          {placeholders.length > 0 && (
+          {/\[[^\]]+\]/.test(letter) && (
             <p className="mt-1 text-[15px] font-medium text-amber-800">
               <mark className="rounded bg-yellow-200 px-1">[ ]</mark> {t.editBrackets}
             </p>
           )}
-          {placeholders.length > 0 && (
-            <div className="mt-3 rounded-xl ring-1 ring-teal/30">
-              <button
-                type="button"
-                onClick={() => setFillOpen((o) => !o)}
-                aria-expanded={fillOpen}
-                className="flex min-h-[52px] w-full items-center justify-between gap-2 rounded-xl bg-teal-soft px-4 text-left text-[16px] font-semibold text-teal-900"
-              >
-                <span>✍️ {t.fillDetails(filledCount, placeholders.length)}</span>
-                <span className={`transition-transform ${fillOpen ? "rotate-180" : ""}`}>⌄</span>
-              </button>
-              {fillOpen && (
-                <div className="space-y-3 p-4" lang="en">
-                  {placeholders.map((p, n) => {
-                    const label = p.slice(1, -1);
-                    const long = isOptional(p) || label.length > 40;
-                    const auto = /\bfull name|printed name|your name\b/i.test(label)
-                      ? "name"
-                      : /street|address/i.test(label)
-                        ? "street-address"
-                        : /phone or email|email/i.test(label)
-                          ? "email"
-                          : "off";
-                    const common = {
-                      id: `fill-${n}`,
-                      value: vals[p] ?? effective[p] ?? "",
-                      placeholder: label,
-                      className:
-                        "w-full rounded-lg bg-white px-3 py-2.5 text-[16px] ring-1 ring-line outline-none focus:ring-2 focus:ring-teal",
-                    };
-                    return (
-                      <label key={p} className="block">
-                        <span className="mb-1 block text-[13px] font-semibold text-muted">{label}</span>
-                        {long ? (
-                          <textarea {...common} rows={2} onChange={(e) => setVal(p, e.target.value)} />
-                        ) : (
-                          <input {...common} autoComplete={auto} onChange={(e) => setVal(p, e.target.value)} />
-                        )}
-                      </label>
-                    );
-                  })}
-                </div>
-              )}
+          {editing ? (
+            <textarea
+              lang="en"
+              value={letter}
+              onChange={(e) => onLetters([...letters.slice(0, -1), e.target.value])}
+              className="mt-3 h-80 w-full rounded-xl bg-white p-4 font-[ui-serif,Georgia,serif] text-[16px] leading-relaxed ring-2 ring-teal outline-none"
+            />
+          ) : (
+            <div
+              lang="en"
+              className={`relative mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line ${
+                working ? "opacity-50" : ""
+              }`}
+              tabIndex={0}
+            >
+              <HighlightedLetter text={letter} />
             </div>
           )}
-          <div
-            lang="en"
-            className="mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line"
-            tabIndex={0}
-          >
-            <LetterPreview letter={ticket.appeal_letter} vals={effective} onPick={pick} />
+          <div className="mt-2 flex justify-end gap-2">
+            {letters.length > 1 && !editing && (
+              <button
+                onClick={() => onLetters(letters.slice(0, -1))}
+                disabled={working}
+                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-stone-100"
+              >
+                ↩ {t.undo}
+              </button>
+            )}
+            <button
+              onClick={() => {
+                if (!editing) onLetters([...(letters.length ? letters : [ticket.appeal_letter]), letter]);
+                setEditing((e) => !e);
+              }}
+              disabled={working}
+              className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+            >
+              {editing ? `✓ ${t.doneEditing}` : `✍️ ${t.editByHand}`}
+            </button>
           </div>
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
             <button
@@ -494,13 +360,59 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
               ✉️ {t.email}
             </a>
           </div>
-          {toast > 0 && (
+          {/* Customize with plain-language instructions */}
+          <div className="mt-5 rounded-xl bg-teal-soft p-4">
+            <p className="mb-2 font-semibold text-teal-900">✨ {t.customizeTitle}</p>
+            {working ? (
+              <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
+                <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.customizing}
+              </p>
+            ) : (
+              <>
+                <div className="mb-2 flex flex-wrap gap-2">
+                  {t.customizeSuggestions.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => void customize(s)}
+                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-teal-900 ring-1 ring-teal/20 active:bg-teal/10"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void customize(instruction);
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    value={instruction}
+                    onChange={(e) => setInstruction(e.target.value)}
+                    placeholder={t.customizePlaceholder}
+                    enterKeyHint="send"
+                    className="min-h-[48px] min-w-0 flex-1 rounded-xl bg-white px-3 text-[16px] ring-1 ring-teal/20 outline-none focus:ring-2 focus:ring-teal"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!instruction.trim()}
+                    className="min-h-[48px] rounded-xl bg-teal px-4 text-[16px] font-semibold text-white disabled:opacity-40"
+                  >
+                    {t.customizeSend}
+                  </button>
+                </form>
+              </>
+            )}
+            {err && <p className="mt-2 text-[15px] text-red-700">{t.customizeError}</p>}
+          </div>
+          {toast.n > 0 && (
             <div
-              key={toast}
+              key={toast.n}
               role="status"
               className="toast fixed bottom-8 left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
             >
-              {t.copied}
+              {toast.msg}
             </div>
           )}
         </Card>
@@ -645,29 +557,51 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
   );
 }
 
+/** Big dollar figure, with any extra words the model added shown small underneath. */
+function AmountLine({ text, label }: { text: string; label: string }) {
+  const m = /^\s*(\$[\d,]+(?:\.\d{2})?)\s*[;,–-]?\s*(.*)$/.exec(text);
+  const big = m ? m[1] : text.length <= 14 ? text : null;
+  const rest = m ? m[2] : big ? "" : text;
+  return (
+    <div className="mb-3">
+      {big && (
+        <p className="text-[34px] font-bold leading-none tracking-tight">
+          {big}
+          <span className="ml-2 text-[15px] font-medium text-muted">{label}</span>
+        </p>
+      )}
+      {rest && <p className={`${big ? "mt-1 text-[15px] text-muted" : "text-[19px] font-semibold"}`}>{rest}</p>}
+    </div>
+  );
+}
+
 /* ---------- Main ---------- */
 export default function Results({
   a,
-  english,
   t,
   locale,
   busy,
   onScanAnother,
-  askSlot,
+  lang,
+  image,
+  letters,
+  onLetters,
 }: {
   a: Analysis;
-  /** The English version, if we have it, so "Send to family" can include both. */
-  english?: Analysis;
   t: Strings;
   locale: string;
   busy: boolean;
   onScanAnother: () => void;
-  /** The "Ask about this document" card, owned by the parent so answers survive a language switch. */
-  askSlot?: ReactNode;
+  lang: Lang;
+  image: { base64: string; mediaType: string } | null;
+  letters: string[];
+  onLetters: (next: string[]) => void;
 }) {
   let i = 0;
+  const dateLabel = formatDate(a.deadline?.date ?? null, locale);
   const legit = a.legitimacy_check;
   const showLegit = legit && legit.verdict !== "looks_legitimate";
+  const isScam = legit?.verdict === "likely_scam";
 
   return (
     <div className="space-y-4 pb-10">
@@ -677,7 +611,7 @@ export default function Results({
           <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
             {t.docType[a.document_type]}
           </span>
-          {!busy && <ReadAloudButton a={a} t={t} locale={locale} />}
+          {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
         </div>
         {busy ? (
           <div className="mt-3">
@@ -694,7 +628,18 @@ export default function Results({
       </header>
 
       {/* 2. deadline */}
-      <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
+      {isScam ? (
+        <section className="rise rounded-2xl bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
+          <p className="text-[22px] font-bold leading-tight text-stone-800">🎭 {t.fakeDeadline}</p>
+          {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
+        </section>
+      ) : (
+        <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
+      )}
+      {!busy && <ActionRow a={a} t={t} dateLabel={dateLabel} i={i++} noCalendar={isScam} />}
+
+      {/* official phone-number check (scam guard) */}
+      <NumberCheckBanner a={a} t={t} i={i++} />
 
       {/* 3. legitimacy */}
       {showLegit && (
@@ -719,10 +664,7 @@ export default function Results({
       <Card i={i++}>
         <CardTitle>{t.whatMeans}</CardTitle>
         {a.amount_due && (
-          <p className="mb-2 text-[34px] font-bold leading-none tracking-tight">
-            {a.amount_due}
-            <span className="ml-2 text-[15px] font-medium text-muted">{t.amountDue}</span>
-          </p>
+          <AmountLine text={a.amount_due} label={t.amountDue} />
         )}
         {busy ? <Shimmer lines={3} /> : <p className="text-[17px] leading-relaxed">{a.summary}</p>}
       </Card>
@@ -731,8 +673,12 @@ export default function Results({
       <Steps a={a} t={t} i={i++} busy={busy} />
 
       {/* 6. type-specific */}
-      {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} />}
+      {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} letters={letters} onLetters={onLetters} />}
       {a.quote && <QuoteCards quote={a.quote} t={t} i={i++} busy={busy} />}
+
+      {/* local help + follow-up questions */}
+      <HelpCard a={a} t={t} lang={lang} i={i++} />
+      {!busy && <AskCard a={a} t={t} lang={lang} image={image} i={i++} />}
 
       {/* 7. if ignored */}
       {a.if_ignored && (
@@ -757,12 +703,6 @@ export default function Results({
         </Card>
       )}
 
-      {/* Ask a follow-up question about this document */}
-      {askSlot}
-
-      {/* Verified local help for this kind of document */}
-      {!busy && <HelpCard a={a} t={t} i={i++} />}
-
       {/* 9. confidence */}
       {a.confidence !== "high" && (
         <p className="rise px-1 text-[15px] text-muted" style={{ animationDelay: `${i++ * 50}ms` }}>
@@ -771,8 +711,7 @@ export default function Results({
       )}
 
       {/* 10. footer */}
-      <footer className="rise space-y-3 pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
-        {!busy && <ShareButton a={a} t={t} locale={locale} english={english} />}
+      <footer className="rise pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
         <button
           onClick={onScanAnother}
           className="min-h-[56px] w-full rounded-2xl bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"

@@ -97,6 +97,18 @@ export function normalizeAnalysis(raw: unknown): Analysis {
       }
     : null;
 
+  // Fill totals the model left out, so the gauge and the price boxes always have numbers.
+  if (quote) {
+    if (quote.quoted_total === null) {
+      const prices = quote.line_items.map((li) => li.price).filter((p): p is number => p !== null);
+      if (prices.length) quote.quoted_total = prices.reduce((a, b) => a + b, 0);
+    }
+    const { quoted_total: q, typical_total_low: lo, typical_total_high: hi } = quote;
+    if (quote.percent_vs_typical === null && q !== null && lo !== null && hi !== null && lo + hi > 0) {
+      quote.percent_vs_typical = Math.round((q / ((lo + hi) / 2) - 1) * 100);
+    }
+  }
+
   let urgency = oneOf<Urgency>(r.urgency, URGENCIES, "soon");
   // A passed or imminent deadline is always urgent, whatever the model said.
   if (deadline?.days_remaining != null && deadline.days_remaining <= 7) urgency = "urgent";

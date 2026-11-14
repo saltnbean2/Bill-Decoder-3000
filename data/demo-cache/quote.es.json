@@ -1,0 +1,145 @@
+{
+  "document_type": "contractor_quote",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Premier Valley Roofing (representante de ventas: R. Dale), Fairview Glen, CA",
+  "headline": "Este es un presupuesto de $20,250 para cambiar el techo, con varias señales de alerta.",
+  "summary": "Premier Valley Roofing quiere $20,250 por cambiar su techo de tejas de 1,800 pies cuadrados. El precio es más alto de lo normal para un techo de este tamaño. El papel no tiene número de licencia del contratista, pide un depósito muy grande y lo presiona para que firme hoy. No firme ni pague todavía.",
+  "amount_due": "$20,250.00 total; $8,100.00 deposit (40%) due at signing",
+  "deadline": {
+    "date": null,
+    "days_remaining": null,
+    "what_is_due": "El presupuesto dice que el precio es 'válido solo hoy', pero no hay una fecha límite real. No tiene que decidir hoy. El presupuesto tiene fecha del 13 de noviembre de 2026."
+  },
+  "urgency": "no_rush",
+  "if_ignored": "No pasa nada si no firma. Esto es una oferta, no una factura. El precio puede cambiar, pero un contratista justo le dará tiempo para comparar presupuestos.",
+  "action_steps": [
+    {
+      "title": "No firme ni pague hoy",
+      "detail": "Un precio 'válido solo hoy' es una táctica de presión. Dígale al vendedor que necesita unos días para comparar presupuestos.",
+      "contact": "(818) 555-0188"
+    },
+    {
+      "title": "Revise la licencia del contratista",
+      "detail": "Este presupuesto no tiene número de licencia. Pídalo por escrito y búsquelo en el sitio de la Junta de Licencias de Contratistas de California (CSLB). Confirme que esté activa y que coincida con el nombre del negocio.",
+      "contact": "cslb.ca.gov"
+    },
+    {
+      "title": "Consiga otros 2 o 3 presupuestos por escrito",
+      "detail": "Pídale a cada techador que cotice el mismo trabajo: 18 cuadros de tejas, membrana base, tapajuntas y retiro del techo viejo. Compare línea por línea.",
+      "contact": null
+    },
+    {
+      "title": "Pida un depósito más pequeño",
+      "detail": "En California, un depósito para trabajos en casa no puede ser más del 10% del precio o $1,000, lo que sea menos. El depósito de $8,100 es mucho más alto. No lo pague.",
+      "contact": null
+    },
+    {
+      "title": "Pida un contrato detallado por escrito",
+      "detail": "Debe explicar los 'materiales varios' y la 'mano de obra', decir la marca de las tejas y la garantía, dar fechas de inicio y fin, y aclarar quién saca el permiso de la ciudad.",
+      "contact": null
+    },
+    {
+      "title": "Evite pagar en efectivo",
+      "detail": "El descuento de 5% por pagar en efectivo no le deja comprobante de pago. Pague con cheque o tarjeta para poder probar lo que pagó.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "No aparece ningún número de licencia de contratista de California. Un trabajo de techo de este tamaño debe hacerlo un contratista con licencia."
+    },
+    {
+      "severity": "high",
+      "text": "El depósito es del 40% ($8,100). La ley de California lo limita al 10% o $1,000, lo que sea menos."
+    },
+    {
+      "severity": "high",
+      "text": "'Precio especial válido solo hoy' y 'el precio sube si no firma hoy' son tácticas de venta con mucha presión."
+    },
+    {
+      "severity": "medium",
+      "text": "'Materiales varios' ($2,400) es vago y no tiene detalles."
+    },
+    {
+      "severity": "medium",
+      "text": "La 'mano de obra' es solo $1,750, sin horas ni tamaño del equipo. Parece poco para cambiar un techo completo."
+    },
+    {
+      "severity": "medium",
+      "text": "Un descuento de 5% por pagar en efectivo puede significar que no queda ningún registro."
+    },
+    {
+      "severity": "medium",
+      "text": "La fecha de inicio es 'por programar', sin fecha de fin, sin garantía por escrito y sin mencionar permisos."
+    },
+    {
+      "severity": "low",
+      "text": "Los precios del retiro del techo viejo ($3,200) y de la membrana base ($1,800) son algo altos."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "be_careful",
+    "reasons": [
+      "No se muestra número de licencia del contratista.",
+      "La presión para firmar hoy y un depósito grande son comunes en estafas de techos.",
+      "Los conceptos vagos y la falta de fechas de inicio y fin lo dejan con poca protección.",
+      "Verifique usted mismo la licencia y la dirección del negocio antes de pagar algo."
+    ]
+  },
+  "ticket": null,
+  "quote": {
+    "business_name": "Premier Valley Roofing",
+    "license_number": null,
+    "quoted_total": 20250,
+    "typical_total_low": 13000,
+    "typical_total_high": 18000,
+    "percent_vs_typical": 31,
+    "verdict": "high",
+    "line_items": [
+      {
+        "item": "Retiro de tejas existentes (1 capa) y acarreo de escombros",
+        "price": 3200,
+        "typical_range": "$1,800–$2,800 (estimado)",
+        "rating": "high"
+      },
+      {
+        "item": "Tejas arquitectónicas, 18 cuadros, instaladas",
+        "price": 9450,
+        "typical_range": "$7,500–$11,000 (estimado)",
+        "rating": "fair"
+      },
+      {
+        "item": "Membrana base sintética",
+        "price": 1800,
+        "typical_range": "$900–$1,500 (estimado)",
+        "rating": "high"
+      },
+      {
+        "item": "Tapajuntas, borde de goteo, botas para tubos y ventilas de cumbrera",
+        "price": 1650,
+        "typical_range": "$1,000–$1,800 (estimado)",
+        "rating": "fair"
+      },
+      {
+        "item": "Materiales varios",
+        "price": 2400,
+        "typical_range": "$300–$800 (estimado)",
+        "rating": "very_high"
+      },
+      {
+        "item": "Mano de obra",
+        "price": 1750,
+        "typical_range": "No dan horas; los precios instalados normalmente ya incluyen la mano de obra (estimado)",
+        "rating": "unclear"
+      }
+    ],
+    "questions_to_ask": [
+      "¿Cuál es su número de licencia de contratista de California? ¿Puedo ver su comprobante de seguro y de compensación laboral?",
+      "¿Qué incluyen exactamente los 'materiales varios' y qué cubre la 'mano de obra', con horas y tamaño del equipo?",
+      "¿Se puede bajar el depósito a $1,000 o al 10% (lo que sea menos) y pagar el resto por etapas conforme avance el trabajo?",
+      "¿Cuáles son las fechas de inicio y fin, la marca de las tejas y la garantía por escrito? ¿Quién saca el permiso de la ciudad?"
+    ]
+  }
+}

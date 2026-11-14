@@ -48,15 +48,19 @@ Or from the terminal: `npx vercel` then `npx vercel env add ANTHROPIC_API_KEY` a
 
 **Translation:** the appeal letter is never sent for translation; it always stays in English. After translating, every enum, number, date, amount and contact is copied back from the original (`lib/merge.ts`), so translation can't change the facts. Translations are cached per language in the browser, so switching back is instant.
 
-## Extra features on the results screen
+## Extra features
 
-- **Ask about this document** (`/api/ask`): suggested questions per document type plus a text box. Answers are short, in the chosen language, and grounded in this document only (the analysis plus the photo, kept in memory). It is not a general chatbot: off-topic questions get a polite "I can only help with this document". Needs the live API (no cached answers in demo mode).
-- **Fill in the appeal letter**: every `[BRACKETED]` part becomes a field; the letter updates as you type, and Copy / Email send the filled version. "Your printed name" reuses "Your full name"; empty `[Optional: …]` parts are dropped.
-- **Add to calendar**: downloads an `.ics` all-day event for the deadline with a 2-day reminder.
-- **Send to family**: the phone's share sheet (or clipboard) with the summary, deadline and steps in the chosen language plus English.
-- **Read aloud**: uses the phone's built-in voices; the button only appears when the phone has a voice for that language (Armenian often has none, so test the demo phone).
+- **Ask Explain It** (`/api/ask`): a small agent with tools: verified local help lines (`lib/resources.ts`), an official-phone-number check, and date math. Works under any scanned document (with the photo) and on its own from the home screen ("💬" button). Needs the live API.
+- **Customize the appeal letter** (`/api/letter`): type a change in any of the 5 languages ("add that I was at the hospital", "my name is Ana Petrosyan") and the English letter is rewritten; also hand edit and undo. Edits survive a language switch.
+- **Don't miss it**: deadline to iPhone (native "Add to Calendar" sheet via `/api/ics`), Google or Outlook, with reminders 3 days and 1 day before. Hidden for scam letters, whose "deadline" is shown as a pressure trick instead.
+- **Send to family**: the phone's share sheet, or Text / WhatsApp buttons.
+- **Official number check**: if a letter claims to be from the IRS, FTB, SSA, DMV or Glendale Water & Power and lists a different number, a red banner shows the real one.
+- **Free help near you**: 211 LA, Neighborhood Legal Services, Glendale parking citations (only for Glendale tickets), LA County DCBA, CSLB / Bureau of Automotive Repair, LA Court juror services. Numbers and links are listed with their sources in `lib/resources.ts`; re-check them before a public launch.
+- **Read aloud** with the phone's own voices, in short chunks (some browsers stop long speech after ~15 s). Hidden when the phone has no voice for the language; Armenian often has none, so test the demo phone.
 - **Show in English**: one tap to show the English version (e.g. to a clerk), and back.
-- **Free help near you**: hand-checked links only (checked 2026-11-14): City of Glendale parking citations and (866) 470-3088, CSLB license check, Glendale Development Services (818) 548-3200, Neighborhood Legal Services of LA County (800) 433-6251, and the FTC scam report site when a letter looks suspicious. Re-check them before the demo; don't add links nobody has opened.
+- **Suspicious letter sample** (🚩) for the scam-detection demo.
+
+**Reliability:** scans, translations and the letter/ask calls retry once on overloaded or dropped connections inside a 55 s budget (Vercel's limit is 60 s); a scan that leaves out the ticket or quote section is re-asked once. Network/API failures show "We couldn't finish that" with **Try again** (same photo) instead of "take a clearer photo". In demo mode the Armenian translation is fetched in the background so the on-stage switch is instant.
 
 ## Demo mode and the safety net
 
@@ -70,10 +74,12 @@ Or from the terminal: `npx vercel` then `npx vercel env add ANTHROPIC_API_KEY` a
 - Jury summons: report date in 10 days.
 - Roofing quote: $20,250 (~35% above typical), no license, 40% deposit, "$2,400 misc materials".
 
-**Re-render the PNGs the morning of the demo** so the dates match the day:
+**The morning of the demo**, re-render the PNGs and re-record the cache so every date matches the day. English dates in the cache are stored as relative tokens, but dates written out in other languages are not:
 
 ```bash
 npm run samples
+BASE_URL=https://bill-decoder-3000.vercel.app npm run record-cache
+git commit -am "Refresh demo samples" && git push   # Vercel redeploys
 ```
 
 **Cached responses:** `data/demo-cache/` comes seeded with hand-written English and Armenian results that use relative date tokens (`{{ISO:+10}}`, `{{DATE:+10}}`). Once your API key works, replace them with real model output, then rebuild or redeploy:

@@ -1,112 +1,305 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Analysis } from "@/lib/types";
+import type { Analysis, Lang } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
-import { Card, CardTitle, Shimmer, formatDate } from "./ui";
-import { Linkify, telHref } from "./linkify";
+import { googleUrl, outlookUrl, type CalEvent } from "@/lib/calendar";
+import { checkOfficialNumbers, formatPhone, helpFor } from "@/lib/resources";
+import { Linkify } from "./linkify";
 
-/* ---------- Ask about this document ---------- */
+const cardCls =
+  "rise rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-line";
+const pill =
+  "flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-3 text-[16px] font-semibold ring-1 transition-colors";
 
-export interface QA {
-  q: string;
-  a: string;
+/* ---------- Calendar + Share action row ---------- */
+
+function eventFor(a: Analysis, t: Strings): CalEvent | null {
+  const d = a.deadline;
+  if (!d?.date || (d.days_remaining !== null && d.days_remaining < 0)) return null;
+  const steps = a.action_steps.map((s, i) => `${i + 1}. ${s.title}${s.contact ? ` (${s.contact})` : ""}`).join("\n");
+  return {
+    title: `${t.eventPrefix}: ${t.docType[a.document_type].replace(/^\S+\s/, "")}${
+      a.amount_due && a.amount_due.length <= 12 ? ` (${a.amount_due})` : ""
+    }`,
+    date: d.date,
+    details: `${a.headline}\n${d.what_is_due ? `\n${d.what_is_due}\n` : ""}\n${t.stepsWord}:\n${steps}\n\n— ${t.shareFooter}`,
+  };
 }
 
-/** Plain-text answer with "- " bullets and tappable phone numbers / links. */
-function Answer({ text }: { text: string }) {
-  const lines = text.split(/\n+/).map((l) => l.trim()).filter(Boolean);
-  const bullets = lines.filter((l) => /^[-•*]\s+/.test(l));
-  const prose = lines.filter((l) => !/^[-•*]\s+/.test(l));
-  return (
-    <div className="space-y-2 text-[17px] leading-relaxed">
-      {prose.map((p, i) => (
-        <p key={i}>
-          <Linkify text={p.replace(/\*\*/g, "")} />
-        </p>
-      ))}
-      {bullets.length > 0 && (
-        <ul className="list-disc space-y-1 pl-5">
-          {bullets.map((b, i) => (
-            <li key={i}>
-              <Linkify text={b.replace(/^[-•*]\s+/, "").replace(/\*\*/g, "")} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+function shareTextFor(a: Analysis, t: Strings, dateLabel: string | null) {
+  const lines = [a.headline];
+  if (a.deadline?.what_is_due) lines.push(`⏰ ${t.dueWord}${dateLabel ? ` ${dateLabel}` : ""}: ${a.deadline.what_is_due}`);
+  if (a.amount_due) lines.push(`💵 ${a.amount_due}`);
+  lines.push("", `${t.stepsWord}:`);
+  a.action_steps.slice(0, 5).forEach((s, i) => lines.push(`${i + 1}. ${s.title}${s.contact ? ` — ${s.contact}` : ""}`));
+  lines.push("", `— ${t.shareFooter}`);
+  return lines.join("\n");
 }
 
-export function AskCard({
-  docType,
+async function addToAppleCalendar(e: CalEvent) {
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (isIOS) {
+    // A real form POST lets iOS Safari show its native "Add to Calendar" sheet.
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/api/ics";
+    for (const [k, v] of Object.entries(e)) {
+      if (v === undefined) continue;
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = k;
+      input.value = v;
+      form.appendChild(input);
+    }
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+    return;
+  }
+  const body = new FormData();
+  for (const [k, v] of Object.entries(e)) if (v !== undefined) body.append(k, v);
+  const res = await fetch("/api/ics", { method: "POST", body });
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "deadline.ics";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+export function ActionRow({
+  a,
   t,
+  dateLabel,
   i,
-  qa,
-  asking,
-  failed,
-  onAsk,
+  noCalendar = false,
 }: {
-  docType: Analysis["document_type"];
+  a: Analysis;
   t: Strings;
+  dateLabel: string | null;
   i: number;
-  qa: QA[];
-  asking: string | null;
-  failed: boolean;
-  onAsk: (q: string) => void;
+  noCalendar?: boolean;
 }) {
-  const [text, setText] = useState("");
-  const suggestions =
-    docType === "unreadable" ? [] : t.askSuggestions[docType].filter((s) => !qa.some((x) => x.q === s));
+  const [open, setOpen] = useState<"cal" | "share" | null>(null);
+  const event = noCalendar ? null : eventFor(a, t);
+  const text = shareTextFor(a, t, dateLabel);
 
-  function submit(q: string) {
-    const clean = q.trim();
-    if (!clean || asking) return;
-    setText("");
-    onAsk(clean);
+  async function onShare() {
+    if (navigator.share) {
+      try {
+        await navigator.share({ text });
+        return;
+      } catch (e) {
+        if ((e as Error)?.name === "AbortError") return;
+      }
+    }
+    setOpen((o) => (o === "share" ? null : "share"));
   }
 
   return (
-    <Card i={i}>
-      <CardTitle>💬 {t.askTitle}</CardTitle>
+    <section className="rise space-y-2" style={{ animationDelay: `${i * 50}ms` }}>
+      <div className={`grid gap-2 ${event ? "grid-cols-2" : "grid-cols-1"}`}>
+        {event && (
+          <button
+            onClick={() => setOpen((o) => (o === "cal" ? null : "cal"))}
+            aria-expanded={open === "cal"}
+            className={`${pill} bg-white text-ink ring-line active:bg-teal-soft ${open === "cal" ? "ring-2 ring-teal" : ""}`}
+          >
+            📅 {t.remindTitle}
+          </button>
+        )}
+        <button
+          onClick={onShare}
+          aria-expanded={open === "share"}
+          className={`${pill} bg-white text-ink ring-line active:bg-teal-soft ${open === "share" ? "ring-2 ring-teal" : ""}`}
+        >
+          👪 {t.share}
+        </button>
+      </div>
 
-      {qa.length > 0 && (
-        <div className="mb-4 space-y-4">
-          {qa.map((x, n) => (
-            <div key={n}>
-              <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-teal px-4 py-2 text-[16px] text-white">
-                {x.q}
-              </p>
-              <div className="mt-2 rounded-2xl rounded-bl-md bg-paper p-4 ring-1 ring-line">
-                <Answer text={x.a} />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {asking && (
-        <div className="mb-4">
-          <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-teal px-4 py-2 text-[16px] text-white">
-            {asking}
-          </p>
-          <div className="mt-2 rounded-2xl rounded-bl-md bg-paper p-4 ring-1 ring-line" aria-live="polite">
-            <p className="mb-2 text-[15px] font-semibold text-teal">{t.askThinking}</p>
-            <Shimmer lines={2} />
+      {open === "cal" && event && (
+        <div className="fade-msg rounded-2xl bg-white p-4 ring-1 ring-line">
+          <p className="mb-3 text-[15px] text-muted">{t.remindSub}</p>
+          <div className="grid grid-cols-3 gap-2">
+            <button onClick={() => void addToAppleCalendar(event)} className={`${pill} bg-ink text-white ring-ink text-[15px]`}>
+              📅 {t.apple}
+            </button>
+            <a href={googleUrl(event)} target="_blank" rel="noreferrer" className={`${pill} bg-white text-ink ring-line text-[15px]`}>
+              {t.google}
+            </a>
+            <a href={outlookUrl(event)} target="_blank" rel="noreferrer" className={`${pill} bg-white text-ink ring-line text-[15px]`}>
+              {t.outlook}
+            </a>
           </div>
         </div>
       )}
 
-      {failed && !asking && (
-        <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[15px] text-amber-900">{t.askFailed}</p>
+      {open === "share" && (
+        <div className="fade-msg rounded-2xl bg-white p-4 ring-1 ring-line">
+          <p className="mb-3 text-[15px] text-muted">{t.shareSub}</p>
+          <div className="grid grid-cols-2 gap-2">
+            <a href={`sms:?&body=${encodeURIComponent(text)}`} className={`${pill} bg-white text-ink ring-line`}>
+              💬 {t.shareText}
+            </a>
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(text)}`}
+              target="_blank"
+              rel="noreferrer"
+              className={`${pill} bg-[#25D366] text-white ring-[#25D366]`}
+            >
+              {t.whatsapp}
+            </a>
+          </div>
+        </div>
       )}
+    </section>
+  );
+}
 
-      {!asking && suggestions.length > 0 && (
+/* ---------- Official number check ---------- */
+
+export function NumberCheckBanner({ a, t, i }: { a: Analysis; t: Strings; i: number }) {
+  const check = checkOfficialNumbers(a);
+  if (!check) return null;
+  const official = check.agency.phones.map(formatPhone)[0];
+  if (check.status === "match") {
+    return (
+      <section className="rise rounded-2xl bg-green-50 p-4 ring-1 ring-green-200" style={{ animationDelay: `${i * 50}ms` }}>
+        <p className="font-semibold text-green-800">✅ {t.numberMatchTitle(check.agency.name)}</p>
+      </section>
+    );
+  }
+  return (
+    <section className="rise rounded-2xl bg-red-600 p-5 text-white" style={{ animationDelay: `${i * 50}ms` }}>
+      <p className="text-[20px] font-bold leading-tight">☎️ {t.numberMismatchTitle(check.agency.name)}</p>
+      <p className="mt-2 text-[16px] leading-snug opacity-95">
+        {t.numberMismatchBody(check.bad.join(", "), `${check.agency.name} ${t.officialNumber} ${official}`)}
+      </p>
+      <a
+        href={`tel:+1${check.agency.phones[0]}`}
+        className="mt-3 flex min-h-[48px] items-center justify-center rounded-xl bg-white text-[17px] font-bold text-red-700"
+      >
+        📞 {t.call} {check.agency.name}: {official}
+      </a>
+    </section>
+  );
+}
+
+/* ---------- Free help in Glendale ---------- */
+
+export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lang; i: number }) {
+  const list = helpFor(a);
+  if (!list.length) return null;
+  return (
+    <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
+      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📍 {t.helpTitle}</h2>
+      <p className="mb-3 text-[15px] text-muted">{t.helpSub}</p>
+      <ul className="space-y-2">
+        {list.map((r) => (
+          <li key={r.name} className="rounded-xl bg-paper p-3">
+            <p className="font-semibold leading-snug">{r.name}</p>
+            <p className="mt-0.5 text-[15px] leading-snug text-stone-700">{r.desc[lang]}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {r.phone && (
+                <a
+                  href={r.phone === "211" ? "tel:211" : `tel:+1${r.phone.replace(/\D/g, "")}`}
+                  className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-teal px-4 text-[15px] font-semibold text-white"
+                >
+                  📞 {r.phone === "211" ? "2-1-1" : r.phone}
+                </a>
+              )}
+              {r.url && (
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-[44px] items-center rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30"
+                >
+                  🌐 {t.website}
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+/* ---------- Ask a follow-up ---------- */
+
+export function AskCard({
+  a,
+  t,
+  lang,
+  image,
+  i,
+  bare = false,
+}: {
+  a: Analysis | null;
+  t: Strings;
+  lang: Lang;
+  image: { base64: string; mediaType: string } | null;
+  i: number;
+  bare?: boolean;
+}) {
+  const [qa, setQa] = useState<{ q: string; a: string | null; err?: boolean }[]>([]);
+  const [input, setInput] = useState("");
+  const busy = qa.some((x) => x.a === null && !x.err);
+
+  async function ask(q: string) {
+    q = q.trim();
+    if (!q || busy) return;
+    setInput("");
+    const history = qa.filter((x) => x.a).map((x) => ({ q: x.q, a: x.a }));
+    setQa((list) => [...list, { q, a: null }]);
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ result: a, question: q, language: lang, image: image?.base64, mediaType: image?.mediaType, history }),
+      });
+      if (!res.ok) throw new Error();
+      const { answer } = (await res.json()) as { answer: string };
+      setQa((list) => list.map((x, n) => (n === list.length - 1 ? { ...x, a: answer } : x)));
+    } catch {
+      setQa((list) => list.map((x, n) => (n === list.length - 1 ? { ...x, err: true } : x)));
+    }
+  }
+
+  return (
+    <section className={bare ? "rise" : cardCls} style={{ animationDelay: `${i * 50}ms` }}>
+      {!bare && <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">💬 {t.askTitle}</h2>}
+      {qa.length > 0 && (
+        <div className="mb-3 space-y-3">
+          {qa.map((x, n) => (
+            <div key={n} className="space-y-2">
+              <p className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-md bg-teal px-4 py-2.5 text-[16px] text-white">{x.q}</p>
+              {x.err ? (
+                <p className="w-fit max-w-[90%] rounded-2xl rounded-bl-md bg-red-50 px-4 py-2.5 text-[16px] text-red-800">{t.askError}</p>
+              ) : x.a === null ? (
+                <p className="w-fit rounded-2xl rounded-bl-md bg-paper px-4 py-2.5 text-[16px] text-muted">
+                  <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.askThinking}
+                </p>
+              ) : (
+                <p className="w-fit max-w-[90%] whitespace-pre-wrap rounded-2xl rounded-bl-md bg-paper px-4 py-2.5 text-[16px] leading-relaxed">
+                  <Linkify text={x.a} />
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {qa.length === 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
-          {suggestions.map((s) => (
+          {(a ? t.askSuggestions : t.agentSuggestions).map((s) => (
             <button
               key={s}
-              onClick={() => submit(s)}
+              onClick={() => void ask(s)}
               className="min-h-[44px] rounded-full bg-teal-soft px-4 text-left text-[15px] font-medium text-teal-900 active:bg-teal/20"
             >
               {s}
@@ -114,197 +307,97 @@ export function AskCard({
           ))}
         </div>
       )}
-
       <form
-        className="flex gap-2"
         onSubmit={(e) => {
           e.preventDefault();
-          submit(text);
+          void ask(input);
         }}
+        className="flex gap-2"
       >
         <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          maxLength={400}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder={t.askPlaceholder}
-          aria-label={t.askTitle}
           enterKeyHint="send"
-          className="min-h-[48px] min-w-0 flex-1 rounded-xl bg-paper px-4 text-[17px] ring-1 ring-line outline-none focus:ring-2 focus:ring-teal"
+          className="min-h-[48px] min-w-0 flex-1 rounded-xl bg-paper px-4 text-[16px] ring-1 ring-line outline-none focus:ring-2 focus:ring-teal"
         />
         <button
           type="submit"
-          disabled={!text.trim() || !!asking}
-          className="min-h-[48px] rounded-xl bg-teal px-5 text-[17px] font-semibold text-white disabled:opacity-40"
+          disabled={busy || !input.trim()}
+          className="min-h-[48px] rounded-xl bg-teal px-5 text-[16px] font-semibold text-white disabled:opacity-40"
         >
           {t.askSend}
         </button>
       </form>
-    </Card>
-  );
-}
-
-/* ---------- Free help near you (verified links only) ---------- */
-
-interface HelpItem {
-  title: string;
-  note?: string;
-  url: string;
-  urlLabel: string;
-  phone?: string;
-}
-
-// Checked by hand on 2026-11-14. Only add links that have been opened and confirmed.
-const LINKS = {
-  glendaleParking: "https://www.glendaleca.gov/government/departments/police-department/traffic-parking",
-  glendaleParkingPhone: "(866) 470-3088",
-  glendaleDevServices: "https://www.glendaleca.gov/government/departments/community-development/development-services",
-  glendaleDevServicesPhone: "(818) 548-3200",
-  cslb: "https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx",
-  nlsla: "https://nlsla.org/",
-  nlslaPhone: "(800) 433-6251",
-  ftc: "https://reportfraud.ftc.gov/",
-};
-
-export function HelpCard({ a, t, i }: { a: Analysis; t: Strings; i: number }) {
-  const h = t.help;
-  const legalAid: HelpItem = {
-    title: h.legalAid,
-    note: h.legalAidNote,
-    url: LINKS.nlsla,
-    urlLabel: "nlsla.org",
-    phone: LINKS.nlslaPhone,
-  };
-  const items: HelpItem[] = [];
-  if (a.document_type === "parking_ticket") {
-    items.push({
-      title: h.glendaleParking,
-      note: h.glendaleParkingNote,
-      url: LINKS.glendaleParking,
-      urlLabel: "glendaleca.gov",
-      phone: LINKS.glendaleParkingPhone,
-    });
-    items.push(legalAid);
-  } else if (a.document_type === "contractor_quote") {
-    items.push({ title: h.cslb, url: LINKS.cslb, urlLabel: "cslb.ca.gov" });
-    items.push({
-      title: h.glendalePermits,
-      note: h.glendalePermitsNote,
-      url: LINKS.glendaleDevServices,
-      urlLabel: "glendaleca.gov",
-      phone: LINKS.glendaleDevServicesPhone,
-    });
-  } else {
-    items.push(legalAid);
-  }
-  if (a.legitimacy_check && a.legitimacy_check.verdict !== "looks_legitimate") {
-    items.push({ title: h.reportScam, url: LINKS.ftc, urlLabel: "reportfraud.ftc.gov" });
-  }
-
-  return (
-    <Card i={i}>
-      <CardTitle>🤝 {t.helpTitle}</CardTitle>
-      <ul className="space-y-3">
-        {items.map((it) => (
-          <li key={it.title} className="rounded-xl bg-paper p-4 ring-1 ring-line">
-            <p className="font-semibold leading-snug">{it.title}</p>
-            {it.note && <p className="mt-1 text-[15px] leading-snug text-stone-700">{it.note}</p>}
-            <div className="mt-2 flex flex-wrap gap-2">
-              <a
-                href={it.url}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
-              >
-                🌐 {it.urlLabel}
-              </a>
-              {it.phone && (
-                <a
-                  href={telHref(it.phone)}
-                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
-                >
-                  📞 {it.phone}
-                </a>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </Card>
+    </section>
   );
 }
 
 /* ---------- Read aloud ---------- */
 
-function langOf(tag: string) {
-  const base = tag.toLowerCase().split(/[-_]/)[0];
-  return base === "tl" ? "fil" : base; // Tagalog voices are usually tagged fil-PH
-}
+const VOICE_PREFIX: Record<Lang, string[]> = { en: ["en"], hy: ["hy"], es: ["es"], ko: ["ko"], tl: ["fil", "tl"] };
 
-function findVoice(locale: string): SpeechSynthesisVoice | null {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
-  const want = langOf(locale);
-  return window.speechSynthesis.getVoices().find((v) => langOf(v.lang) === want) ?? null;
-}
-
-/** Shows only when the phone actually has a voice for this language (Armenian often has none). */
-export function ReadAloudButton({ a, t, locale }: { a: Analysis; t: Strings; locale: string }) {
+export function ReadAloud({ a, t, lang, dateLabel }: { a: Analysis; t: Strings; lang: Lang; dateLabel: string | null }) {
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const runRef = useRef(0);
 
   useEffect(() => {
-    if (!("speechSynthesis" in window)) return;
-    const update = () => setVoice(findVoice(locale));
-    update();
-    window.speechSynthesis.addEventListener("voiceschanged", update);
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const pick = () => {
+      const voices = window.speechSynthesis.getVoices();
+      const v = voices.find((x) => VOICE_PREFIX[lang].some((p) => x.lang.toLowerCase().startsWith(p)));
+      setVoice(v ?? null);
+    };
+    pick();
+    window.speechSynthesis.addEventListener("voiceschanged", pick);
     return () => {
-      window.speechSynthesis.removeEventListener("voiceschanged", update);
+      window.speechSynthesis.removeEventListener("voiceschanged", pick);
       window.speechSynthesis.cancel();
     };
-  }, [locale]);
+  }, [lang]);
 
+  // Only offer it when the phone actually has a voice for this language.
   if (!voice) return null;
 
-  function stop() {
-    runRef.current++;
-    window.speechSynthesis.cancel();
-    setSpeaking(false);
-  }
-
-  function start() {
-    stop();
-    const run = runRef.current;
-    const d = a.deadline;
-    const deadline =
-      d && (d.date || d.what_is_due)
-        ? `${t.deadlineUnknownDate}: ${[formatDate(d.date, locale), d.what_is_due].filter(Boolean).join(". ")}`
-        : "";
-    // Short chunks: some browsers stop long utterances after ~15 seconds.
-    const chunks = [
+  function toggle() {
+    const s = window.speechSynthesis;
+    if (speaking) {
+      runRef.current++;
+      s.cancel();
+      setSpeaking(false);
+      return;
+    }
+    const parts = [
       a.headline,
-      deadline,
+      a.deadline?.what_is_due ? `${t.dueWord}${dateLabel ? `, ${dateLabel}` : ""}. ${a.deadline.what_is_due}` : "",
       a.summary,
-      a.action_steps.length ? `${t.whatToDo}:` : "",
-      ...a.action_steps.map((s, n) => `${n + 1}. ${s.title}. ${s.detail}`),
-    ]
-      .flatMap((c) => c.split(/(?<=[.!?։。])\s+/))
+      a.action_steps.length ? `${t.stepsWord}.` : "",
+      ...a.action_steps.map((st, n) => `${n + 1}. ${st.title}. ${st.detail}`),
+    ].filter(Boolean);
+    // Short chunks, queued: some browsers silently stop a single long utterance after ~15 seconds.
+    const chunks = parts
+      .flatMap((c) => c.split(/(?<=[.!?։。])s+/))
       .map((c) => c.trim())
       .filter(Boolean);
+    s.cancel();
+    const run = ++runRef.current;
     chunks.forEach((c, n) => {
       const u = new SpeechSynthesisUtterance(c);
       u.voice = voice;
       u.lang = voice!.lang;
-      u.rate = 0.95;
+      u.rate = 0.92;
       if (n === chunks.length - 1) u.onend = () => run === runRef.current && setSpeaking(false);
-      window.speechSynthesis.speak(u);
+      u.onerror = () => run === runRef.current && setSpeaking(false);
+      s.speak(u);
     });
     setSpeaking(true);
   }
 
   return (
     <button
-      onClick={speaking ? stop : start}
-      className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+      onClick={toggle}
+      className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
     >
       {speaking ? `⏹ ${t.stopReading}` : `🔊 ${t.readAloud}`}
     </button>

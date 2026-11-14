@@ -1,0 +1,95 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Says it is from the \"Internal Revenue Service, Tax Enforcement Division, Collections Unit 7\" (Officer Daniel Brooks, Badge #4471). This is very likely fake.",
+  "headline": "This is almost certainly a scam letter pretending to be the IRS.",
+  "summary": "This letter says it is from the IRS and claims you owe $4,860 in taxes. It threatens arrest in 48 hours and asks for gift cards or a wire transfer. The real IRS does not do this. Do not call the number, do not pay, and do not give out any personal information.",
+  "amount_due": "$4,860.00 (claimed, and very likely not real)",
+  "deadline": {
+    "date": "{{ISO:+1}}",
+    "days_remaining": 1,
+    "what_is_due": "The letter demands payment within 48 hours of its date (Nov 13, 2026). This is a pressure tactic. You do not need to meet it."
+  },
+  "urgency": "urgent",
+  "if_ignored": "If you ignore this letter, nothing will happen. Police will not come to your home because of it. The danger is in responding. If you pay or share your Social Security number or bank details, you could lose money or have your identity stolen.",
+  "action_steps": [
+    {
+      "title": "Do not call or pay",
+      "detail": "Do not call (818) 555-0199. Do not buy gift cards. Do not send a wire transfer. Do not give your Social Security number or bank details to anyone who contacts you this way.",
+      "contact": null
+    },
+    {
+      "title": "Check your real tax account if you are worried",
+      "detail": "If you want to be sure you owe nothing, sign in to your IRS online account at irs.gov/account. Or call the real IRS at 800-829-1040. Get this number from irs.gov, not from the letter.",
+      "contact": "800-829-1040 / irs.gov/account"
+    },
+    {
+      "title": "Report the scam",
+      "detail": "Report it to the Treasury Inspector General for Tax Administration (TIGTA) at tigta.gov or 800-366-4484. You can also report it to the FTC at reportfraud.ftc.gov.",
+      "contact": "800-366-4484 / tigta.gov / reportfraud.ftc.gov"
+    },
+    {
+      "title": "If you already paid or shared information",
+      "detail": "Call your bank right away. Put a fraud alert or credit freeze on your credit reports. Report the identity theft at identitytheft.gov. If you paid with gift cards, call the card company at once.",
+      "contact": "identitytheft.gov"
+    },
+    {
+      "title": "Tell family and warn others",
+      "detail": "Scammers say to keep this secret so no one can stop you. Talk to family or a friend you trust. Share this with older relatives, since they are often targeted.",
+      "contact": null
+    },
+    {
+      "title": "Throw the letter away safely",
+      "detail": "Keep a copy or photo if you want to report it. Then shred the letter.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "It demands payment by Apple or Target gift cards or wire transfer. The IRS never asks for this."
+    },
+    {
+      "severity": "high",
+      "text": "It threatens arrest and police at your home within 48 hours. The IRS does not do this."
+    },
+    {
+      "severity": "high",
+      "text": "It asks for your Social Security number and bank details by phone."
+    },
+    {
+      "severity": "high",
+      "text": "It tells you not to talk to your family or your bank. Scammers say this to keep you isolated."
+    },
+    {
+      "severity": "medium",
+      "text": "It is addressed to \"Dear Taxpayer\" with no name or address. The real IRS uses your name and a notice number."
+    },
+    {
+      "severity": "medium",
+      "text": "The IRS does not have a \"Tax Enforcement Division\" with \"officers\" and badge numbers who arrest people. The IRS also first sends official notices by mail and gives you time to respond or appeal."
+    },
+    {
+      "severity": "medium",
+      "text": "The phone number is a local 818 number that looks like a 555 fake number. It is not an IRS number."
+    },
+    {
+      "severity": "low",
+      "text": "The writing has errors, like \"Our records shows\" and \"drivers license\". Real government letters are carefully checked."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "likely_scam",
+    "reasons": [
+      "Payment by gift cards or wire transfer is a classic scam sign.",
+      "It threatens arrest and police within 48 hours.",
+      "It asks for your Social Security number and bank account over the phone.",
+      "It tells you to keep it secret from family and your bank.",
+      "It is generic (\"Dear Taxpayer\") and has grammar mistakes.",
+      "The real IRS contacts people first by mail, lets them appeal, and never demands payment by gift card."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

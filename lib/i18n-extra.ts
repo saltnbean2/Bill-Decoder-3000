@@ -1,0 +1,293 @@
+import type { Lang } from "./types";
+
+export interface ExtraStrings {
+  sampleScam: string;
+  remindTitle: string;
+  remindSub: string;
+  google: string;
+  apple: string;
+  outlook: string;
+  eventPrefix: string;
+  share: string;
+  shareSub: string;
+  shareText: string;
+  whatsapp: string;
+  shareFooter: string;
+  helpTitle: string;
+  helpSub: string;
+  call: string;
+  website: string;
+  numberMismatchTitle: (agency: string) => string;
+  numberMismatchBody: (bad: string, official: string) => string;
+  numberMatchTitle: (agency: string) => string;
+  officialNumber: string;
+  askTitle: string;
+  askPlaceholder: string;
+  askSend: string;
+  askSuggestions: string[];
+  askThinking: string;
+  askError: string;
+  readAloud: string;
+  stopReading: string;
+  stepsWord: string;
+  dueWord: string;
+  fakeDeadline: string;
+  agentButton: string;
+  agentTitle: string;
+  agentSub: string;
+  agentSuggestions: string[];
+  back: string;
+  customizeTitle: string;
+  customizePlaceholder: string;
+  customizeSend: string;
+  customizeSuggestions: string[];
+  customizing: string;
+  undo: string;
+  editByHand: string;
+  doneEditing: string;
+  customizeError: string;
+  letterUpdated: string;
+}
+
+export const EXTRA: Record<Lang, ExtraStrings> = {
+  en: {
+    sampleScam: "Suspicious letter",
+    remindTitle: "Don't miss it",
+    remindSub: "Add the deadline to your calendar, with reminders 3 days and 1 day before.",
+    google: "Google",
+    apple: "iPhone",
+    outlook: "Outlook",
+    eventPrefix: "Deadline",
+    share: "Send to family",
+    shareSub: "Let someone you trust help.",
+    shareText: "Text it",
+    whatsapp: "WhatsApp",
+    shareFooter: "Explained by Explain It",
+    helpTitle: "Free help near you",
+    helpSub: "Real people who can help, for free.",
+    call: "Call",
+    website: "Website",
+    numberMismatchTitle: (a) => `This phone number is NOT the official ${a} number`,
+    numberMismatchBody: (bad, off) => `The letter says to call ${bad}. The real ${off}. Don't call the number on the letter.`,
+    numberMatchTitle: (a) => `Phone number matches the official ${a} number`,
+    officialNumber: "official number is",
+    askTitle: "Ask a question",
+    askPlaceholder: "Type your question…",
+    askSend: "Ask",
+    askSuggestions: ["Can I pay in parts?", "What if I miss the deadline?", "Who can I call for help?"],
+    askThinking: "Thinking…",
+    askError: "Couldn't answer right now. Try again.",
+    readAloud: "Read it to me",
+    stopReading: "Stop",
+    stepsWord: "What to do",
+    dueWord: "Deadline",
+    fakeDeadline: "This \"deadline\" is a pressure trick",
+    agentButton: "Ask a question",
+    agentTitle: "Ask Explain It",
+    agentSub: "Ask anything about a letter, bill, ticket or call. I can check phone numbers and find free help in Glendale.",
+    agentSuggestions: ["Someone called saying they are the IRS and want gift cards. Is it real?", "How do I fight a parking ticket in Glendale?", "Where can I get free legal help?"],
+    back: "Back",
+    customizeTitle: "Change the letter",
+    customizePlaceholder: "e.g. Add that the sign was hidden by a tree",
+    customizeSend: "Update",
+    customizeSuggestions: ["Make it shorter", "Add: the sign was hidden by a tree", "Remove the second reason", "Make it more polite"],
+    customizing: "Updating your letter…",
+    undo: "Undo",
+    editByHand: "Edit by hand",
+    doneEditing: "Done",
+    customizeError: "Couldn't change the letter right now. Try again.",
+    letterUpdated: "Letter updated ✓",
+  },
+  hy: {
+    sampleScam: "Կասկածելի նամակ",
+    remindTitle: "Մի բաց թողեք",
+    remindSub: "Ավելացրեք վերջնաժամկետը ձեր օրացույցում՝ հիշեցումներով 3 օր և 1 օր առաջ։",
+    google: "Google",
+    apple: "iPhone",
+    outlook: "Outlook",
+    eventPrefix: "Վերջնաժամկետ",
+    share: "Ուղարկել ընտանիքին",
+    shareSub: "Թող ձեր վստահելի մարդը օգնի։",
+    shareText: "SMS",
+    whatsapp: "WhatsApp",
+    shareFooter: "Բացատրված է Explain It-ով",
+    helpTitle: "Անվճար օգնություն ձեր մոտ",
+    helpSub: "Իրական մարդիկ, որոնք կարող են անվճար օգնել։",
+    call: "Զանգել",
+    website: "Կայք",
+    numberMismatchTitle: (a) => `Այս հեռախոսահամարը ${a}-ի պաշտոնական համարը ՉԷ`,
+    numberMismatchBody: (bad, off) => `Նամակում ասված է զանգել ${bad}։ Իսկական ${off}։ Մի զանգեք նամակի համարով։`,
+    numberMatchTitle: (a) => `Հեռախոսահամարը համընկնում է ${a}-ի պաշտոնական համարի հետ`,
+    officialNumber: "պաշտոնական համարն է",
+    askTitle: "Հարց տվեք",
+    askPlaceholder: "Գրեք ձեր հարցը…",
+    askSend: "Հարցնել",
+    askSuggestions: ["Կարո՞ղ եմ մաս-մաս վճարել։", "Ի՞նչ կլինի, եթե ուշանամ։", "Ու՞մ կարող եմ զանգել օգնության համար։"],
+    askThinking: "Մտածում ենք…",
+    askError: "Հիմա չհաջողվեց պատասխանել։ Փորձեք կրկին։",
+    readAloud: "Կարդալ բարձրաձայն",
+    stopReading: "Կանգնեցնել",
+    stepsWord: "Ինչ անել",
+    dueWord: "Վերջնաժամկետ",
+    fakeDeadline: "Այս «վերջնաժամկետը» ճնշման հնարք է",
+    agentButton: "Հարց տալ",
+    agentTitle: "Հարցրեք Explain It-ին",
+    agentSub: "Հարցրեք ցանկացած նամակի, հաշվի, տուգանքի կամ զանգի մասին։ Կարող եմ ստուգել հեռախոսահամարները և գտնել անվճար օգնություն Գլենդելում։",
+    agentSuggestions: ["Ինչ-որ մեկը զանգեց, ասաց IRS-ից է և նվեր քարտեր է ուզում։ Իսկակա՞ն է։", "Ինչպե՞ս բողոքարկել կայանման տուգանքը Գլենդելում։", "Որտե՞ղ կարող եմ անվճար իրավաբանական օգնություն ստանալ։"],
+    back: "Հետ",
+    customizeTitle: "Փոխել նամակը",
+    customizePlaceholder: "օր.՝ Ավելացրեք, որ ցուցանակը ծառը փակել էր",
+    customizeSend: "Թարմացնել",
+    customizeSuggestions: ["Ավելի կարճ դարձրեք", "Ավելացրեք՝ ցուցանակը ծառը փակել էր", "Հանեք երկրորդ պատճառը", "Ավելի քաղաքավարի դարձրեք"],
+    customizing: "Թարմացնում ենք նամակը…",
+    undo: "Հետարկել",
+    editByHand: "Խմբագրել ձեռքով",
+    doneEditing: "Պատրաստ է",
+    customizeError: "Հիմա չհաջողվեց փոխել նամակը։ Փորձեք կրկին։",
+    letterUpdated: "Նամակը թարմացվեց ✓",
+  },
+  es: {
+    sampleScam: "Carta sospechosa",
+    remindTitle: "No lo olvide",
+    remindSub: "Agregue la fecha límite a su calendario, con recordatorios 3 días y 1 día antes.",
+    google: "Google",
+    apple: "iPhone",
+    outlook: "Outlook",
+    eventPrefix: "Fecha límite",
+    share: "Enviar a la familia",
+    shareSub: "Deje que alguien de confianza le ayude.",
+    shareText: "Mensaje",
+    whatsapp: "WhatsApp",
+    shareFooter: "Explicado por Explain It",
+    helpTitle: "Ayuda gratis cerca de usted",
+    helpSub: "Personas reales que pueden ayudarle gratis.",
+    call: "Llamar",
+    website: "Sitio web",
+    numberMismatchTitle: (a) => `Este teléfono NO es el número oficial de ${a}`,
+    numberMismatchBody: (bad, off) => `La carta dice que llame al ${bad}. El ${off}. No llame al número de la carta.`,
+    numberMatchTitle: (a) => `El teléfono coincide con el número oficial de ${a}`,
+    officialNumber: "número oficial es el",
+    askTitle: "Haga una pregunta",
+    askPlaceholder: "Escriba su pregunta…",
+    askSend: "Preguntar",
+    askSuggestions: ["¿Puedo pagar en partes?", "¿Qué pasa si no llego a tiempo?", "¿A quién llamo para pedir ayuda?"],
+    askThinking: "Pensando…",
+    askError: "No se pudo responder ahora. Intente otra vez.",
+    readAloud: "Léamelo",
+    stopReading: "Parar",
+    stepsWord: "Qué hacer",
+    dueWord: "Fecha límite",
+    fakeDeadline: "Esta \"fecha límite\" es un truco para presionarle",
+    agentButton: "Hacer una pregunta",
+    agentTitle: "Pregúntele a Explain It",
+    agentSub: "Pregunte lo que sea sobre una carta, factura, multa o llamada. Puedo verificar números de teléfono y encontrar ayuda gratis en Glendale.",
+    agentSuggestions: ["Alguien llamó diciendo que es del IRS y pide tarjetas de regalo. ¿Es real?", "¿Cómo disputo una multa de estacionamiento en Glendale?", "¿Dónde consigo ayuda legal gratis?"],
+    back: "Atrás",
+    customizeTitle: "Cambiar la carta",
+    customizePlaceholder: "p. ej. Agregue que un árbol tapaba el letrero",
+    customizeSend: "Actualizar",
+    customizeSuggestions: ["Hágala más corta", "Agregue: un árbol tapaba el letrero", "Quite la segunda razón", "Hágala más cortés"],
+    customizing: "Actualizando su carta…",
+    undo: "Deshacer",
+    editByHand: "Editar a mano",
+    doneEditing: "Listo",
+    customizeError: "No se pudo cambiar la carta ahora. Intente otra vez.",
+    letterUpdated: "Carta actualizada ✓",
+  },
+  ko: {
+    sampleScam: "수상한 편지",
+    remindTitle: "놓치지 마세요",
+    remindSub: "마감일을 달력에 추가하고 3일 전, 1일 전에 알림을 받으세요.",
+    google: "Google",
+    apple: "iPhone",
+    outlook: "Outlook",
+    eventPrefix: "마감일",
+    share: "가족에게 보내기",
+    shareSub: "믿을 수 있는 사람에게 도움을 받으세요.",
+    shareText: "문자",
+    whatsapp: "WhatsApp",
+    shareFooter: "Explain It이 설명했어요",
+    helpTitle: "가까운 무료 도움",
+    helpSub: "무료로 도와줄 수 있는 실제 기관이에요.",
+    call: "전화",
+    website: "웹사이트",
+    numberMismatchTitle: (a) => `이 전화번호는 ${a}의 공식 번호가 아니에요`,
+    numberMismatchBody: (bad, off) => `편지에는 ${bad}로 전화하라고 되어 있어요. 실제 ${off}. 편지에 적힌 번호로 전화하지 마세요.`,
+    numberMatchTitle: (a) => `전화번호가 ${a}의 공식 번호와 일치해요`,
+    officialNumber: "공식 번호는",
+    askTitle: "질문하기",
+    askPlaceholder: "질문을 입력하세요…",
+    askSend: "질문",
+    askSuggestions: ["나눠서 낼 수 있나요?", "마감일을 놓치면 어떻게 되나요?", "누구에게 도움을 요청할 수 있나요?"],
+    askThinking: "생각 중…",
+    askError: "지금은 답할 수 없어요. 다시 시도해 주세요.",
+    readAloud: "읽어 주세요",
+    stopReading: "멈추기",
+    stepsWord: "해야 할 일",
+    dueWord: "마감일",
+    fakeDeadline: "이 \"마감일\"은 압박하려는 속임수예요",
+    agentButton: "질문하기",
+    agentTitle: "Explain It에게 물어보세요",
+    agentSub: "편지, 청구서, 딱지, 전화에 대해 무엇이든 물어보세요. 전화번호를 확인하고 글렌데일의 무료 도움을 찾아 드려요.",
+    agentSuggestions: ["IRS라며 기프트카드를 달라는 전화가 왔어요. 진짜인가요?", "글렌데일 주차 딱지에 어떻게 이의를 제기하나요?", "무료 법률 도움은 어디서 받을 수 있나요?"],
+    back: "뒤로",
+    customizeTitle: "편지 고치기",
+    customizePlaceholder: "예: 나무가 표지판을 가렸다는 내용을 추가해 주세요",
+    customizeSend: "고치기",
+    customizeSuggestions: ["더 짧게 해 주세요", "추가: 나무가 표지판을 가렸어요", "두 번째 이유를 빼 주세요", "더 정중하게 해 주세요"],
+    customizing: "편지를 고치는 중…",
+    undo: "되돌리기",
+    editByHand: "직접 고치기",
+    doneEditing: "완료",
+    customizeError: "지금은 편지를 고칠 수 없어요. 다시 시도해 주세요.",
+    letterUpdated: "편지를 고쳤어요 ✓",
+  },
+  tl: {
+    sampleScam: "Kahina-hinalang sulat",
+    remindTitle: "Huwag itong makalimutan",
+    remindSub: "Idagdag ang deadline sa kalendaryo mo, may paalala 3 araw at 1 araw bago.",
+    google: "Google",
+    apple: "iPhone",
+    outlook: "Outlook",
+    eventPrefix: "Deadline",
+    share: "Ipadala sa pamilya",
+    shareSub: "Hayaang tumulong ang taong pinagkakatiwalaan mo.",
+    shareText: "I-text",
+    whatsapp: "WhatsApp",
+    shareFooter: "Ipinaliwanag ng Explain It",
+    helpTitle: "Libreng tulong malapit sa iyo",
+    helpSub: "Mga totoong taong makakatulong nang libre.",
+    call: "Tumawag",
+    website: "Website",
+    numberMismatchTitle: (a) => `HINDI ito ang opisyal na numero ng ${a}`,
+    numberMismatchBody: (bad, off) => `Sabi ng sulat, tumawag sa ${bad}. Ang totoong ${off}. Huwag tawagan ang numero sa sulat.`,
+    numberMatchTitle: (a) => `Tugma ang numero sa opisyal na numero ng ${a}`,
+    officialNumber: "opisyal na numero ay",
+    askTitle: "Magtanong",
+    askPlaceholder: "I-type ang tanong mo…",
+    askSend: "Itanong",
+    askSuggestions: ["Puwede ko bang hulugan?", "Paano kung lumampas ako sa deadline?", "Sino ang puwede kong tawagan?"],
+    askThinking: "Nag-iisip…",
+    askError: "Hindi makasagot ngayon. Subukan ulit.",
+    readAloud: "Basahin para sa akin",
+    stopReading: "Ihinto",
+    stepsWord: "Ano ang gagawin",
+    dueWord: "Deadline",
+    fakeDeadline: "Panakot lang ang \"deadline\" na ito",
+    agentButton: "Magtanong",
+    agentTitle: "Tanungin ang Explain It",
+    agentSub: "Magtanong tungkol sa sulat, bill, tiket o tawag. Kaya kong i-check ang mga numero ng telepono at maghanap ng libreng tulong sa Glendale.",
+    agentSuggestions: ["May tumawag na IRS daw at gusto ng gift cards. Totoo ba ito?", "Paano ko lalabanan ang parking ticket sa Glendale?", "Saan ako makakakuha ng libreng legal na tulong?"],
+    back: "Bumalik",
+    customizeTitle: "Baguhin ang sulat",
+    customizePlaceholder: "hal. Idagdag na natakpan ng puno ang karatula",
+    customizeSend: "I-update",
+    customizeSuggestions: ["Paikliin", "Idagdag: natakpan ng puno ang karatula", "Tanggalin ang ikalawang dahilan", "Gawing mas magalang"],
+    customizing: "Ina-update ang sulat mo…",
+    undo: "I-undo",
+    editByHand: "I-edit nang mano-mano",
+    doneEditing: "Tapos na",
+    customizeError: "Hindi mabago ang sulat ngayon. Subukan ulit.",
+    letterUpdated: "Na-update ang sulat ✓",
+  },
+};

@@ -33,6 +33,11 @@ const CHECKS = {
     ["no license number", !r.quote?.license_number],
     ["deposit flagged", /deposit|40%|8,100/i.test(JSON.stringify(r.red_flags))],
   ],
+  "scam-letter.png": (r) => [
+    ["type is official_letter", r.document_type === "official_letter"],
+    ["verdict likely_scam", r.legitimacy_check?.verdict === "likely_scam"],
+    ["fake number surfaced", /555-0199/.test(JSON.stringify(r))],
+  ],
   "jury-summons.png": (r) => [
     ["type is official_letter", r.document_type === "official_letter"],
     [`deadline is ${iso(10)}`, r.deadline?.date === iso(10)],

@@ -80,4 +80,4 @@ export interface Analysis {
   quote?: QuoteInfo | null;
 }
 
-export type SampleId = "ticket" | "letter" | "quote";
+export type SampleId = "ticket" | "letter" | "quote" | "scam";
