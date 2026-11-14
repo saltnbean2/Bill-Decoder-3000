@@ -28,6 +28,7 @@ Rules:
 - Facts the person states in their request may be used as true. Never invent any other facts.
 - If they ask to add a reason but don't give the details, add it with a [BRACKETED] placeholder they can fill in, e.g. "[describe what blocked the sign]".
 - When they give a detail that fills a [BRACKETED] placeholder, replace EVERY placeholder it fills, everywhere in the letter (for example, a name goes in both the sender block at the top and the signature). Keep other placeholders that are still unfilled.
+- If they tell you their name, it replaces BOTH the name line at the very top of the sender block (e.g. "[Your full name]") AND the printed name under the signature (e.g. "[Your printed name]"). Same for their address, phone or email: replace the matching placeholder lines at the top.
 - If they mention a photo or document, add an "Attached:" line or mention it where it fits.
 - Keep the letter's structure (sender block, date, recipient, Re: line, body, closing).
 
