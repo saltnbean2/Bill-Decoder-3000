@@ -36,7 +36,8 @@ The AI identifies the type of document and explains it at about a 6th-grade read
 - **Step-by-step checklist** with tap-to-call phone numbers and tappable websites taken from the document.
 - **📅 Calendar reminder** — one tap adds the deadline to iPhone/Apple, Google or Outlook calendar, with alerts 3 days and 1 day before.
 - **👪 Send to family** — share a short summary by text or WhatsApp, plus a link that opens the full explanation on the family member's phone. The explanation is carried inside the link itself, so nothing is stored online.
-- **💬 Ask a follow-up** — "Can I pay in parts?", "What if I miss the deadline?" — answered from the document, in your language.
+- **💬 Ask a follow-up** — "Can I pay in parts?", "What if I miss the deadline?" — answered from the document, in your language. Questions can be typed or spoken (🎤).
+- **📜 Read the whole letter** — every heading, paragraph and field of the document, in order, translated faithfully next to the original English, with names, numbers and dates kept exactly.
 
 ## What it does for specific documents
 
@@ -67,7 +68,7 @@ The AI identifies the type of document and explains it at about a 6th-grade read
 
 - Designed for older adults: large text, big tap targets, calm colours, one action per screen.
 - **Bigger-text mode** with one tap, remembered on the phone.
-- **Read aloud** in the selected language.
+- **Read aloud** in the selected language, and **ask by voice** instead of typing.
 - Plain language at about a 6th-grade reading level; no legal jargon, technical terms explained in parentheses.
 - Installable to the home screen like an app; works on any modern phone without an app store.
 - Lighthouse (mobile): 96 performance, 100 accessibility, 100 best practices.
