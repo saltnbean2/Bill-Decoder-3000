@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
 Go through the document from top to bottom and split it into short sections: each heading, paragraph, labelled field (like "Date: …" or "Amount due: …"), table row or list item is one section. For each section give:
 - "original": the text exactly as printed (fix nothing; write [unreadable] for parts you can't read).
-- "translated": a faithful translation into ${LANGUAGE_NAMES[language]}. Keep names, numbers, dates, amounts, phone numbers, addresses, codes and URLs exactly as they are. Translate the meaning plainly; do not summarize, add advice or leave anything out.
+- "translated": a faithful translation into ${LANGUAGE_NAMES[language]}. Keep names, numbers, dates, amounts, phone numbers, addresses, codes and URLs exactly as they are. Translate the meaning plainly, using the standard everyday words a native speaker would use for official terms (for example the usual word for "juror" or "citation" in that language); do not summarize, add advice or leave anything out.
 
 Skip decorative things like barcodes, logos and page borders. Never invent text that isn't there.`;
 
@@ -51,7 +51,7 @@ Skip decorative things like barcodes, logos and page borders. Never invent text 
         max_tokens: 12000,
         system,
         output_config: {
-          effort: "low",
+          effort: "medium",
           format: {
             type: "json_schema",
             schema: {
