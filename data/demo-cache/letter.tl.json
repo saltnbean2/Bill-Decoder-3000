@@ -1,0 +1,78 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Superior Court Jury Services Office, Valley Crest Judicial District (Jury Commissioner)",
+  "headline": "Ito ay isang summons para sa jury duty na nagsasabing dapat kang magpakita sa {{DATE:+10}}.",
+  "summary": "Pinili ka ng Superior Court Jury Services Office para sa jury duty. Dapat kang sumagot bago ang araw ng pagpapakita mo, kahit gusto mong humiling ng pagpapaliban o pagpapaalis sa tungkulin. Kung wala kang gagawin, maaari kang ppagmultahin. Ang araw ng pagpapakita ay 10 araw mula ngayon.",
+  "amount_due": null,
+  "deadline": {
+    "date": "{{ISO:+10}}",
+    "days_remaining": 10,
+    "what_is_due": "Sumagot sa summons (kumpirmahin, o humiling ng pagpapaliban o pagpapaalis sa tungkulin) bago ang petsang ito. Pagkatapos, magpakita nang personal ng 7:45 AM sa {{DATE:+10}}, kung kailangan ka pa rin."
+  },
+  "urgency": "urgent",
+  "if_ignored": "Sinasabi ng sulat na maaari kang pagmultahin ng hanggang $1,500 at utusang pumunta sa hearing sa korte (isang \"order to show cause\") dahil hindi mo sinunod ang utos ng korte. Maiiwasan ito kung sasagot ka sa tamang oras.",
+  "action_steps": [
+    {
+      "title": "Sumagot na sa summons ngayon",
+      "detail": "Pumunta sa www.jurysvc-sample.org at ilagay ang Juror ID mo na JX-302-8817. Maaari mong kumpirmahin doon ang serbisyo mo, o humiling ng pagpapaliban o pagpapaalis sa tungkulin. Gawin ito bago pa ang {{MD:+10}}.",
+      "contact": "www.jurysvc-sample.org"
+    },
+    {
+      "title": "O sumagot sa telepono",
+      "detail": "Tumawag mula Lunes hanggang Biyernes, 8:00 AM hanggang 4:30 PM. Ihanda ang Juror ID mo (JX-302-8817).",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Sabihin kung kailangan mo ng tulong",
+      "detail": "Kapag sumagot ka, sabihin kung kailangan mo ng interpreter o tulong dahil sa kapansanan. Kung hindi ka makakapagsilbi sa petsang iyon, humiling ng pagpapaliban o pagpapaalis sa tungkulin nang sabay.",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Tingnan ulit sa gabi bago ang araw",
+      "detail": "Pagkatapos ng 5:00 PM sa Lunes, November 23, tumawag o tingnan ang website para kumpirmahin na kailangan ka pa ring pumunta.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
+    },
+    {
+      "title": "Pumunta sa korte sa araw ng pagpapakita",
+      "detail": "Pumunta sa Jury Assembly Room, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, bago mag-7:45 AM sa Martes, {{DATE:+10}}. Dalhin ang summons na ito at isang photo ID. Ang paradahan ay nasa Lot B.",
+      "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
+    },
+    {
+      "title": "Sabihin sa employer mo",
+      "detail": "Sinasabi ng sulat na hindi ka maaaring tanggalin ng employer mo dahil sa jury service. Bigyan sila ng kopya ng summons para makapagplano sila. Ang bayad ay $15 kada araw simula sa ikalawang araw, dagdag ang mileage.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "low",
+      "text": "Inuulit ang linya ng petsa ng pagpapakita: \"{{WD:+10}}, {{DATE:+10}}, {{DATE:+10}}.\" Mukhang mali sa pagkaka-print. Malinaw pa rin ang petsa, pero maaari mo itong kumpirmahin kapag tumawag ka."
+    },
+    {
+      "severity": "low",
+      "text": "May tatak ang sulat na \"SAMPLE — DEMO ONLY.\" Kung talagang natanggap mo ito sa koreo, tawagan ang korte para matiyak na totoo ito. Kung demo lang ito, hindi mo kailangang kumilos."
+    },
+    {
+      "severity": "low",
+      "text": "Sinasabi ng sulat na nakatira ka sa Fairview Glen, pero ang app na ito ay tumutulong sa mga residente ng Glendale. Tiyaking para sa iyo ang sulat at tama ang address mo."
+    },
+    {
+      "severity": "low",
+      "text": "Pareho ang numero ng telepono sa pangunahing numero ng korte sa sulat. Ang website ay nagtatapos sa \"-sample.org,\" na kakaiba para sa korte. Karaniwang nagtatapos sa .gov o ca.gov ang totoong website ng korte sa California."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "be_careful",
+    "reasons": [
+      "Magandang senyales: hindi ito humihingi ng bayad, gift card, SSN, o bank login. Hindi rin ito nananakot ng pag-aresto.",
+      "Magandang senyales: may Juror ID, petsa ng pagpapadala, pangalan at address mo, at normal na proseso ng korte.",
+      "Dapat suriin: ang website ay \"jurysvc-sample.org\" at hindi .gov o court.ca.gov na address.",
+      "Dapat suriin: may tatak na \"SAMPLE — DEMO ONLY\" ang pahina at may inuulit na parirala sa linya ng petsa ng pagpapakita.",
+      "Para sigurado, hanapin ang numero ng telepono ng Superior Court ng county mo sa opisyal nilang website (dapat nagtatapos ito sa .gov o courts.ca.gov). Tawagan ang numerong iyon para kumpirmahin na may jury summons ka. Huwag maglagay ng personal na detalye sa website na hindi ka sigurado."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

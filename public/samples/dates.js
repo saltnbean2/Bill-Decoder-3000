@@ -11,7 +11,7 @@
     var opts = fmt === "short"
       ? { month: "2-digit", day: "2-digit", year: "numeric", timeZone: "UTC" }
       : { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" };
-    if (fmt === "weekday") opts.weekday = "long";
+    if (fmt === "weekday") opts = { weekday: "long", timeZone: "UTC" };
     el.textContent = new Intl.DateTimeFormat("en-US", opts).format(d);
   });
 })();

@@ -1,0 +1,78 @@
+{
+  "document_type": "official_letter",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Oficina de Servicios de Jurado del Tribunal Superior, Distrito Judicial de Valley Crest (Comisionado de Jurados)",
+  "headline": "Esta es una citación para servir como jurado. Le pide presentarse el 24 de noviembre de 2026.",
+  "summary": "La Oficina de Servicios de Jurado del Tribunal Superior lo eligió para servir como jurado. Debe responder antes de su fecha de presentación, incluso si quiere pedir un aplazamiento o una excusa. Si no hace nada, podrían ponerle una multa. La fecha de presentación es dentro de 10 días a partir de hoy.",
+  "amount_due": null,
+  "deadline": {
+    "date": "{{ISO:+10}}",
+    "days_remaining": 10,
+    "what_is_due": "Responda a la citación (confirme, o pida un aplazamiento o una excusa) antes de esta fecha. Después, preséntese en persona a las 7:45 AM el 24 de noviembre de 2026, si todavía lo necesitan."
+  },
+  "urgency": "urgent",
+  "if_ignored": "La carta dice que podrían multarlo hasta con $1,500 y ordenarle ir a una audiencia en la corte (una \\\"orden para mostrar causa\\\") por no obedecer una orden de la corte. Si responde a tiempo, evita esto.",
+  "action_steps": [
+    {
+      "title": "Responda a la citación ahora",
+      "detail": "Entre a www.jurysvc-sample.org e ingrese su número de jurado JX-302-8817. Ahí puede confirmar su servicio, o pedir un aplazamiento o una excusa. Hágalo mucho antes del 24 de noviembre.",
+      "contact": "www.jurysvc-sample.org"
+    },
+    {
+      "title": "O responda por teléfono",
+      "detail": "Llame de lunes a viernes, de 8:00 AM a 4:30 PM. Tenga a la mano su número de jurado (JX-302-8817).",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Avise si necesita ayuda",
+      "detail": "Cuando responda, diga si necesita un intérprete o una adaptación por discapacidad. Si no puede servir en esa fecha, pida un aplazamiento o una excusa al mismo tiempo.",
+      "contact": "(818) 555-0143"
+    },
+    {
+      "title": "Vuelva a revisar la noche anterior",
+      "detail": "Después de las 5:00 PM del lunes 23 de noviembre, llame o revise el sitio web para confirmar que todavía tiene que presentarse.",
+      "contact": "www.jurysvc-sample.org or (818) 555-0143"
+    },
+    {
+      "title": "Vaya a la corte en la fecha indicada",
+      "detail": "Esté en la Sala de Reunión de Jurados, Valley Crest Courthouse, 88 Courthouse Way, Fairview Glen, CA 91299, a las 7:45 AM del martes 24 de noviembre de 2026. Lleve esta citación y una identificación con foto. El estacionamiento está en el Lote B.",
+      "contact": "88 Courthouse Way, Fairview Glen, CA 91299"
+    },
+    {
+      "title": "Avise a su empleador",
+      "detail": "La carta dice que su empleador no puede despedirlo por servir como jurado. Dele una copia de la citación para que se organice. El pago es de $15 por día a partir del día 2, más millaje.",
+      "contact": null
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "low",
+      "text": "La línea de la fecha se repite: \"{{WD:+10}}, {{DATE:+10}}, {{DATE:+10}}.\" Parece un error de impresión. La fecha se entiende bien, pero puede confirmarla cuando llame."
+    },
+    {
+      "severity": "low",
+      "text": "La carta tiene el sello \"SAMPLE — DEMO ONLY\" (muestra, solo demostración). Si de verdad la recibió por correo, llame a la corte para confirmar que es real. Si es solo una demostración, no tiene que hacer nada."
+    },
+    {
+      "severity": "low",
+      "text": "La carta dice que usted vive en Fairview Glen, pero esta app ayuda a residentes de Glendale. Revise que la carta sea para usted y que su dirección esté correcta."
+    },
+    {
+      "severity": "low",
+      "text": "El teléfono es el mismo que el número principal de la corte en la carta. El sitio web termina en \"-sample.org\", lo cual es raro para una corte. Los sitios reales de las cortes de California normalmente terminan en .gov o ca.gov."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "be_careful",
+    "reasons": [
+      "Buenas señales: no pide pagos, ni tarjetas de regalo, ni su número de Seguro Social, ni su acceso al banco. No amenaza con arresto.",
+      "Buenas señales: tiene un número de jurado, una fecha de envío, su nombre y dirección, y un proceso normal de la corte.",
+      "Conviene revisar: el sitio web es \"jurysvc-sample.org\" y no una dirección .gov o court.ca.gov.",
+      "Conviene revisar: la página tiene el sello \"SAMPLE — DEMO ONLY\" y la línea de la fecha tiene una frase repetida.",
+      "Para estar seguro, busque el teléfono del Tribunal Superior de su condado en su sitio web oficial (debe terminar en .gov o courts.ca.gov). Llame a ese número para confirmar que tiene una citación de jurado. No ingrese datos personales en un sitio del que no esté seguro."
+    ]
+  },
+  "ticket": null,
+  "quote": null
+}

@@ -1,0 +1,146 @@
+{
+  "document_type": "contractor_quote",
+  "confidence": "high",
+  "unreadable_reason": null,
+  "sender": "Premier Valley Roofing (R. Dale, Ventas), Fairview Glen, CA",
+  "headline": "Esta es una cotización de $20,250 para cambiar el techo, con varias señales de alerta.",
+  "summary": "Premier Valley Roofing quiere $20,250 por cambiar su techo (unos 1,800 pies cuadrados). El precio es alto para el tamaño del trabajo. La cotización no tiene número de licencia, pide un depósito del 40% y le presiona para que firme hoy. No firme ni pague todavía. Tómese su tiempo para comparar.",
+  "amount_due": "$20,250.00 total; $8,100.00 deposit asked at signing",
+  "deadline": {
+    "date": null,
+    "days_remaining": null,
+    "what_is_due": "La cotización dice que el precio es 'válido solo hoy'. Eso es una táctica de presión de ventas, no una fecha límite real. La cotización tiene fecha del {{ISO:-1}}. Usted no tiene que firmar."
+  },
+  "urgency": "no_rush",
+  "if_ignored": "No pasa nada malo si no firma. Puede que el precio cambie, pero un buen techador le dará otra cotización. El riesgo más grande es firmar rápido y pagar un depósito grande.",
+  "action_steps": [
+    {
+      "title": "No firme ni pague hoy",
+      "detail": "Dígale al vendedor que necesita unos días. Un buen contratista dirá que sí. Todavía no pague en efectivo ni dé ningún depósito.",
+      "contact": "(818) 555-0188"
+    },
+    {
+      "title": "Revise la licencia",
+      "detail": "La cotización no muestra número de licencia. Pídalo por escrito. Luego búsquelo y confirme que esté activo, y que tenga seguro de compensación para trabajadores y una fianza.",
+      "contact": "cslb.ca.gov"
+    },
+    {
+      "title": "Consiga otras 2 o 3 cotizaciones por escrito",
+      "detail": "Pida a cada techador que incluya el mismo trabajo: quitar el techo viejo, 18 cuadros de tejas, capa base, tapajuntas y ventilas. Después compare los precios lado a lado.",
+      "contact": null
+    },
+    {
+      "title": "Pida un contrato detallado",
+      "detail": "Debe incluir la marca y el tipo de teja, las horas o el costo de la mano de obra, las fechas de inicio y fin, una garantía por escrito y qué significa 'materiales varios'.",
+      "contact": null
+    },
+    {
+      "title": "Pida un depósito más bajo",
+      "detail": "La ley de California limita el pago inicial al 10% del precio o $1,000, lo que sea menos. Pida no más de $1,000. Pague con cheque o tarjeta, no en efectivo, para tener un comprobante.",
+      "contact": null
+    },
+    {
+      "title": "Busque ayuda gratis si siente presión",
+      "detail": "Puede reportar problemas a la Junta de Licencias de Contratistas del Estado (CSLB).",
+      "contact": "cslb.ca.gov or 800-321-2752"
+    }
+  ],
+  "red_flags": [
+    {
+      "severity": "high",
+      "text": "No aparece ningún número de licencia de contratista de California. Un trabajo de techo de este tamaño debe hacerlo un contratista con licencia."
+    },
+    {
+      "severity": "high",
+      "text": "El depósito es del 40% ($8,100). California por lo general limita el pago inicial al 10% o $1,000, lo que sea menos."
+    },
+    {
+      "severity": "high",
+      "text": "Presión de 'válido solo hoy' para que firme. Los techadores honestos le dejan comparar cotizaciones."
+    },
+    {
+      "severity": "high",
+      "text": "Descuento del 5% por pagar en efectivo. El efectivo no deja comprobante y es una señal común de contratistas riesgosos."
+    },
+    {
+      "severity": "medium",
+      "text": "Los $2,400 de 'materiales varios' no están claros. Además se cobran aparte de las tejas, la capa base y el tapajuntas."
+    },
+    {
+      "severity": "medium",
+      "text": "La 'mano de obra' de $1,750 no tiene horas. Parece poca junto a los $3,200 de quitar el techo viejo y los $9,450 de instalación, que probablemente ya incluyen mano de obra. Por eso no se sabe cómo se divide el costo real."
+    },
+    {
+      "severity": "medium",
+      "text": "No hay fechas de inicio ni fin ('por programar') ni garantía por escrito."
+    },
+    {
+      "severity": "low",
+      "text": "La página dice 'SAMPLE — DEMO ONLY' (solo muestra), así que quizá no sea una cotización real. Tómela con cuidado."
+    }
+  ],
+  "legitimacy_check": {
+    "verdict": "be_careful",
+    "reasons": [
+      "No se muestra número de licencia del contratista.",
+      "Mucha presión para firmar hoy y pagar en efectivo.",
+      "Depósito muy grande.",
+      "Conceptos poco claros y sin fechas ni garantía.",
+      "La página está marcada como muestra o demostración."
+    ]
+  },
+  "ticket": null,
+  "quote": {
+    "business_name": "Premier Valley Roofing",
+    "license_number": null,
+    "quoted_total": null,
+    "typical_total_low": 12500,
+    "typical_total_high": 17500,
+    "percent_vs_typical": 35,
+    "verdict": "high",
+    "line_items": [
+      {
+        "item": "Quitar tejas existentes (1 capa) y llevarse los escombros",
+        "price": 3200,
+        "typical_range": "$1,500–$2,800 (estimado)",
+        "rating": "high"
+      },
+      {
+        "item": "Tejas arquitectónicas, 18 cuadros, instaladas",
+        "price": 9450,
+        "typical_range": "$7,500–$10,500 (estimado)",
+        "rating": "fair"
+      },
+      {
+        "item": "Capa base sintética",
+        "price": 1800,
+        "typical_range": "$800–$1,500 (estimado)",
+        "rating": "high"
+      },
+      {
+        "item": "Tapajuntas, borde de goteo, botas para tubos y ventilas de cumbrera",
+        "price": 1650,
+        "typical_range": "$1,000–$2,000 (estimado)",
+        "rating": "fair"
+      },
+      {
+        "item": "Materiales varios",
+        "price": 2400,
+        "typical_range": "$0–$500, normalmente ya incluidos en otros conceptos (estimado)",
+        "rating": "very_high"
+      },
+      {
+        "item": "Mano de obra",
+        "price": 1750,
+        "typical_range": "Normalmente incluida en los precios de instalación; no dan las horas (estimado)",
+        "rating": "unclear"
+      }
+    ],
+    "questions_to_ask": [
+      "¿Cuál es su número de licencia de la CSLB, y puedo ver su comprobante de seguro y de compensación para trabajadores?",
+      "¿Qué incluyen exactamente los 'materiales varios' y la 'mano de obra', y por qué se cobran por separado?",
+      "¿Puede ser el depósito de $1,000 o menos, pagado con cheque o tarjeta, con un calendario de pagos según el avance del trabajo?",
+      "¿Cuáles son las fechas de inicio y fin, y qué garantía por escrito dan por los materiales y el trabajo?"
+    ]
+  }
+}
