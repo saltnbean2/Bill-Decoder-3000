@@ -274,6 +274,26 @@ export function Directory({ t, lang }: { t: Strings; lang: Lang }) {
 
 /* ---------- Ask a follow-up ---------- */
 
+const SPEECH_LOCALE: Record<Lang, string> = { en: "en-US", hy: "hy-AM", es: "es-US", ko: "ko-KR", tl: "fil-PH" };
+
+interface SpeechRecognitionLike {
+  lang: string;
+  interimResults: boolean;
+  continuous: boolean;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start(): void;
+  stop(): void;
+  abort(): void;
+}
+
+function speechRecognitionCtor(): (new () => SpeechRecognitionLike) | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { SpeechRecognition?: new () => SpeechRecognitionLike; webkitSpeechRecognition?: new () => SpeechRecognitionLike };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
+
 export function AskCard({
   a,
   t,
@@ -292,6 +312,37 @@ export function AskCard({
   const [qa, setQa] = useState<{ q: string; a: string | null; err?: boolean }[]>([]);
   const [input, setInput] = useState("");
   const busy = qa.some((x) => x.a === null && !x.err);
+
+  // Voice input: speak the question instead of typing it (only where the browser supports it).
+  // This card only renders after a user action (never on the server), so reading window here is safe.
+  const [canListen] = useState(() => !!speechRecognitionCtor());
+  const [listening, setListening] = useState(false);
+  const recog = useRef<SpeechRecognitionLike | null>(null);
+  useEffect(() => () => recog.current?.abort(), []);
+  function listen() {
+    if (listening) {
+      recog.current?.stop();
+      return;
+    }
+    const Ctor = speechRecognitionCtor();
+    if (!Ctor) return;
+    const r = new Ctor();
+    r.lang = SPEECH_LOCALE[lang];
+    r.interimResults = true;
+    r.continuous = false;
+    r.onresult = (e) => {
+      const text = Array.from(e.results)
+        .map((res) => res[0]?.transcript ?? "")
+        .join(" ")
+        .trim();
+      setInput(text);
+    };
+    r.onend = () => setListening(false);
+    r.onerror = () => setListening(false);
+    recog.current = r;
+    setListening(true);
+    r.start();
+  }
 
   async function ask(q: string) {
     q = q.trim();
@@ -359,10 +410,23 @@ export function AskCard({
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={t.askPlaceholder}
+          placeholder={listening ? t.listening : t.askPlaceholder}
           enterKeyHint="send"
           className="min-h-[48px] min-w-0 flex-1 rounded-xl bg-paper px-4 text-[16px] ring-1 ring-line outline-none focus:ring-2 focus:ring-teal"
         />
+        {canListen && (
+          <button
+            type="button"
+            onClick={listen}
+            aria-label={t.speak}
+            aria-pressed={listening}
+            className={`flex min-h-[48px] min-w-[48px] items-center justify-center rounded-xl text-[20px] ring-1 ${
+              listening ? "animate-pulse bg-red-50 ring-red-300" : "bg-white ring-line active:bg-teal-soft"
+            }`}
+          >
+            🎤
+          </button>
+        )}
         <button
           type="submit"
           disabled={busy || !input.trim()}
@@ -511,5 +575,81 @@ export function ReadAloud({ a, t, lang, dateLabel }: { a: Analysis; t: Strings; 
         `🔊 ${t.readAloud}`
       )}
     </button>
+  );
+}
+
+/* ---------- The whole letter, translated ---------- */
+
+export function FullTextCard({
+  t,
+  lang,
+  pages,
+  i,
+}: {
+  t: Strings;
+  lang: Lang;
+  pages: { base64: string; mediaType: string }[];
+  i: number;
+}) {
+  const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [sections, setSections] = useState<{ original: string; translated: string }[]>([]);
+  if (!pages.length) return null;
+
+  async function load() {
+    setState("loading");
+    try {
+      const res = await fetch("/api/fulltext", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ language: lang, pages: pages.map((p) => ({ image: p.base64, mediaType: p.mediaType })) }),
+      });
+      if (!res.ok) throw new Error();
+      const j = (await res.json()) as { sections: { original: string; translated: string }[] };
+      setSections(j.sections);
+      setState("done");
+    } catch {
+      setState("error");
+    }
+  }
+
+  if (state === "idle" || state === "error") {
+    return (
+      <section className="rise space-y-2" style={{ animationDelay: `${i * 50}ms` }}>
+        <button
+          onClick={() => void load()}
+          className="flex min-h-[52px] w-full items-center justify-center rounded-2xl bg-white px-4 text-[16px] font-semibold text-ink ring-1 ring-line active:bg-teal-soft"
+        >
+          {t.fullTextButton}
+        </button>
+        {state === "error" && <p className="text-center text-[15px] text-red-700">{t.fullTextError}</p>}
+      </section>
+    );
+  }
+
+  return (
+    <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
+      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📜 {t.fullTextTitle}</h2>
+      <p className="mb-3 text-[15px] text-muted">{t.fullTextSub}</p>
+      {state === "loading" ? (
+        <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
+          <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.fullTextLoading}
+        </p>
+      ) : (
+        <ol className="scroll-contain max-h-[70vh] space-y-3 overflow-y-auto">
+          {sections.map((s, n) => (
+            <li key={n} className="rounded-xl bg-paper p-3">
+              <p className="text-[17px] leading-snug">
+                <Linkify text={s.translated} />
+              </p>
+              {lang !== "en" && s.original && s.original !== s.translated && (
+                <p lang="en" className="mt-1.5 border-t border-line pt-1.5 text-[14px] leading-snug text-muted">
+                  <span className="font-semibold">{t.originalLabel}:</span> {s.original}
+                </p>
+              )}
+            </li>
+          ))}
+        </ol>
+      )}
+    </section>
   );
 }

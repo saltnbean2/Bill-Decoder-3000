@@ -64,6 +64,14 @@ export interface ExtraStrings {
   clearRecent: string;
   recentNote: string;
   explainPages: (n: number) => string;
+  fullTextButton: string;
+  fullTextTitle: string;
+  fullTextSub: string;
+  fullTextLoading: string;
+  fullTextError: string;
+  originalLabel: string;
+  speak: string;
+  listening: string;
   pageN: (n: number) => string;
 }
 
@@ -132,6 +140,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     clearRecent: "Clear",
     recentNote: "Saved only on this phone.",
     explainPages: (n) => `Explain ${n === 1 ? "this page" : `these ${n} pages`}`,
+    fullTextButton: "📜 Read the whole letter",
+    fullTextTitle: "The whole letter",
+    fullTextSub: "Every part of the document, in order.",
+    fullTextLoading: "Reading every line… about 20 seconds.",
+    fullTextError: "Couldn't do this right now. Try again.",
+    originalLabel: "Original",
+    speak: "Speak",
+    listening: "Listening…",
     pageN: (n) => `Page ${n}`,
   },
   hy: {
@@ -198,6 +214,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     clearRecent: "Մաքրել",
     recentNote: "Պահված է միայն այս հեռախոսում։",
     explainPages: (n) => `Բացատրել ${n} էջը`,
+    fullTextButton: "📜 Կարդալ ամբողջ նամակը հայերեն",
+    fullTextTitle: "Ամբողջ նամակը",
+    fullTextSub: "Փաստաթղթի յուրաքանչյուր մասը՝ հերթականությամբ։",
+    fullTextLoading: "Կարդում ենք յուրաքանչյուր տող… մոտ 20 վայրկյան։",
+    fullTextError: "Հիմա չհաջողվեց։ Փորձեք կրկին։",
+    originalLabel: "Բնօրինակը",
+    speak: "Խոսել",
+    listening: "Լսում եմ…",
     pageN: (n) => `Էջ ${n}`,
   },
   es: {
@@ -264,6 +288,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     clearRecent: "Borrar",
     recentNote: "Guardado solo en este teléfono.",
     explainPages: (n) => `Explicar ${n === 1 ? "esta página" : `estas ${n} páginas`}`,
+    fullTextButton: "📜 Leer toda la carta en español",
+    fullTextTitle: "Toda la carta",
+    fullTextSub: "Cada parte del documento, en orden.",
+    fullTextLoading: "Leyendo cada línea… unos 20 segundos.",
+    fullTextError: "No se pudo hacer ahora. Intente otra vez.",
+    originalLabel: "Original",
+    speak: "Hablar",
+    listening: "Escuchando…",
     pageN: (n) => `Página ${n}`,
   },
   ko: {
@@ -330,6 +362,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     clearRecent: "지우기",
     recentNote: "이 휴대폰에만 저장돼요.",
     explainPages: (n) => `${n}장 설명하기`,
+    fullTextButton: "📜 편지 전체를 한국어로 읽기",
+    fullTextTitle: "편지 전체",
+    fullTextSub: "문서의 모든 부분을 순서대로 보여 드려요.",
+    fullTextLoading: "한 줄씩 읽는 중… 약 20초 걸려요.",
+    fullTextError: "지금은 할 수 없어요. 다시 시도해 주세요.",
+    originalLabel: "원문",
+    speak: "말하기",
+    listening: "듣는 중…",
     pageN: (n) => `${n}페이지`,
   },
   tl: {
@@ -396,6 +436,14 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     clearRecent: "Burahin",
     recentNote: "Naka-save lang sa phone na ito.",
     explainPages: (n) => `Ipaliwanag ang ${n} pahina`,
+    fullTextButton: "📜 Basahin ang buong sulat sa Tagalog",
+    fullTextTitle: "Ang buong sulat",
+    fullTextSub: "Bawat bahagi ng dokumento, ayon sa ayos.",
+    fullTextLoading: "Binabasa ang bawat linya… mga 20 segundo.",
+    fullTextError: "Hindi magawa ngayon. Subukan ulit.",
+    originalLabel: "Orihinal",
+    speak: "Magsalita",
+    listening: "Nakikinig…",
     pageN: (n) => `Pahina ${n}`,
   },
 };

@@ -5,7 +5,7 @@ import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
-import { ActionRow, AskCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
+import { ActionRow, AskCard, FullTextCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
 import type { Lang } from "@/lib/types";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
@@ -604,6 +604,7 @@ export default function Results({
   onScanAnother,
   lang,
   image,
+  docPages = [],
   letters,
   onLetters,
 }: {
@@ -614,6 +615,7 @@ export default function Results({
   onScanAnother: () => void;
   lang: Lang;
   image: { base64: string; mediaType: string } | null;
+  docPages?: { base64: string; mediaType: string }[];
   letters: string[];
   onLetters: (next: string[]) => void;
 }) {
@@ -691,6 +693,7 @@ export default function Results({
 
       {/* 5. steps */}
       <Steps a={a} t={t} i={i++} busy={busy} />
+      {!busy && <FullTextCard key={lang} t={t} lang={lang} pages={docPages} i={i++} />}
 
       {/* 6. type-specific */}
       {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} letters={letters} onLetters={onLetters} />}

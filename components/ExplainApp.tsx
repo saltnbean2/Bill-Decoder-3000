@@ -87,6 +87,8 @@ export default function ExplainApp() {
   // "Show in English" (e.g. to show a clerk), without changing the chosen language.
   const [showEnglish, setShowEnglish] = useState(false);
   // The compressed document, kept in memory only, so follow-up questions can look at it again.
+  // Every page of the current document (for "read the whole letter").
+  const [docPages, setDocPages] = useState<{ base64: string; mediaType: string }[]>([]);
   const [image, setImage] = useState<{ base64: string; mediaType: string } | null>(null);
   const sampleRef = useRef<SampleId | null>(null);
   const lastInput = useRef<{ file: Blob; sample: SampleId | null; more?: PreparedFile[] } | null>(null);
@@ -123,6 +125,7 @@ export default function ExplainApp() {
     runId.current++;
     sampleRef.current = null;
     setImage(null);
+    setDocPages([]);
     setLetters([]);
     setResults({ [r.lang]: refreshDeadline(r.analysis) });
     setShownLang(r.lang);
@@ -206,6 +209,7 @@ export default function ExplainApp() {
     setLetters([]);
     setShowEnglish(false);
     setImage(null);
+    setDocPages([]);
     sampleRef.current = null;
     window.scrollTo({ top: 0 });
   }, []);
@@ -240,6 +244,7 @@ export default function ExplainApp() {
     lastInput.current = { file, sample, more };
     pending.current = {};
     setImage(null);
+    setDocPages([]);
     setNotice("");
     setTranslating(false);
     setLetters([]);
@@ -269,6 +274,10 @@ export default function ExplainApp() {
     if (id !== runId.current) return;
     setPreview(prepared.previewUrl);
     setImage({ base64: prepared.base64, mediaType: prepared.mediaType });
+    setDocPages([
+      { base64: prepared.base64, mediaType: prepared.mediaType },
+      ...more.map((m) => ({ base64: m.base64, mediaType: m.mediaType })),
+    ]);
     if (prepared.mediaType === "application/pdf" && prepared.base64.length > MAX_PDF_BASE64) {
       setErrorKind("pdf");
       setScreen("error");
@@ -779,6 +788,7 @@ export default function ExplainApp() {
             busy={translating}
             lang={viewEnglish ? "en" : shownLang}
             image={image}
+            docPages={docPages}
             letters={letters}
             onLetters={setLetters}
             onScanAnother={reset}
