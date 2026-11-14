@@ -14,19 +14,27 @@ export function urlHref(u: string) {
   return /^https?:\/\//i.test(clean) ? clean : `https://${clean}`;
 }
 
-/** Classify a contact string into a tappable link. */
-export function contactLink(contact: string): { href: string; label: string; kind: "tel" | "url" | "map" } {
+export type ContactLink = { href: string; label: string; kind: "tel" | "url" | "map" };
+
+/**
+ * Turn a contact string into tappable links. The model often packs several things into one
+ * string ("www.city.org/contest, phone (818) 555-0172, or mail to ..."), so the phone number and
+ * the website each get their own button, labelled with just that number or address.
+ * A string with neither is treated as a street address.
+ */
+export function contactLinks(contact: string): ContactLink[] {
+  const links: ContactLink[] = [];
   const phone = contact.match(PHONE);
   if (phone && phone[0].replace(/\D/g, "").length >= 10) {
-    return { href: telHref(phone[0]), label: contact, kind: "tel" };
+    links.push({ href: telHref(phone[0]), label: phone[0].trim(), kind: "tel" });
   }
   const url = contact.match(URL_RE);
-  if (url && !/@/.test(contact)) return { href: urlHref(url[0]), label: contact, kind: "url" };
-  return {
-    href: `https://maps.google.com/?q=${encodeURIComponent(contact)}`,
-    label: contact,
-    kind: "map",
-  };
+  if (url && !/@/.test(contact)) {
+    const clean = url[0].replace(/[.,;:]+$/, "");
+    links.push({ href: urlHref(clean), label: clean.replace(/^https?:\/\//i, ""), kind: "url" });
+  }
+  if (links.length) return links;
+  return [{ href: `https://maps.google.com/?q=${encodeURIComponent(contact)}`, label: contact, kind: "map" }];
 }
 
 /** Turn phone numbers and web addresses inside plain text into links. */

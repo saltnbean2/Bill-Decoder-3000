@@ -36,11 +36,11 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
   { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-  // The camera opens through a file input (the OS camera), so only this origin may ask for it;
-  // nothing else (mic, location, payments, ad-tracking topics) is ever allowed.
+  // The camera opens through a file input (the OS camera) and voice questions use the microphone, so only
+  // this origin may ask for those; nothing else (location, payments, ad-tracking topics) is ever allowed.
   {
     key: "Permissions-Policy",
-    value: "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()",
+    value: "camera=(self), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()",
   },
 ];
 

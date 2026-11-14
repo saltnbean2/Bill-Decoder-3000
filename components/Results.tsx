@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
-import { Linkify, contactLink } from "./linkify";
+import { Linkify, contactLinks } from "./linkify";
 import { ActionRow, AskCard, FullTextCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
 import type { Lang } from "@/lib/types";
 
@@ -85,7 +85,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
       <ol className="space-y-2">
         {a.action_steps.map((s, n) => {
           const checked = done.has(n);
-          const link = s.contact ? contactLink(s.contact) : null;
+          const links = s.contact ? contactLinks(s.contact) : [];
           return (
             <li key={n}>
               {/* The whole row is tappable for thumbs; the numbered button is the accessible control,
@@ -127,17 +127,22 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                       )}
                     </>
                   )}
-                  {link && (
-                    <a
-                      href={link.href}
-                      target={link.kind === "tel" ? undefined : "_blank"}
-                      rel="noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-2 inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
-                    >
-                      <span>{link.kind === "tel" ? "📞" : link.kind === "url" ? "🌐" : "📍"}</span>
-                      <span className="truncate">{link.label}</span>
-                    </a>
+                  {links.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {links.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          target={link.kind === "tel" ? undefined : "_blank"}
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+                        >
+                          <span aria-hidden>{link.kind === "tel" ? "📞" : link.kind === "url" ? "🌐" : "📍"}</span>
+                          <span className="truncate">{link.label}</span>
+                        </a>
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>

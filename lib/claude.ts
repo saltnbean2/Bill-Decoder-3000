@@ -14,7 +14,7 @@ export function getClient() {
 }
 
 /** The whole call must fit inside the route's maxDuration (60s), with a little slack. */
-const BUDGET_MS = 55_000;
+export const BUDGET_MS = 55_000;
 /** Only retry a transient error if it happened early enough to leave time for a second try. */
 const RETRY_WINDOW_MS = 20_000;
 
@@ -33,8 +33,9 @@ type Params = Omit<Anthropic.Beta.Messages.MessageCreateParamsNonStreaming, "mod
 /**
  * One Messages call with: the time budget, one quick retry for overloaded / rate-limited /
  * dropped connections, and the server-side fallback for safety-classifier refusals.
+ * `started` is when the route began, so several calls in one request share one budget.
  */
-async function create(params: Params, started: number) {
+export async function create(params: Params, started: number) {
   const remaining = () => BUDGET_MS - (Date.now() - started);
   for (let i = 0; ; i++) {
     try {
