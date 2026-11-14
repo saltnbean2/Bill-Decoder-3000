@@ -5,7 +5,8 @@ import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/t
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
 
-const URGENCY_COLOR: Record<Urgency, string> = { urgent: "#DC2626", soon: "#D97706", no_rush: "#16A34A" };
+// Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
+const URGENCY_BADGE: Record<Urgency, string> = { urgent: "#B91C1C", soon: "#B45309", no_rush: "#15803D" };
 const URGENCY_BG: Record<Urgency, string> = { urgent: "#FEF2F2", soon: "#FFFBEB", no_rush: "#F0FDF4" };
 const SEVERITY_STYLE: Record<Severity, string> = {
   high: "bg-red-50 text-red-800 ring-red-200",
@@ -54,14 +55,36 @@ function formatDate(iso: string | null, locale: string) {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
   if (!m) return iso;
   const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
-  return new Intl.DateTimeFormat(locale, { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" }).format(d);
+  const fmt = new Intl.DateTimeFormat(locale, { weekday: "long", month: "long", day: "numeric", timeZone: "UTC" });
+  // Some browsers ship without Armenian date data and silently fall back to English.
+  if (locale.startsWith("hy") && !fmt.resolvedOptions().locale.startsWith("hy")) {
+    return `${HY_WEEKDAYS[d.getUTCDay()]}, ${HY_MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  }
+  return fmt.format(d);
 }
+const HY_WEEKDAYS = ["կիրակի", "երկուշաբթի", "երեքշաբթի", "չորեքշաբթի", "հինգշաբթի", "ուրբաթ", "շաբաթ"];
+const HY_MONTHS = [
+  "հունվարի",
+  "փետրվարի",
+  "մարտի",
+  "ապրիլի",
+  "մայիսի",
+  "հունիսի",
+  "հուլիսի",
+  "օգոստոսի",
+  "սեպտեմբերի",
+  "հոկտեմբերի",
+  "նոյեմբերի",
+  "դեկտեմբերի",
+];
 
 /* ---------- Deadline (hero) ---------- */
 function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; locale: string; i: number; busy: boolean }) {
   const d = a.deadline;
   const days = d?.days_remaining ?? null;
   if (!d || (days === null && !d.date && !d.what_is_due)) {
+    // A green "no deadline" at the top of an overpriced quote reads as "all good" — skip it there.
+    if (a.document_type === "contractor_quote") return null;
     return (
       <section
         className="rise flex items-center gap-3 rounded-2xl p-5 ring-1 ring-green-200"
@@ -74,7 +97,7 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
   }
   const passed = days !== null && days < 0;
   const urgency: Urgency = passed ? "urgent" : a.urgency;
-  const color = URGENCY_COLOR[urgency];
+  const color = URGENCY_BADGE[urgency];
   let big: string;
   if (days === null) big = `⏰ ${t.deadlineUnknownDate}`;
   else if (passed) big = `⚠️ ${t.passed(Math.abs(days))}`;
@@ -98,7 +121,117 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
         ) : (
           <p className="mt-1 text-[17px] leading-snug opacity-95">{d.what_is_due}</p>
         ))}
+      {d.date && !passed && (
+        <button
+          onClick={() => downloadIcs(a, d.date!, t)}
+          className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white/20 px-4 text-[16px] font-semibold text-white ring-1 ring-white/50 active:bg-white/30"
+        >
+          📅 {t.addToCalendar}
+        </button>
+      )}
     </section>
+  );
+}
+
+/* ---------- Calendar (.ics) ---------- */
+function icsEscape(s: string) {
+  return s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+}
+
+function downloadIcs(a: Analysis, iso: string, t: Strings) {
+  const day = iso.slice(0, 10).replace(/-/g, "");
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso);
+  if (!m) return;
+  const next = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + 1)).toISOString().slice(0, 10).replace(/-/g, "");
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const steps = a.action_steps.map((s, n) => `${n + 1}. ${s.title}${s.contact ? ` (${s.contact})` : ""}`).join("\n");
+  const description = [a.deadline?.what_is_due, a.summary, steps].filter(Boolean).join("\n\n");
+  const ics = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Explain It//EN",
+    "BEGIN:VEVENT",
+    `UID:${day}-${Math.random().toString(36).slice(2)}@explain-it`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART;VALUE=DATE:${day}`,
+    `DTEND;VALUE=DATE:${next}`,
+    `SUMMARY:${icsEscape(`⏰ ${a.deadline?.what_is_due || a.headline}`)}`,
+    `DESCRIPTION:${icsEscape(description)}`,
+    "BEGIN:VALARM",
+    "TRIGGER:-P2D",
+    "ACTION:DISPLAY",
+    `DESCRIPTION:${icsEscape(t.deadlineUnknownDate)}`,
+    "END:VALARM",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "explain-it-deadline.ics";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+}
+
+/* ---------- Share with family ---------- */
+function shareText(a: Analysis, t: Strings, locale: string, english?: Analysis) {
+  const block = (x: Analysis, deadlineLabel: string, stepsLabel: string, loc: string) => {
+    const lines = [x.headline];
+    if (x.deadline?.date || x.deadline?.what_is_due) {
+      const date = formatDate(x.deadline.date, loc);
+      lines.push(`⏰ ${deadlineLabel}: ${[date, x.deadline.what_is_due].filter(Boolean).join(" — ")}`);
+    }
+    if (x.amount_due) lines.push(`💵 ${x.amount_due}`);
+    if (x.action_steps.length) {
+      lines.push("", `${stepsLabel}:`);
+      x.action_steps.forEach((s, n) => lines.push(`${n + 1}. ${s.title}${s.contact ? ` — ${s.contact}` : ""}`));
+    }
+    return lines.join("\n");
+  };
+  const parts = [t.shareIntro, "", block(a, t.deadlineUnknownDate, t.whatToDo, locale)];
+  if (english && english !== a) parts.push("", "— English —", block(english, "Deadline", "What to do", "en-US"));
+  return parts.join("\n");
+}
+
+function ShareButton({ a, t, locale, english }: { a: Analysis; t: Strings; locale: string; english?: Analysis }) {
+  const [toast, setToast] = useState(0);
+  async function share() {
+    const text = shareText(a, t, locale, english);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Explain It", text });
+        return;
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return; // they closed the sheet
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      setToast((n) => n + 1);
+    } catch {
+      /* nothing else we can do */
+    }
+  }
+  return (
+    <>
+      <button
+        onClick={share}
+        className="min-h-[56px] w-full rounded-2xl bg-white px-6 text-[18px] font-semibold text-teal ring-1 ring-teal/40 transition-transform active:scale-[0.98]"
+      >
+        👨‍👩‍👧 {t.shareFamily}
+      </button>
+      {toast > 0 && (
+        <div
+          key={toast}
+          role="status"
+          className="toast fixed bottom-8 left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
+        >
+          {t.shareCopied}
+        </div>
+      )}
+    </>
   );
 }
 
@@ -122,29 +255,33 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
           const link = s.contact ? contactLink(s.contact) : null;
           return (
             <li key={n}>
+              {/* The whole row is tappable for thumbs; the numbered button is the accessible control,
+                  so the links inside the row aren't nested inside a checkbox. */}
               <div
-                role="checkbox"
-                aria-checked={checked}
-                tabIndex={0}
                 onClick={() => toggle(n)}
-                onKeyDown={(e) => {
-                  if (e.key === " " || e.key === "Enter") {
-                    e.preventDefault();
-                    toggle(n);
-                  }
-                }}
-                className={`flex min-h-[44px] cursor-pointer gap-3 rounded-xl p-3 transition-colors ${
+                className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl p-2 pr-3 transition-colors ${
                   checked ? "bg-teal-soft" : "bg-paper active:bg-stone-100"
                 }`}
               >
-                <span
-                  className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-colors ${
-                    checked ? "bg-teal text-white" : "bg-white text-teal ring-2 ring-teal/40"
-                  }`}
+                <button
+                  type="button"
+                  aria-pressed={checked}
+                  aria-label={`${n + 1}. ${s.title}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggle(n);
+                  }}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center"
                 >
-                  {checked ? "✓" : n + 1}
-                </span>
-                <div className="min-w-0 flex-1">
+                  <span
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-sm font-bold transition-colors ${
+                      checked ? "bg-teal text-white" : "bg-white text-teal ring-2 ring-teal/40"
+                    }`}
+                  >
+                    {checked ? "✓" : n + 1}
+                  </span>
+                </button>
+                <div className="min-w-0 flex-1 pt-2.5">
                   {busy ? (
                     <Shimmer lines={2} />
                   ) : (
@@ -460,12 +597,15 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
 /* ---------- Main ---------- */
 export default function Results({
   a,
+  english,
   t,
   locale,
   busy,
   onScanAnother,
 }: {
   a: Analysis;
+  /** The English version, if we have it, so "Send to family" can include both. */
+  english?: Analysis;
   t: Strings;
   locale: string;
   busy: boolean;
@@ -568,7 +708,8 @@ export default function Results({
       )}
 
       {/* 10. footer */}
-      <footer className="rise pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
+      <footer className="rise space-y-3 pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
+        {!busy && <ShareButton a={a} t={t} locale={locale} english={english} />}
         <button
           onClick={onScanAnother}
           className="min-h-[56px] w-full rounded-2xl bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"

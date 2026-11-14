@@ -78,6 +78,16 @@ export interface Strings {
   translating: string;
   translateFailed: string;
   language: string;
+  stillReading: string;
+  serverErrorTitle: string;
+  serverErrorBody: string;
+  retry: string;
+  backHome: string;
+  pdfTooBig: string;
+  addToCalendar: string;
+  shareFamily: string;
+  shareCopied: string;
+  shareIntro: string;
 }
 
 const en: Strings = {
@@ -87,7 +97,7 @@ const en: Strings = {
   upload: "Upload a photo",
   trySample: "Try a sample",
   sampleTicket: "Parking ticket",
-  sampleLetter: "City letter",
+  sampleLetter: "Court letter",
   sampleQuote: "Contractor quote",
   privacy: "Your photo is never saved.",
   loading: ["Reading your document…", "Figuring out what it is…", "Checking for problems…", "Writing your next steps…"],
@@ -153,6 +163,16 @@ const en: Strings = {
   translating: "Translating…",
   translateFailed: "Couldn't translate right now. Showing the last version.",
   language: "Language",
+  stillReading: "Still reading — this usually takes 15–20 seconds.",
+  serverErrorTitle: "We couldn't finish that",
+  serverErrorBody: "Your photo is probably fine. The connection was slow or the service was busy.",
+  retry: "Try again",
+  backHome: "Back to start",
+  pdfTooBig: "That PDF is too big to send. Take a photo of the page instead.",
+  addToCalendar: "Add to calendar",
+  shareFamily: "Send to family",
+  shareCopied: "Copied — paste it in a message",
+  shareIntro: "Can you help me with this?",
 };
 
 const hy: Strings = {
@@ -184,7 +204,7 @@ const hy: Strings = {
   passed: (n) => `Վերջնաժամկետն անցել է ${n} օր առաջ`,
   noDeadline: "Վերջնաժամկետ չի գտնվել",
   deadlineUnknownDate: "Վերջնաժամկետ",
-  scamTitle: { be_careful: "Զգույշ եղեք այս նամակի հետ", likely_scam: "Սա կարող է խարդախություն լինել" },
+  scamTitle: { be_careful: "Զգույշ եղեք սրա հետ", likely_scam: "Սա կարող է խարդախություն լինել" },
   whatMeans: "Ինչ է սա նշանակում",
   amountDue: "Գումար",
   from: "Ուղարկող",
@@ -233,6 +253,16 @@ const hy: Strings = {
   translating: "Թարգմանում ենք…",
   translateFailed: "Հիմա չհաջողվեց թարգմանել։ Ցույց ենք տալիս նախորդ տարբերակը։",
   language: "Լեզու",
+  stillReading: "Դեռ կարդում ենք․ սովորաբար տևում է 15–20 վայրկյան։",
+  serverErrorTitle: "Չհաջողվեց ավարտել",
+  serverErrorBody: "Ձեր լուսանկարը, հավանաբար, լավն է։ Կապը դանդաղ էր, կամ ծառայությունը զբաղված էր։",
+  retry: "Կրկին փորձել",
+  backHome: "Վերադառնալ սկիզբ",
+  pdfTooBig: "Այդ PDF-ը շատ մեծ է։ Փոխարենը լուսանկարեք էջը։",
+  addToCalendar: "Ավելացնել օրացույցում",
+  shareFamily: "Ուղարկել ընտանիքին",
+  shareCopied: "Պատճենված է․ տեղադրեք հաղորդագրության մեջ",
+  shareIntro: "Կօգնե՞ս ինձ սրա հարցում։",
 };
 
 const es: Strings = {
@@ -259,9 +289,9 @@ const es: Strings = {
   passed: (n) => (n === 1 ? "La fecha límite pasó hace 1 día" : `La fecha límite pasó hace ${n} días`),
   noDeadline: "No se encontró fecha límite",
   deadlineUnknownDate: "Fecha límite",
-  scamTitle: { be_careful: "Tenga cuidado con esta carta", likely_scam: "Esto podría ser una estafa" },
+  scamTitle: { be_careful: "Tenga cuidado con esto", likely_scam: "Esto podría ser una estafa" },
   whatMeans: "Qué significa",
-  amountDue: "Cantidad",
+  amountDue: "Monto",
   from: "De",
   whatToDo: "Qué hacer",
   tapToCheck: "Toque un paso cuando lo termine.",
@@ -285,7 +315,7 @@ const es: Strings = {
   typical: "Normal",
   estimates: "Los precios normales son estimados para el área de Los Ángeles.",
   lineItems: "Punto por punto",
-  rating: { low: "Bajo", fair: "Justo", high: "Alto", very_high: "Muy alto", unclear: "No claro" },
+  rating: { low: "Bajo", fair: "Justo", high: "Alto", very_high: "Muy alto", unclear: "Poco claro" },
   noLicense: "Este presupuesto no tiene número de licencia",
   license: "Licencia",
   verifyAt: "verifique en",
@@ -308,6 +338,16 @@ const es: Strings = {
   translating: "Traduciendo…",
   translateFailed: "No se pudo traducir ahora. Mostrando la versión anterior.",
   language: "Idioma",
+  stillReading: "Todavía leyendo… normalmente tarda 15–20 segundos.",
+  serverErrorTitle: "No pudimos terminar",
+  serverErrorBody: "Su foto probablemente está bien. La conexión estaba lenta o el servicio estaba ocupado.",
+  retry: "Intentar de nuevo",
+  backHome: "Volver al inicio",
+  pdfTooBig: "Ese PDF es demasiado grande. Mejor tome una foto de la página.",
+  addToCalendar: "Agregar al calendario",
+  shareFamily: "Enviar a la familia",
+  shareCopied: "Copiado: péguelo en un mensaje",
+  shareIntro: "¿Me puedes ayudar con esto?",
 };
 
 const ko: Strings = {
@@ -378,6 +418,16 @@ const ko: Strings = {
   translating: "번역 중…",
   translateFailed: "지금은 번역할 수 없어요. 이전 내용을 보여 드려요.",
   language: "언어",
+  stillReading: "아직 읽는 중이에요. 보통 15~20초 걸려요.",
+  serverErrorTitle: "처리를 끝내지 못했어요",
+  serverErrorBody: "사진은 아마 괜찮아요. 연결이 느리거나 서비스가 바빴어요.",
+  retry: "다시 시도",
+  backHome: "처음으로",
+  pdfTooBig: "PDF 파일이 너무 커요. 대신 페이지를 사진으로 찍어 주세요.",
+  addToCalendar: "캘린더에 추가",
+  shareFamily: "가족에게 보내기",
+  shareCopied: "복사됐어요. 메시지에 붙여 넣으세요",
+  shareIntro: "이것 좀 도와줄 수 있어?",
 };
 
 const tl: Strings = {
@@ -406,10 +456,10 @@ const tl: Strings = {
   daysLeft: (n) => (n === 1 ? "1 araw na lang" : `${n} araw na lang`),
   dueToday: "Ngayong araw ang deadline",
   dueTomorrow: "Bukas ang deadline",
-  passed: (n) => (n === 1 ? "Lumipas na ang deadline 1 araw na ang nakalipas" : `Lumipas na ang deadline ${n} araw na ang nakalipas`),
+  passed: (n) => (n === 1 ? "Lampas na ang deadline nang 1 araw" : `Lampas na ang deadline nang ${n} araw`),
   noDeadline: "Walang nakitang deadline",
   deadlineUnknownDate: "Deadline",
-  scamTitle: { be_careful: "Mag-ingat sa sulat na ito", likely_scam: "Baka scam ito" },
+  scamTitle: { be_careful: "Mag-ingat dito", likely_scam: "Baka scam ito" },
   whatMeans: "Ano ang ibig sabihin nito",
   amountDue: "Halaga",
   from: "Mula sa",
@@ -431,7 +481,7 @@ const tl: Strings = {
   aboveTypical: (n) => `~${n}% mas mataas sa karaniwan`,
   belowTypical: (n) => `~${n}% mas mababa sa karaniwan`,
   aboutTypical: "Halos karaniwan",
-  quoted: "Sinabing presyo",
+  quoted: "Presyo sa quote",
   typical: "Karaniwan",
   estimates: "Tantya lang ang karaniwang presyo para sa LA.",
   lineItems: "Isa-isa",
@@ -458,6 +508,16 @@ const tl: Strings = {
   translating: "Isinasalin…",
   translateFailed: "Hindi maisalin ngayon. Ipinapakita ang huling bersyon.",
   language: "Wika",
+  stillReading: "Binabasa pa rin… karaniwang 15–20 segundo ito.",
+  serverErrorTitle: "Hindi namin ito natapos",
+  serverErrorBody: "Malamang maayos ang litrato mo. Mabagal ang koneksyon o abala ang serbisyo.",
+  retry: "Subukan ulit",
+  backHome: "Bumalik sa simula",
+  pdfTooBig: "Masyadong malaki ang PDF. Kunan na lang ng litrato ang pahina.",
+  addToCalendar: "Idagdag sa kalendaryo",
+  shareFamily: "Ipadala sa pamilya",
+  shareCopied: "Nakopya — i-paste sa mensahe",
+  shareIntro: "Matutulungan mo ba ako dito?",
 };
 
 export const STRINGS: Record<Lang, Strings> = { en, hy, es, ko, tl };
