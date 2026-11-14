@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
-import { AskCard } from "./Extras";
+import { AskCard, Directory } from "./Extras";
 import { prepareFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
 
-type Screen = "home" | "loading" | "results" | "error" | "chat";
+type Screen = "home" | "loading" | "results" | "error" | "chat" | "directory";
 /** "server": network / API trouble (photo is fine). "photo": we couldn't use the file. "pdf": PDF too big. */
 type ErrorKind = "server" | "photo" | "pdf";
 
@@ -430,6 +430,16 @@ export default function ExplainApp() {
           >
             💬 {t.agentButton}
           </button>
+          <button
+            onClick={() => {
+              setScreen("directory");
+              window.scrollTo({ top: 0 });
+            }}
+            className="rise mt-3 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
+            style={{ animationDelay: "190ms" }}
+          >
+            📍 {t.directoryButton}
+          </button>
 
           <div className="rise mt-10" style={{ animationDelay: "200ms" }}>
             <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
@@ -438,6 +448,20 @@ export default function ExplainApp() {
           <p className="rise mt-10 text-center text-[14px] text-muted" style={{ animationDelay: "250ms" }}>
             🔒 {t.privacy}
           </p>
+        </div>
+      )}
+
+      {screen === "directory" && (
+        <div className="pt-3 pb-10">
+          <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
+            ← {t.back}
+          </button>
+          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">📍 {t.directoryTitle}</h1>
+          <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
+            {t.directorySub}
+          </p>
+          <Directory t={t} lang={lang} />
+          <p className="mt-8 text-center text-[14px] text-muted">{t.disclaimer}</p>
         </div>
       )}
 

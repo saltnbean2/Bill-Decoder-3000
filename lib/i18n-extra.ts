@@ -47,6 +47,10 @@ export interface ExtraStrings {
   doneEditing: string;
   customizeError: string;
   letterUpdated: string;
+  showEnglish: string;
+  directoryButton: string;
+  directoryTitle: string;
+  directorySub: string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -97,6 +101,10 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     doneEditing: "Done",
     customizeError: "Couldn't change the letter right now. Try again.",
     letterUpdated: "Letter updated ✓",
+    showEnglish: "Show in English",
+    directoryButton: "Glendale help numbers",
+    directoryTitle: "Glendale help numbers",
+    directorySub: "Free and official help lines for Glendale residents. Tap to call.",
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
@@ -145,6 +153,10 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     doneEditing: "Պատրաստ է",
     customizeError: "Հիմա չհաջողվեց փոխել նամակը։ Փորձեք կրկին։",
     letterUpdated: "Նամակը թարմացվեց ✓",
+    showEnglish: "Ցույց տալ անգլերեն",
+    directoryButton: "Գլենդելի օգնության համարներ",
+    directoryTitle: "Գլենդելի օգնության համարներ",
+    directorySub: "Անվճար և պաշտոնական օգնության գծեր Գլենդելի բնակիչների համար։ Սեղմեք՝ զանգելու համար։",
   },
   es: {
     sampleScam: "Carta sospechosa",
@@ -193,6 +205,10 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     doneEditing: "Listo",
     customizeError: "No se pudo cambiar la carta ahora. Intente otra vez.",
     letterUpdated: "Carta actualizada ✓",
+    showEnglish: "Ver en inglés",
+    directoryButton: "Números de ayuda en Glendale",
+    directoryTitle: "Números de ayuda en Glendale",
+    directorySub: "Líneas de ayuda gratis y oficiales para residentes de Glendale. Toque para llamar.",
   },
   ko: {
     sampleScam: "수상한 편지",
@@ -241,6 +257,10 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     doneEditing: "완료",
     customizeError: "지금은 편지를 고칠 수 없어요. 다시 시도해 주세요.",
     letterUpdated: "편지를 고쳤어요 ✓",
+    showEnglish: "영어로 보기",
+    directoryButton: "글렌데일 도움 전화번호",
+    directoryTitle: "글렌데일 도움 전화번호",
+    directorySub: "글렌데일 주민을 위한 무료·공식 도움 전화예요. 눌러서 전화하세요.",
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
@@ -289,5 +309,9 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     doneEditing: "Tapos na",
     customizeError: "Hindi mabago ang sulat ngayon. Subukan ulit.",
     letterUpdated: "Na-update ang sulat ✓",
+    showEnglish: "Ipakita sa English",
+    directoryButton: "Mga numero ng tulong sa Glendale",
+    directoryTitle: "Mga numero ng tulong sa Glendale",
+    directorySub: "Libre at opisyal na mga linya ng tulong para sa mga taga-Glendale. I-tap para tumawag.",
   },
 };

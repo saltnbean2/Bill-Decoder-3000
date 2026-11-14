@@ -85,7 +85,6 @@ export interface Strings extends ExtraStrings {
   retry: string;
   backHome: string;
   pdfTooBig: string;
-  showEnglish: string;
   backTo: (language: string) => string;
 }
 
@@ -168,7 +167,6 @@ const en: Base = {
   retry: "Try again",
   backHome: "Back to start",
   pdfTooBig: "That PDF is too big to send. Take a photo of the page instead.",
-  showEnglish: "Show in English",
   backTo: (l) => `Back to ${l}`,
 };
 
@@ -256,7 +254,6 @@ const hy: Base = {
   retry: "Կրկին փորձել",
   backHome: "Վերադառնալ սկիզբ",
   pdfTooBig: "Այդ PDF-ը շատ մեծ է։ Փոխարենը լուսանկարեք էջը։",
-  showEnglish: "Ցույց տալ անգլերենով",
   backTo: (l) => `↩ ${l}`,
 };
 
@@ -339,7 +336,6 @@ const es: Base = {
   retry: "Intentar de nuevo",
   backHome: "Volver al inicio",
   pdfTooBig: "Ese PDF es demasiado grande. Mejor tome una foto de la página.",
-  showEnglish: "Ver en inglés",
   backTo: (l) => `Volver a ${l}`,
 };
 
@@ -417,7 +413,6 @@ const ko: Base = {
   retry: "다시 시도",
   backHome: "처음으로",
   pdfTooBig: "PDF 파일이 너무 커요. 대신 페이지를 사진으로 찍어 주세요.",
-  showEnglish: "영어로 보기",
   backTo: (l) => `${l}로 보기`,
 };
 
@@ -505,7 +500,6 @@ const tl: Base = {
   retry: "Subukan ulit",
   backHome: "Bumalik sa simula",
   pdfTooBig: "Masyadong malaki ang PDF. Kunan na lang ng litrato ang pahina.",
-  showEnglish: "Ipakita sa Ingles",
   backTo: (l) => `Bumalik sa ${l}`,
 };
 
