@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "samples": "node scripts/make-samples.mjs",
+    "record-cache": "node scripts/record-cache.mjs",
+    "check": "node scripts/check-consistency.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.8.0",
