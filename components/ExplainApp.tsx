@@ -364,7 +364,7 @@ export default function ExplainApp() {
           <Results
             key={shownLang}
             a={shown}
-            t={STRINGS[translating ? lang : shownLang]}
+            t={STRINGS[lang]}
             locale={LOCALE[shownLang]}
             busy={translating}
             onScanAnother={() => {
