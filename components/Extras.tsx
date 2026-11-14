@@ -238,12 +238,14 @@ export function AskCard({
   lang,
   image,
   i,
+  bare = false,
 }: {
-  a: Analysis;
+  a: Analysis | null;
   t: Strings;
   lang: Lang;
   image: { base64: string; mediaType: string } | null;
   i: number;
+  bare?: boolean;
 }) {
   const [qa, setQa] = useState<{ q: string; a: string | null; err?: boolean }[]>([]);
   const [input, setInput] = useState("");
@@ -270,8 +272,8 @@ export function AskCard({
   }
 
   return (
-    <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">💬 {t.askTitle}</h2>
+    <section className={bare ? "rise" : cardCls} style={{ animationDelay: `${i * 50}ms` }}>
+      {!bare && <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">💬 {t.askTitle}</h2>}
       {qa.length > 0 && (
         <div className="mb-3 space-y-3">
           {qa.map((x, n) => (
@@ -294,7 +296,7 @@ export function AskCard({
       )}
       {qa.length === 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
-          {t.askSuggestions.map((s) => (
+          {(a ? t.askSuggestions : t.agentSuggestions).map((s) => (
             <button
               key={s}
               onClick={() => void ask(s)}

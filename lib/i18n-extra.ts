@@ -32,6 +32,11 @@ export interface ExtraStrings {
   stepsWord: string;
   dueWord: string;
   fakeDeadline: string;
+  agentButton: string;
+  agentTitle: string;
+  agentSub: string;
+  agentSuggestions: string[];
+  back: string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -67,6 +72,11 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stepsWord: "What to do",
     dueWord: "Deadline",
     fakeDeadline: "This \"deadline\" is a pressure trick",
+    agentButton: "Ask a question",
+    agentTitle: "Ask Explain It",
+    agentSub: "Ask anything about a letter, bill, ticket or call. I can check phone numbers and find free help in Glendale.",
+    agentSuggestions: ["Someone called saying they are the IRS and want gift cards. Is it real?", "How do I fight a parking ticket in Glendale?", "Where can I get free legal help?"],
+    back: "Back",
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
@@ -100,6 +110,11 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stepsWord: "Ինչ անել",
     dueWord: "Վերջնաժամկետ",
     fakeDeadline: "Այս «վերջնաժամկետը» ճնշման հնարք է",
+    agentButton: "Հարց տալ",
+    agentTitle: "Հարցրեք Explain It-ին",
+    agentSub: "Հարցրեք ցանկացած նամակի, հաշվի, տուգանքի կամ զանգի մասին։ Կարող եմ ստուգել հեռախոսահամարները և գտնել անվճար օգնություն Գլենդելում։",
+    agentSuggestions: ["Ինչ-որ մեկը զանգեց, ասաց IRS-ից է և նվեր քարտեր է ուզում։ Իսկակա՞ն է։", "Ինչպե՞ս բողոքարկել կայանման տուգանքը Գլենդելում։", "Որտե՞ղ կարող եմ անվճար իրավաբանական օգնություն ստանալ։"],
+    back: "Հետ",
   },
   es: {
     sampleScam: "Carta sospechosa",
@@ -133,6 +148,11 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stepsWord: "Qué hacer",
     dueWord: "Fecha límite",
     fakeDeadline: "Esta \"fecha límite\" es un truco para presionarle",
+    agentButton: "Hacer una pregunta",
+    agentTitle: "Pregúntele a Explain It",
+    agentSub: "Pregunte lo que sea sobre una carta, factura, multa o llamada. Puedo verificar números de teléfono y encontrar ayuda gratis en Glendale.",
+    agentSuggestions: ["Alguien llamó diciendo que es del IRS y pide tarjetas de regalo. ¿Es real?", "¿Cómo disputo una multa de estacionamiento en Glendale?", "¿Dónde consigo ayuda legal gratis?"],
+    back: "Atrás",
   },
   ko: {
     sampleScam: "수상한 편지",
@@ -166,6 +186,11 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stepsWord: "해야 할 일",
     dueWord: "마감일",
     fakeDeadline: "이 \"마감일\"은 압박하려는 속임수예요",
+    agentButton: "질문하기",
+    agentTitle: "Explain It에게 물어보세요",
+    agentSub: "편지, 청구서, 딱지, 전화에 대해 무엇이든 물어보세요. 전화번호를 확인하고 글렌데일의 무료 도움을 찾아 드려요.",
+    agentSuggestions: ["IRS라며 기프트카드를 달라는 전화가 왔어요. 진짜인가요?", "글렌데일 주차 딱지에 어떻게 이의를 제기하나요?", "무료 법률 도움은 어디서 받을 수 있나요?"],
+    back: "뒤로",
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
@@ -199,5 +224,10 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     stepsWord: "Ano ang gagawin",
     dueWord: "Deadline",
     fakeDeadline: "Panakot lang ang \"deadline\" na ito",
+    agentButton: "Magtanong",
+    agentTitle: "Tanungin ang Explain It",
+    agentSub: "Magtanong tungkol sa sulat, bill, tiket o tawag. Kaya kong i-check ang mga numero ng telepono at maghanap ng libreng tulong sa Glendale.",
+    agentSuggestions: ["May tumawag na IRS daw at gusto ng gift cards. Totoo ba ito?", "Paano ko lalabanan ang parking ticket sa Glendale?", "Saan ako makakakuha ng libreng legal na tulong?"],
+    back: "Bumalik",
   },
 };

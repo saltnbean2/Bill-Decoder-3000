@@ -24,7 +24,7 @@ export interface HelpResource {
   desc: L;
 }
 
-const R = {
+export const HELP = {
   two11: {
     name: "211 LA County",
     phone: "211",
@@ -110,6 +110,7 @@ const R = {
     },
   },
 } satisfies Record<string, HelpResource>;
+const R = HELP;
 
 export function helpFor(a: Analysis): HelpResource[] {
   const text = `${a.sender ?? ""} ${a.headline} ${a.summary}`.toLowerCase();
