@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const translated = await runAnalysis(
       buildTranslateSystemPrompt(language),
       [{ type: "text", text: JSON.stringify(toTranslate) }],
-      { effort: "low" },
+      { effort: "low", checkSections: false },
     );
     return NextResponse.json({ result: mergeTranslation(original, translated) });
   } catch (err) {

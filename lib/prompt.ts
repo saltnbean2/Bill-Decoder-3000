@@ -77,7 +77,10 @@ Calm, kind, direct. The person may be scared. Start from what they can do. Never
 You are not a lawyer and this is not legal advice. Do not mention this inside the content; the app shows a footer disclaimer.
 
 OUTPUT
-Always answer by calling the report_document_analysis tool exactly once with your complete analysis. Do not write any other text. Fill "ticket" only for parking tickets and "quote" only for contractor quotes; set the other to null. For "unreadable", set unreadable_reason and keep the other fields short.`;
+Always answer by calling the report_document_analysis tool exactly once with your complete analysis. Do not write any other text.
+- For "parking_ticket" you MUST fill the "ticket" object completely: citation_number, violation, missing_or_wrong_fields, possible_grounds, contest_strength, contest_strength_reason and the full appeal_letter. Set "quote" to null.
+- For "contractor_quote" you MUST fill the "quote" object completely: every line item, typical_total_low, typical_total_high, percent_vs_typical, verdict and questions_to_ask. Set "ticket" to null.
+- For other types, set both "ticket" and "quote" to null. For "unreadable", set unreadable_reason and keep the other fields short.`;
 
 export function buildTranslateSystemPrompt(lang: Lang): string {
   return `You translate the analysis of an official document for Explain It, an app that helps residents of Glendale, California.
