@@ -1,4 +1,5 @@
 import type { Lang } from "./types";
+import { EXTRA, type ExtraStrings } from "./i18n-extra";
 
 export const LANG_LABELS: Record<Lang, string> = {
   en: "EN",
@@ -16,7 +17,7 @@ export const LANG_FULL: Record<Lang, string> = {
   tl: "Tagalog",
 };
 
-export interface Strings {
+export interface Strings extends ExtraStrings {
   appName: string;
   tagline: string;
   scan: string;
@@ -80,7 +81,7 @@ export interface Strings {
   language: string;
 }
 
-const en: Strings = {
+const en: Base = {
   appName: "Explain It",
   tagline: "Any paperwork. Explained in your language.",
   scan: "Scan a document",
@@ -155,7 +156,7 @@ const en: Strings = {
   language: "Language",
 };
 
-const hy: Strings = {
+const hy: Base = {
   appName: "Explain It",
   tagline: "Ցանկացած փաստաթուղթ՝ բացատրված ձեր լեզվով։",
   scan: "Լուսանկարել փաստաթուղթը",
@@ -235,7 +236,7 @@ const hy: Strings = {
   language: "Լեզու",
 };
 
-const es: Strings = {
+const es: Base = {
   appName: "Explain It",
   tagline: "Cualquier papel. Explicado en su idioma.",
   scan: "Escanear un documento",
@@ -310,7 +311,7 @@ const es: Strings = {
   language: "Idioma",
 };
 
-const ko: Strings = {
+const ko: Base = {
   appName: "Explain It",
   tagline: "어떤 서류든, 내 언어로 쉽게 설명해 드려요.",
   scan: "서류 촬영하기",
@@ -380,7 +381,7 @@ const ko: Strings = {
   language: "언어",
 };
 
-const tl: Strings = {
+const tl: Base = {
   appName: "Explain It",
   tagline: "Kahit anong papeles. Ipinaliwanag sa sarili mong wika.",
   scan: "I-scan ang dokumento",
@@ -460,4 +461,12 @@ const tl: Strings = {
   language: "Wika",
 };
 
-export const STRINGS: Record<Lang, Strings> = { en, hy, es, ko, tl };
+type Base = Omit<Strings, keyof ExtraStrings>;
+
+export const STRINGS: Record<Lang, Strings> = {
+  en: { ...en, ...EXTRA.en },
+  hy: { ...hy, ...EXTRA.hy },
+  es: { ...es, ...EXTRA.es },
+  ko: { ...ko, ...EXTRA.ko },
+  tl: { ...tl, ...EXTRA.tl },
+};

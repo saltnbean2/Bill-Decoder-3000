@@ -3,7 +3,7 @@ import { normalizeAnalysis, refreshDeadline } from "@/lib/normalize";
 import { resolveDateTokens } from "@/lib/dates";
 import { LANGS, type Lang, type SampleId } from "@/lib/types";
 
-const SAMPLES: SampleId[] = ["ticket", "letter", "quote"];
+const SAMPLES: SampleId[] = ["ticket", "letter", "quote", "scam"];
 
 /** Serves a cached demo response: GET /api/demo?sample=ticket&lang=en */
 export async function GET(req: Request) {

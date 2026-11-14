@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BASE = process.env.BASE_URL ?? "http://localhost:3000";
-const SAMPLES = { ticket: "parking-ticket.png", letter: "jury-summons.png", quote: "roofing-quote.png" };
+const SAMPLES = { ticket: "parking-ticket.png", letter: "jury-summons.png", quote: "roofing-quote.png", scam: "scam-letter.png" };
 const LANGS = ["hy", "es", "ko", "tl"];
 
 async function post(url, body) {

@@ -7,7 +7,7 @@ import type { Analysis } from "./types";
 export const MODEL = "claude-sonnet-5-5";
 
 let client: Anthropic | null = null;
-function getClient() {
+export function getClient() {
   // Reads ANTHROPIC_API_KEY from the server environment only.
   client ??= new Anthropic({ timeout: 45_000, maxRetries: 0 });
   return client;

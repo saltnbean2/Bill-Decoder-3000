@@ -4,6 +4,8 @@ import { useState, type CSSProperties, type ReactNode } from "react";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
+import { ActionRow, AskCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
+import type { Lang } from "@/lib/types";
 
 const URGENCY_COLOR: Record<Urgency, string> = { urgent: "#DC2626", soon: "#D97706", no_rush: "#16A34A" };
 const URGENCY_BG: Record<Urgency, string> = { urgent: "#FEF2F2", soon: "#FFFBEB", no_rush: "#F0FDF4" };
@@ -464,14 +466,19 @@ export default function Results({
   locale,
   busy,
   onScanAnother,
+  lang,
+  image,
 }: {
   a: Analysis;
   t: Strings;
   locale: string;
   busy: boolean;
   onScanAnother: () => void;
+  lang: Lang;
+  image: { base64: string; mediaType: string } | null;
 }) {
   let i = 0;
+  const dateLabel = formatDate(a.deadline?.date ?? null, locale);
   const legit = a.legitimacy_check;
   const showLegit = legit && legit.verdict !== "looks_legitimate";
 
@@ -479,9 +486,12 @@ export default function Results({
     <div className="space-y-4 pb-10">
       {/* 1. chip + headline */}
       <header className="rise pt-1" style={{ animationDelay: `${i++ * 50}ms` }}>
-        <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
-          {t.docType[a.document_type]}
-        </span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
+            {t.docType[a.document_type]}
+          </span>
+          {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
+        </div>
         {busy ? (
           <div className="mt-3">
             <Shimmer lines={2} />
@@ -498,6 +508,10 @@ export default function Results({
 
       {/* 2. deadline */}
       <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
+      {!busy && <ActionRow a={a} t={t} dateLabel={dateLabel} i={i++} />}
+
+      {/* official phone-number check (scam guard) */}
+      <NumberCheckBanner a={a} t={t} i={i++} />
 
       {/* 3. legitimacy */}
       {showLegit && (
@@ -536,6 +550,10 @@ export default function Results({
       {/* 6. type-specific */}
       {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} />}
       {a.quote && <QuoteCards quote={a.quote} t={t} i={i++} busy={busy} />}
+
+      {/* local help + follow-up questions */}
+      <HelpCard a={a} t={t} lang={lang} i={i++} />
+      {!busy && <AskCard a={a} t={t} lang={lang} image={image} i={i++} />}
 
       {/* 7. if ignored */}
       {a.if_ignored && (

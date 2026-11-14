@@ -13,6 +13,7 @@ const SAMPLE_FILES: Record<SampleId, string> = {
   ticket: "/samples/parking-ticket.png",
   letter: "/samples/jury-summons.png",
   quote: "/samples/roofing-quote.png",
+  scam: "/samples/scam-letter.png",
 };
 const SAMPLE_TIMEOUT = 20_000;
 const LIVE_TIMEOUT = 50_000;
@@ -57,6 +58,7 @@ export default function ExplainApp() {
   const [lang, setLang] = useState<Lang>("en");
   const [screen, setScreen] = useState<Screen>("home");
   const [preview, setPreview] = useState<string>("");
+  const [image, setImage] = useState<{ base64: string; mediaType: string } | null>(null);
   const [results, setResults] = useState<Partial<Record<Lang, Analysis>>>({});
   const [shownLang, setShownLang] = useState<Lang>("en");
   const [translating, setTranslating] = useState(false);
@@ -104,6 +106,7 @@ export default function ExplainApp() {
     setScreen("home");
     setResults({});
     setPreview("");
+    setImage(null);
     setNotice("");
     sampleRef.current = null;
     window.scrollTo({ top: 0 });
@@ -128,6 +131,7 @@ export default function ExplainApp() {
       const prepared = await prepareFile(file);
       if (id !== runId.current) return;
       setPreview(prepared.previewUrl);
+      setImage({ base64: prepared.base64, mediaType: prepared.mediaType });
 
       if (sample && demo) {
         // Demo mode: cached answer after a short, believable loading animation.
@@ -283,6 +287,7 @@ export default function ExplainApp() {
                   ["ticket", "🅿️", t.sampleTicket],
                   ["letter", "✉️", t.sampleLetter],
                   ["quote", "🔨", t.sampleQuote],
+                  ["scam", "🚩", t.sampleScam],
                 ] as const
               ).map(([id, icon, label]) => (
                 <button
@@ -367,6 +372,8 @@ export default function ExplainApp() {
             t={STRINGS[translating ? lang : shownLang]}
             locale={LOCALE[shownLang]}
             busy={translating}
+            lang={shownLang}
+            image={image}
             onScanAnother={() => {
               reset();
             }}
