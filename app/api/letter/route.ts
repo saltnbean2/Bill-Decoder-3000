@@ -33,14 +33,26 @@ Rules:
 
 Ticket facts for reference: ${ticket}
 
-Return only the full revised letter text, ending with the signature block. Do not add any note, comment or explanation before or after the letter. No quotation marks around it, no markdown.`;
+Return the full revised letter in the "letter" field, ending with the signature block. No notes or explanations. No markdown.`;
 
   try {
     const res = await getClient().messages.create({
       model: MODEL,
       max_tokens: 6000,
       system,
-      output_config: { effort: "low" },
+      output_config: {
+        effort: "medium",
+        // Structured output: the response can only be the letter, never commentary.
+        format: {
+          type: "json_schema",
+          schema: {
+            type: "object",
+            properties: { letter: { type: "string" } },
+            required: ["letter"],
+            additionalProperties: false,
+          },
+        },
+      },
       messages: [
         {
           role: "user",
@@ -49,13 +61,11 @@ Return only the full revised letter text, ending with the signature block. Do no
       ],
     });
     if (res.stop_reason === "refusal") throw new Error("refused");
-    const text = res.content
+    const raw = res.content
       .filter((b): b is Anthropic.Messages.TextBlock => b.type === "text")
       .map((b) => b.text)
-      .join("\n")
-      .replace(/^<letter>\s*|\s*<\/letter>$/g, "")
-      .replace(/\n\s*(?:\(?Note|NOTE|Changes made)[\s\S]*$/, "") // drop any commentary after the letter
-      .trim();
+      .join("");
+    const text = String((JSON.parse(raw) as { letter?: unknown }).letter ?? "").trim();
     if (!text || res.stop_reason === "max_tokens") throw new Error(`bad letter (${res.stop_reason})`);
     return NextResponse.json({ letter: text });
   } catch (err) {
