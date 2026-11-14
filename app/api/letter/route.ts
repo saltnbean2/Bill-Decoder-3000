@@ -27,13 +27,13 @@ Rules:
 - Make exactly the change they ask for (add, remove, reword, shorten, change tone, fill in their name or details) and keep everything else the same.
 - Facts the person states in their request may be used as true. Never invent any other facts.
 - If they ask to add a reason but don't give the details, add it with a [BRACKETED] placeholder they can fill in, e.g. "[describe what blocked the sign]".
-- When they give a detail that fills a [BRACKETED] placeholder, replace that placeholder. Keep other placeholders that are still unfilled.
+- When they give a detail that fills a [BRACKETED] placeholder, replace EVERY placeholder it fills, everywhere in the letter (for example, a name goes in both the sender block at the top and the signature). Keep other placeholders that are still unfilled.
 - If they mention a photo or document, add an "Attached:" line or mention it where it fits.
 - Keep the letter's structure (sender block, date, recipient, Re: line, body, closing).
 
 Ticket facts for reference: ${ticket}
 
-Return only the full revised letter text. No explanations, no quotation marks around it, no markdown.`;
+Return only the full revised letter text, ending with the signature block. Do not add any note, comment or explanation before or after the letter. No quotation marks around it, no markdown.`;
 
   try {
     const res = await getClient().messages.create({
@@ -54,6 +54,7 @@ Return only the full revised letter text. No explanations, no quotation marks ar
       .map((b) => b.text)
       .join("\n")
       .replace(/^<letter>\s*|\s*<\/letter>$/g, "")
+      .replace(/\n\s*(?:\(?Note|NOTE|Changes made)[\s\S]*$/, "") // drop any commentary after the letter
       .trim();
     if (!text || res.stop_reason === "max_tokens") throw new Error(`bad letter (${res.stop_reason})`);
     return NextResponse.json({ letter: text });
