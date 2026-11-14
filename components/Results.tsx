@@ -203,28 +203,80 @@ function HighlightedLetter({ text }: { text: string }) {
   );
 }
 
-function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i: number; busy: boolean }) {
-  const [toast, setToast] = useState(0);
+function TicketCards({
+  ticket,
+  t,
+  i,
+  busy,
+  letters,
+  onLetters,
+}: {
+  ticket: TicketInfo;
+  t: Strings;
+  i: number;
+  busy: boolean;
+  letters: string[];
+  onLetters: (next: string[]) => void;
+}) {
+  const [toast, setToast] = useState<{ n: number; msg: string }>({ n: 0, msg: "" });
+  const [editing, setEditing] = useState(false);
+  const [instruction, setInstruction] = useState("");
+  const [working, setWorking] = useState(false);
+  const [err, setErr] = useState(false);
+  const letter = letters.length ? letters[letters.length - 1] : ticket.appeal_letter;
+  const showToast = (msg: string) => setToast((x) => ({ n: x.n + 1, msg }));
+
+  async function customize(change: string) {
+    change = change.trim();
+    if (!change || working) return;
+    setWorking(true);
+    setErr(false);
+    setEditing(false);
+    try {
+      const res = await fetch("/api/letter", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          letter,
+          instruction: change,
+          ticket: {
+            citation_number: ticket.citation_number,
+            violation: ticket.violation,
+            problems_found: ticket.missing_or_wrong_fields,
+          },
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const { letter: next } = (await res.json()) as { letter: string };
+      onLetters([...(letters.length ? letters : [ticket.appeal_letter]), next]);
+      setInstruction("");
+      showToast(t.letterUpdated);
+    } catch {
+      setErr(true);
+    } finally {
+      setWorking(false);
+    }
+  }
   const levels = ["weak", "possible", "strong"] as const;
   const idx = levels.indexOf(ticket.contest_strength);
   const color = { weak: "#DC2626", possible: "#D97706", strong: "#16A34A" }[ticket.contest_strength];
 
   async function copy() {
     try {
-      await navigator.clipboard.writeText(ticket.appeal_letter);
+      await navigator.clipboard.writeText(letter);
     } catch {
       const ta = document.createElement("textarea");
-      ta.value = ticket.appeal_letter;
+      ta.value = letter;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");
       ta.remove();
     }
-    setToast((n) => n + 1);
+    showToast(t.copied);
   }
   const mailto = `mailto:?subject=${encodeURIComponent(
     t.emailSubject + (ticket.citation_number ? ` #${ticket.citation_number}` : ""),
-  )}&body=${encodeURIComponent(ticket.appeal_letter)}`;
+  )}&body=${encodeURIComponent(letter)}`;
 
   return (
     <>
@@ -285,17 +337,49 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
             <h2 className="text-xl font-bold">{t.letterReady}</h2>
           </div>
           <p className="text-[15px] text-muted">{t.letterNote}</p>
-          {/\[[^\]]+\]/.test(ticket.appeal_letter) && (
+          {/\[[^\]]+\]/.test(letter) && (
             <p className="mt-1 text-[15px] font-medium text-amber-800">
               <mark className="rounded bg-yellow-200 px-1">[ ]</mark> {t.editBrackets}
             </p>
           )}
-          <div
-            lang="en"
-            className="mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line"
-            tabIndex={0}
-          >
-            <HighlightedLetter text={ticket.appeal_letter} />
+          {editing ? (
+            <textarea
+              lang="en"
+              value={letter}
+              onChange={(e) => onLetters([...letters.slice(0, -1), e.target.value])}
+              className="mt-3 h-80 w-full rounded-xl bg-white p-4 font-[ui-serif,Georgia,serif] text-[16px] leading-relaxed ring-2 ring-teal outline-none"
+            />
+          ) : (
+            <div
+              lang="en"
+              className={`relative mt-3 max-h-80 overflow-y-auto whitespace-pre-wrap rounded-xl bg-paper p-4 font-[ui-serif,Georgia,serif] text-[15px] leading-relaxed ring-1 ring-line ${
+                working ? "opacity-50" : ""
+              }`}
+              tabIndex={0}
+            >
+              <HighlightedLetter text={letter} />
+            </div>
+          )}
+          <div className="mt-2 flex justify-end gap-2">
+            {letters.length > 1 && !editing && (
+              <button
+                onClick={() => onLetters(letters.slice(0, -1))}
+                disabled={working}
+                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-stone-100"
+              >
+                ↩ {t.undo}
+              </button>
+            )}
+            <button
+              onClick={() => {
+                if (!editing) onLetters([...(letters.length ? letters : [ticket.appeal_letter]), letter]);
+                setEditing((e) => !e);
+              }}
+              disabled={working}
+              className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+            >
+              {editing ? `✓ ${t.doneEditing}` : `✍️ ${t.editByHand}`}
+            </button>
           </div>
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
             <button
@@ -311,13 +395,59 @@ function TicketCards({ ticket, t, i, busy }: { ticket: TicketInfo; t: Strings; i
               ✉️ {t.email}
             </a>
           </div>
-          {toast > 0 && (
+          {/* Customize with plain-language instructions */}
+          <div className="mt-5 rounded-xl bg-teal-soft p-4">
+            <p className="mb-2 font-semibold text-teal-900">✨ {t.customizeTitle}</p>
+            {working ? (
+              <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
+                <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.customizing}
+              </p>
+            ) : (
+              <>
+                <div className="mb-2 flex flex-wrap gap-2">
+                  {t.customizeSuggestions.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => void customize(s)}
+                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-teal-900 ring-1 ring-teal/20 active:bg-teal/10"
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    void customize(instruction);
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    value={instruction}
+                    onChange={(e) => setInstruction(e.target.value)}
+                    placeholder={t.customizePlaceholder}
+                    enterKeyHint="send"
+                    className="min-h-[48px] min-w-0 flex-1 rounded-xl bg-white px-3 text-[16px] ring-1 ring-teal/20 outline-none focus:ring-2 focus:ring-teal"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!instruction.trim()}
+                    className="min-h-[48px] rounded-xl bg-teal px-4 text-[16px] font-semibold text-white disabled:opacity-40"
+                  >
+                    {t.customizeSend}
+                  </button>
+                </form>
+              </>
+            )}
+            {err && <p className="mt-2 text-[15px] text-red-700">{t.customizeError}</p>}
+          </div>
+          {toast.n > 0 && (
             <div
-              key={toast}
+              key={toast.n}
               role="status"
               className="toast fixed bottom-8 left-1/2 z-50 rounded-full bg-ink px-5 py-3 text-[16px] font-semibold text-white shadow-lg"
             >
-              {t.copied}
+              {toast.msg}
             </div>
           )}
         </Card>
@@ -489,6 +619,8 @@ export default function Results({
   onScanAnother,
   lang,
   image,
+  letters,
+  onLetters,
 }: {
   a: Analysis;
   t: Strings;
@@ -497,6 +629,8 @@ export default function Results({
   onScanAnother: () => void;
   lang: Lang;
   image: { base64: string; mediaType: string } | null;
+  letters: string[];
+  onLetters: (next: string[]) => void;
 }) {
   let i = 0;
   const dateLabel = formatDate(a.deadline?.date ?? null, locale);
@@ -574,7 +708,7 @@ export default function Results({
       <Steps a={a} t={t} i={i++} busy={busy} />
 
       {/* 6. type-specific */}
-      {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} />}
+      {a.ticket && <TicketCards ticket={a.ticket} t={t} i={i++} busy={busy} letters={letters} onLetters={onLetters} />}
       {a.quote && <QuoteCards quote={a.quote} t={t} i={i++} busy={busy} />}
 
       {/* local help + follow-up questions */}

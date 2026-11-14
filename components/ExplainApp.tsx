@@ -59,6 +59,7 @@ export default function ExplainApp() {
   const [lang, setLang] = useState<Lang>("en");
   const [screen, setScreen] = useState<Screen>("home");
   const [preview, setPreview] = useState<string>("");
+  const [letters, setLetters] = useState<string[]>([]);
   const [image, setImage] = useState<{ base64: string; mediaType: string } | null>(null);
   const [results, setResults] = useState<Partial<Record<Lang, Analysis>>>({});
   const [shownLang, setShownLang] = useState<Lang>("en");
@@ -108,6 +109,7 @@ export default function ExplainApp() {
     setResults({});
     setPreview("");
     setImage(null);
+    setLetters([]);
     setNotice("");
     sampleRef.current = null;
     window.scrollTo({ top: 0 });
@@ -119,6 +121,7 @@ export default function ExplainApp() {
     sampleRef.current = sample;
     setNotice("");
     setResults({});
+    setLetters([]);
     setScreen("loading");
     window.scrollTo({ top: 0 });
 
@@ -400,6 +403,8 @@ export default function ExplainApp() {
             busy={translating}
             lang={shownLang}
             image={image}
+            letters={letters}
+            onLetters={setLetters}
             onScanAnother={() => {
               reset();
             }}

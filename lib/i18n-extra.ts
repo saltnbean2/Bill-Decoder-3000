@@ -37,6 +37,16 @@ export interface ExtraStrings {
   agentSub: string;
   agentSuggestions: string[];
   back: string;
+  customizeTitle: string;
+  customizePlaceholder: string;
+  customizeSend: string;
+  customizeSuggestions: string[];
+  customizing: string;
+  undo: string;
+  editByHand: string;
+  doneEditing: string;
+  customizeError: string;
+  letterUpdated: string;
 }
 
 export const EXTRA: Record<Lang, ExtraStrings> = {
@@ -77,6 +87,16 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     agentSub: "Ask anything about a letter, bill, ticket or call. I can check phone numbers and find free help in Glendale.",
     agentSuggestions: ["Someone called saying they are the IRS and want gift cards. Is it real?", "How do I fight a parking ticket in Glendale?", "Where can I get free legal help?"],
     back: "Back",
+    customizeTitle: "Change the letter",
+    customizePlaceholder: "e.g. Add that the sign was hidden by a tree",
+    customizeSend: "Update",
+    customizeSuggestions: ["Make it shorter", "Add: the sign was hidden by a tree", "Remove the second reason", "Make it more polite"],
+    customizing: "Updating your letter…",
+    undo: "Undo",
+    editByHand: "Edit by hand",
+    doneEditing: "Done",
+    customizeError: "Couldn't change the letter right now. Try again.",
+    letterUpdated: "Letter updated ✓",
   },
   hy: {
     sampleScam: "Կասկածելի նամակ",
@@ -115,6 +135,16 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     agentSub: "Հարցրեք ցանկացած նամակի, հաշվի, տուգանքի կամ զանգի մասին։ Կարող եմ ստուգել հեռախոսահամարները և գտնել անվճար օգնություն Գլենդելում։",
     agentSuggestions: ["Ինչ-որ մեկը զանգեց, ասաց IRS-ից է և նվեր քարտեր է ուզում։ Իսկակա՞ն է։", "Ինչպե՞ս բողոքարկել կայանման տուգանքը Գլենդելում։", "Որտե՞ղ կարող եմ անվճար իրավաբանական օգնություն ստանալ։"],
     back: "Հետ",
+    customizeTitle: "Փոխել նամակը",
+    customizePlaceholder: "օր.՝ Ավելացրեք, որ ցուցանակը ծառը փակել էր",
+    customizeSend: "Թարմացնել",
+    customizeSuggestions: ["Ավելի կարճ դարձրեք", "Ավելացրեք՝ ցուցանակը ծառը փակել էր", "Հանեք երկրորդ պատճառը", "Ավելի քաղաքավարի դարձրեք"],
+    customizing: "Թարմացնում ենք նամակը…",
+    undo: "Հետարկել",
+    editByHand: "Խմբագրել ձեռքով",
+    doneEditing: "Պատրաստ է",
+    customizeError: "Հիմա չհաջողվեց փոխել նամակը։ Փորձեք կրկին։",
+    letterUpdated: "Նամակը թարմացվեց ✓",
   },
   es: {
     sampleScam: "Carta sospechosa",
@@ -153,6 +183,16 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     agentSub: "Pregunte lo que sea sobre una carta, factura, multa o llamada. Puedo verificar números de teléfono y encontrar ayuda gratis en Glendale.",
     agentSuggestions: ["Alguien llamó diciendo que es del IRS y pide tarjetas de regalo. ¿Es real?", "¿Cómo disputo una multa de estacionamiento en Glendale?", "¿Dónde consigo ayuda legal gratis?"],
     back: "Atrás",
+    customizeTitle: "Cambiar la carta",
+    customizePlaceholder: "p. ej. Agregue que un árbol tapaba el letrero",
+    customizeSend: "Actualizar",
+    customizeSuggestions: ["Hágala más corta", "Agregue: un árbol tapaba el letrero", "Quite la segunda razón", "Hágala más cortés"],
+    customizing: "Actualizando su carta…",
+    undo: "Deshacer",
+    editByHand: "Editar a mano",
+    doneEditing: "Listo",
+    customizeError: "No se pudo cambiar la carta ahora. Intente otra vez.",
+    letterUpdated: "Carta actualizada ✓",
   },
   ko: {
     sampleScam: "수상한 편지",
@@ -191,6 +231,16 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     agentSub: "편지, 청구서, 딱지, 전화에 대해 무엇이든 물어보세요. 전화번호를 확인하고 글렌데일의 무료 도움을 찾아 드려요.",
     agentSuggestions: ["IRS라며 기프트카드를 달라는 전화가 왔어요. 진짜인가요?", "글렌데일 주차 딱지에 어떻게 이의를 제기하나요?", "무료 법률 도움은 어디서 받을 수 있나요?"],
     back: "뒤로",
+    customizeTitle: "편지 고치기",
+    customizePlaceholder: "예: 나무가 표지판을 가렸다는 내용을 추가해 주세요",
+    customizeSend: "고치기",
+    customizeSuggestions: ["더 짧게 해 주세요", "추가: 나무가 표지판을 가렸어요", "두 번째 이유를 빼 주세요", "더 정중하게 해 주세요"],
+    customizing: "편지를 고치는 중…",
+    undo: "되돌리기",
+    editByHand: "직접 고치기",
+    doneEditing: "완료",
+    customizeError: "지금은 편지를 고칠 수 없어요. 다시 시도해 주세요.",
+    letterUpdated: "편지를 고쳤어요 ✓",
   },
   tl: {
     sampleScam: "Kahina-hinalang sulat",
@@ -229,5 +279,15 @@ export const EXTRA: Record<Lang, ExtraStrings> = {
     agentSub: "Magtanong tungkol sa sulat, bill, tiket o tawag. Kaya kong i-check ang mga numero ng telepono at maghanap ng libreng tulong sa Glendale.",
     agentSuggestions: ["May tumawag na IRS daw at gusto ng gift cards. Totoo ba ito?", "Paano ko lalabanan ang parking ticket sa Glendale?", "Saan ako makakakuha ng libreng legal na tulong?"],
     back: "Bumalik",
+    customizeTitle: "Baguhin ang sulat",
+    customizePlaceholder: "hal. Idagdag na natakpan ng puno ang karatula",
+    customizeSend: "I-update",
+    customizeSuggestions: ["Paikliin", "Idagdag: natakpan ng puno ang karatula", "Tanggalin ang ikalawang dahilan", "Gawing mas magalang"],
+    customizing: "Ina-update ang sulat mo…",
+    undo: "I-undo",
+    editByHand: "I-edit nang mano-mano",
+    doneEditing: "Tapos na",
+    customizeError: "Hindi mabago ang sulat ngayon. Subukan ulit.",
+    letterUpdated: "Na-update ang sulat ✓",
   },
 };
