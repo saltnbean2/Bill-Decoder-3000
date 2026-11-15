@@ -1,4 +1,5 @@
 "use client";
+import { CameraIcon, CopyIcon, GlobeIcon, MailIcon, PhoneIcon, PinIcon, PrintIcon, UndoIcon } from "./icons";
 
 import { useState } from "react";
 import { Card, CardTitle, Shimmer, formatDate } from "./ui";
@@ -12,9 +13,9 @@ import type { Lang } from "@/lib/types";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
 const SEVERITY_STYLE: Record<Severity, string> = {
-  high: "bg-red-50 text-red-800 ring-red-200",
-  medium: "bg-amber-50 text-amber-900 ring-amber-200",
-  low: "bg-stone-100 text-stone-700 ring-stone-200",
+  high: "bg-[#FBF1EF] text-[#7F1D1D] ring-transparent",
+  medium: "bg-[#FBF6EC] text-[#78350F] ring-transparent",
+  low: "bg-[#F5F4F1] text-stone-700 ring-transparent",
 };
 const SEVERITY_DOT: Record<Severity, string> = { high: "bg-red-500", medium: "bg-amber-500", low: "bg-stone-400" };
 
@@ -75,7 +76,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
   return (
     <Card i={i}>
       <CardTitle>{t.whatToDo}</CardTitle>
-      <ol className="space-y-2">
+      <ol className="-mx-2 divide-y divide-line">
         {a.action_steps.map((s, n) => {
           const checked = done.has(n);
           const link = s.contact ? contactLink(s.contact) : null;
@@ -85,8 +86,8 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                   so the links inside the row aren't nested inside a checkbox. */}
               <div
                 onClick={() => toggle(n)}
-                className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl p-2 pr-3 transition-colors ${
-                  checked ? "bg-teal-soft" : "bg-paper active:bg-stone-100"
+                className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl px-2 py-3 transition-colors ${
+                  checked ? "bg-[#F3F1EC]" : "active:bg-[#F7F6F3]"
                 }`}
               >
                 <button
@@ -128,7 +129,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                       onClick={(e) => e.stopPropagation()}
                       className="mt-2 inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
                     >
-                      <span>{link.kind === "tel" ? "📞" : link.kind === "url" ? "🌐" : "📍"}</span>
+                      {link.kind === "tel" ? <PhoneIcon size={16} /> : link.kind === "url" ? <GlobeIcon size={16} /> : <PinIcon size={16} />}
                       <span className="truncate">{link.label}</span>
                     </a>
                   )}
@@ -266,8 +267,8 @@ function TicketCards({
             <p className="mt-4 mb-2 text-sm font-semibold text-red-800">{t.problemsFound}</p>
             <ul className="flex flex-wrap gap-2">
               {ticket.missing_or_wrong_fields.map((f, n) => (
-                <li key={n} className="rounded-xl bg-red-50 px-3 py-2 text-[15px] font-medium text-red-800 ring-1 ring-red-200">
-                  🚩 {f}
+                <li key={n} className="rounded-xl bg-[#FBF1EF] px-3.5 py-2.5 text-[15px] font-medium text-[#8F1D16]">
+                  {f}
                 </li>
               ))}
             </ul>
@@ -291,7 +292,7 @@ function TicketCards({
       {ticket.appeal_letter && (
         <Card i={i + 1} className="ring-teal/30">
           <div className="mb-1 flex items-center gap-2">
-            <span className="text-xl">📝</span>
+            
             <h2 className="text-xl font-bold">{t.letterReady}</h2>
           </div>
           <p className="text-[15px] text-muted">{t.letterNote}</p>
@@ -325,7 +326,7 @@ function TicketCards({
                 disabled={working}
                 className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-stone-100"
               >
-                ↩ {t.undo}
+                <UndoIcon size={15} className="-mt-0.5 mr-1.5 inline" />{t.undo}
               </button>
             )}
             <button
@@ -336,7 +337,7 @@ function TicketCards({
               disabled={working}
               className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
             >
-              {editing ? `✓ ${t.doneEditing}` : `✍️ ${t.editByHand}`}
+              {editing ? t.doneEditing : t.editByHand}
             </button>
           </div>
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
@@ -344,24 +345,24 @@ function TicketCards({
               onClick={copy}
               className="min-h-[52px] rounded-xl bg-teal px-4 text-[17px] font-semibold text-white active:scale-[0.98] transition-transform"
             >
-              📋 {t.copy}
+              <CopyIcon size={17} className="-mt-0.5 mr-2 inline" />{t.copy}
             </button>
             <a
               href={mailto}
               className="flex min-h-[52px] items-center justify-center rounded-xl bg-white px-4 text-[17px] font-semibold text-teal ring-1 ring-teal/40 active:bg-teal-soft"
             >
-              ✉️ {t.email}
+              <MailIcon size={17} className="-mt-0.5 mr-2 inline" />{t.email}
             </a>
           </div>
           <button
             onClick={() => printLetter(letter, t.emailSubject)}
             className="mt-2 flex min-h-[48px] w-full items-center justify-center rounded-xl bg-white text-[16px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
           >
-            🖨️ {t.printLetter}
+            <PrintIcon size={17} className="-mt-0.5 mr-2 inline" />{t.printLetter}
           </button>
           {/* Customize with plain-language instructions */}
           <div className="mt-5 rounded-xl bg-teal-soft p-4">
-            <p className="mb-2 font-semibold text-teal-900">✨ {t.customizeTitle}</p>
+            <p className="mb-2 font-semibold text-teal-900">{t.customizeTitle}</p>
             {working ? (
               <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
                 <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.customizing}
@@ -515,7 +516,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
       <Card i={i + 2}>
         {quote.license_number ? (
           <p className="text-[17px]">
-            ✅ {t.license} <span className="font-mono font-semibold">#{quote.license_number}</span> —{" "}
+            {t.license} <span className="font-mono font-semibold">#{quote.license_number}</span> —{" "}
             {t.verifyAt}{" "}
             <a
               href="https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx"
@@ -528,7 +529,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
           </p>
         ) : (
           <div>
-            <p className="text-[19px] font-bold text-red-700">⚠️ {t.noLicense}</p>
+            <p className="text-[19px] font-bold text-red-700">{t.noLicense}</p>
             <a
               href="https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx"
               target="_blank"
@@ -541,7 +542,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
         )}
         {quote.questions_to_ask.length > 0 && (
           <>
-            <h3 className="mt-5 mb-2 text-lg font-bold">💬 {t.askBefore}</h3>
+            <h3 className="mt-5 mb-2 text-lg font-bold">{t.askBefore}</h3>
             <ul className="space-y-2">
               {quote.questions_to_ask.map((q, n) => (
                 <li key={n} className="rounded-xl bg-teal-soft px-4 py-3 text-[16px] leading-snug text-teal-900">
@@ -623,7 +624,7 @@ export default function Results({
   const isScam = legit?.verdict === "likely_scam";
 
   return (
-    <div className="space-y-4 pb-10">
+    <div className="space-y-5 pb-12">
       {/* 0. the person's own document, with the problems circled */}
       {photo && <DocumentHero photo={photo} marks={marks} alt={t.docType[a.document_type]} />}
 
@@ -635,7 +636,7 @@ export default function Results({
         {photo && <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-[#DAD7D1]" aria-hidden />}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="inline-flex items-center rounded-full bg-[#F3F1EC] px-3 py-1.5 text-[14px] font-semibold text-ink">
-            {t.docType[a.document_type]}
+            {t.docType[a.document_type].replace(/^\S+\s/, "")}
           </span>
           {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
         </div>
@@ -655,8 +656,8 @@ export default function Results({
 
       {/* 2. deadline */}
       {isScam ? (
-        <section className="rise rounded-2xl bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
-          <p className="text-[22px] font-bold leading-tight text-stone-800">🎭 {t.fakeDeadline}</p>
+        <section className="rise rounded-[24px] bg-[#E9E6E0] p-6" style={{ animationDelay: `${i++ * 50}ms` }}>
+          <p className="text-[22px] font-bold leading-tight text-stone-800">{t.fakeDeadline}</p>
           {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
         </section>
       ) : (
@@ -670,13 +671,13 @@ export default function Results({
       {/* 3. legitimacy */}
       {showLegit && (
         <section
-          className={`rise rounded-2xl p-5 ring-1 ${
-            legit.verdict === "likely_scam" ? "bg-red-50 ring-red-300" : "bg-amber-50 ring-amber-300"
+          className={`rise rounded-[24px] p-6 ${
+            legit.verdict === "likely_scam" ? "bg-[#FBF1EF]" : "bg-[#FBF6EC]"
           }`}
           style={{ animationDelay: `${i++ * 50}ms` }}
         >
           <p className={`text-xl font-bold ${legit.verdict === "likely_scam" ? "text-red-800" : "text-amber-900"}`}>
-            🛑 {t.scamTitle[legit.verdict as "be_careful" | "likely_scam"]}
+            {t.scamTitle[legit.verdict as "be_careful" | "likely_scam"]}
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-[16px]">
             {legit.reasons.map((r, n) => (
@@ -709,7 +710,7 @@ export default function Results({
 
       {/* 7. if ignored */}
       {a.if_ignored && (
-        <section className="rise rounded-2xl bg-stone-100 p-5" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
+        <section className="rise rounded-[24px] bg-[#E9E6E0]/70 p-6" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
           <h2 className="mb-1 text-[13px] font-semibold text-muted">{t.ifIgnored}</h2>
           {busy ? <Shimmer /> : <p className="text-stone-700">{a.if_ignored}</p>}
         </section>
@@ -733,7 +734,7 @@ export default function Results({
       {/* 9. confidence */}
       {a.confidence !== "high" && (
         <p className="rise px-1 text-[15px] text-muted" style={{ animationDelay: `${i++ * 50}ms` }}>
-          🔍 {t.lowConfidence}
+          {t.lowConfidence}
         </p>
       )}
 
@@ -741,9 +742,9 @@ export default function Results({
       <footer className="rise pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
         <button
           onClick={onScanAnother}
-          className="min-h-[56px] w-full rounded-2xl bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"
+          className="min-h-[56px] w-full rounded-full bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"
         >
-          📷 {t.scanAnother}
+          <CameraIcon size={20} className="-mt-0.5 mr-2 inline" />{t.scanAnother}
         </button>
         <p className="mt-4 text-[14px] text-muted">{t.disclaimer}</p>
       </footer>

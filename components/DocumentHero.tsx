@@ -47,25 +47,55 @@ export default function DocumentHero({ photo, marks = [], alt }: { photo: string
             onLoad={(e) => setAspect(e.currentTarget.naturalHeight / Math.max(1, e.currentTarget.naturalWidth))}
           />
           {aspect > 0 &&
-            marks.map((m, n) => (
-              <span
-                key={n}
-                aria-hidden
-                className="mark-in absolute"
-                style={{
-                  left: `${(m.x - (m.shape === "box" ? 0.01 : 0.03)) * 100}%`,
-                  top: `${(m.y - (m.shape === "box" ? 0.004 : 0.012)) * 100}%`,
-                  width: `${(m.w + (m.shape === "box" ? 0.02 : 0.06)) * 100}%`,
-                  height: `${(m.h + (m.shape === "box" ? 0.008 : 0.024)) * 100}%`,
-                  border: "2.5px solid #E5372B",
-                  borderRadius: m.shape === "box" ? 12 : "50%",
-                  background: m.shape === "box" ? "rgba(229,55,43,.07)" : undefined,
-                  transform: `rotate(${n % 2 ? 2 : -3}deg)`,
-                  animationDelay: `${300 + n * 180}ms`,
-                }}
-              />
-            ))}
+            marks.map((m, n) => {
+              const box = m.shape === "box";
+              return (
+                <svg
+                  key={n}
+                  aria-hidden
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  className="absolute overflow-visible"
+                  style={{
+                    left: `${(m.x - (box ? 0.01 : 0.03)) * 100}%`,
+                    top: `${(m.y - (box ? 0.004 : 0.012)) * 100}%`,
+                    width: `${(m.w + (box ? 0.02 : 0.06)) * 100}%`,
+                    height: `${(m.h + (box ? 0.008 : 0.024)) * 100}%`,
+                    transform: `rotate(${n % 2 ? 2 : -3}deg)`,
+                  }}
+                >
+                  {box ? (
+                    <rect
+                      x="0" y="0" width="100" height="100" rx="12" ry="30"
+                      pathLength={1}
+                      className="mark-draw"
+                      fill="rgba(229,55,43,.07)"
+                      stroke="#E5372B"
+                      strokeWidth="2.5"
+                      vectorEffect="non-scaling-stroke"
+                      style={{ animationDelay: `${1350 + n * 320}ms` }}
+                    />
+                  ) : (
+                    <ellipse
+                      cx="50" cy="50" rx="50" ry="50"
+                      pathLength={1}
+                      className="mark-draw"
+                      fill="none"
+                      stroke="#E5372B"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      vectorEffect="non-scaling-stroke"
+                      transform="rotate(-100 50 50)"
+                      style={{ animationDelay: `${1350 + n * 320}ms` }}
+                    />
+                  )}
+                </svg>
+              );
+            })}
         </div>
+        {/* Opening motion: a scan line sweeps down the page, then the problems get circled */}
+        <span aria-hidden className="hero-scan-wash pointer-events-none absolute inset-x-0 top-0" />
+        <span aria-hidden className="hero-scan pointer-events-none absolute inset-x-0" />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0), #FFFFFF)" }} />
       </div>
     </div>
