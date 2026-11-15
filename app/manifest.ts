@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 
-/** Lets people add Explain It to their home screen and open it full-screen, like an app. */
+/** Lets people add Doc Deco to their home screen and open it full-screen, like an app. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Explain It",
-    short_name: "Explain It",
+    name: "Doc Deco",
+    short_name: "Doc Deco",
     description: "Any paperwork. Explained in your language.",
     start_url: "/",
     display: "standalone",

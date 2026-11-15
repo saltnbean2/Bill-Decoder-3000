@@ -60,11 +60,11 @@ function fold(line: string) {
 
 export function buildIcs(e: CalEvent) {
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
-  const uid = `${compact(e.date)}-${Math.random().toString(36).slice(2)}@explain-it`;
+  const uid = `${compact(e.date)}-${Math.random().toString(36).slice(2)}@doc-deco`;
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Explain It//Deadline//EN",
+    "PRODID:-//Doc Deco//Deadline//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",

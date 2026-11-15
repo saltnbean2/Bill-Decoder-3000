@@ -1,4 +1,4 @@
-// Tests every API route on a deployed (or local) Explain It, including bad input.
+// Tests every API route on a deployed (or local) Doc Deco, including bad input.
 // Run: BASE_URL=https://bill-decoder-3000.vercel.app npm run smoke
 // Uses the live AI for ~8 calls (a few cents).
 import fs from "node:fs/promises";

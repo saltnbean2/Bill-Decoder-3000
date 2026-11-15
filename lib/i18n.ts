@@ -89,7 +89,7 @@ export interface Strings extends ExtraStrings {
 }
 
 const en: Base = {
-  appName: "Explain It",
+  appName: "Doc Deco",
   tagline: "Any paperwork. Explained in your language.",
   scan: "Scan a document",
   upload: "Upload a photo",
@@ -146,7 +146,7 @@ const en: Base = {
   ifIgnored: "If you ignore this",
   redFlags: "Things to watch",
   lowConfidence: "Some parts were hard to read. Double-check the details against your document.",
-  disclaimer: "Explain It helps you understand documents. It's not legal advice.",
+  disclaimer: "Doc Deco helps you understand documents. It's not legal advice.",
   scanAnother: "Scan another",
   unreadableTitle: "We couldn't read that one",
   unreadableTips: [
@@ -171,7 +171,7 @@ const en: Base = {
 };
 
 const hy: Base = {
-  appName: "Explain It",
+  appName: "Doc Deco",
   tagline: "Ցանկացած փաստաթուղթ՝ բացատրված ձեր լեզվով։",
   scan: "Լուսանկարել փաստաթուղթը",
   upload: "Վերբեռնել լուսանկար",
@@ -233,7 +233,7 @@ const hy: Base = {
   ifIgnored: "Եթե անտեսեք սա",
   redFlags: "Ուշադրություն դարձրեք",
   lowConfidence: "Որոշ մասեր դժվար էր կարդալ։ Ստուգեք մանրամասները ձեր փաստաթղթի հետ։",
-  disclaimer: "Explain It-ը օգնում է հասկանալ փաստաթղթերը։ Սա իրավաբանական խորհուրդ չէ։",
+  disclaimer: "Doc Deco-ն օգնում է հասկանալ փաստաթղթերը։ Սա իրավաբանական խորհուրդ չէ։",
   scanAnother: "Լուսանկարել ուրիշը",
   unreadableTitle: "Չկարողացանք կարդալ սա",
   unreadableTips: [
@@ -258,7 +258,7 @@ const hy: Base = {
 };
 
 const es: Base = {
-  appName: "Explain It",
+  appName: "Doc Deco",
   tagline: "Cualquier papel. Explicado en su idioma.",
   scan: "Escanear un documento",
   upload: "Subir una foto",
@@ -315,7 +315,7 @@ const es: Base = {
   ifIgnored: "Si no hace nada",
   redFlags: "Cosas a vigilar",
   lowConfidence: "Algunas partes eran difíciles de leer. Revise los datos con su documento.",
-  disclaimer: "Explain It le ayuda a entender documentos. No es asesoría legal.",
+  disclaimer: "Doc Deco le ayuda a entender documentos. No es asesoría legal.",
   scanAnother: "Escanear otro",
   unreadableTitle: "No pudimos leer este",
   unreadableTips: [
@@ -340,7 +340,7 @@ const es: Base = {
 };
 
 const ko: Base = {
-  appName: "Explain It",
+  appName: "Doc Deco",
   tagline: "어떤 서류든, 내 언어로 쉽게 설명해 드려요.",
   scan: "서류 촬영하기",
   upload: "사진 올리기",
@@ -397,7 +397,7 @@ const ko: Base = {
   ifIgnored: "그냥 두면 생기는 일",
   redFlags: "주의할 점",
   lowConfidence: "일부 내용은 읽기 어려웠어요. 원본 서류와 다시 확인하세요.",
-  disclaimer: "Explain It은 서류 이해를 돕는 앱이에요. 법률 자문이 아니에요.",
+  disclaimer: "Doc Deco는 서류 이해를 돕는 앱이에요. 법률 자문이 아니에요.",
   scanAnother: "다른 서류 촬영",
   unreadableTitle: "이 사진은 읽을 수 없었어요",
   unreadableTips: ["종이를 탁자 위에 평평하게 놓으세요", "그림자 없이 밝은 곳에서 찍으세요", "페이지 전체가 사진에 나오게 하세요", "휴대폰을 위에서 똑바로, 흔들리지 않게 드세요"],
@@ -417,7 +417,7 @@ const ko: Base = {
 };
 
 const tl: Base = {
-  appName: "Explain It",
+  appName: "Doc Deco",
   tagline: "Kahit anong papeles. Ipinaliwanag sa sarili mong wika.",
   scan: "I-scan ang dokumento",
   upload: "Mag-upload ng litrato",
@@ -479,7 +479,7 @@ const tl: Base = {
   ifIgnored: "Kung hindi mo ito papansinin",
   redFlags: "Mga dapat bantayan",
   lowConfidence: "May mga bahaging mahirap basahin. I-double check ang mga detalye sa dokumento mo.",
-  disclaimer: "Tinutulungan ka ng Explain It na maintindihan ang mga dokumento. Hindi ito legal na payo.",
+  disclaimer: "Tinutulungan ka ng Doc Deco na maintindihan ang mga dokumento. Hindi ito legal na payo.",
   scanAnother: "Mag-scan ng iba",
   unreadableTitle: "Hindi namin ito mabasa",
   unreadableTips: [

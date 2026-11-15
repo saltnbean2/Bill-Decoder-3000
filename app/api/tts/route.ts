@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       "Ocp-Apim-Subscription-Key": key()!,
       "Content-Type": "application/ssml+xml",
       "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3",
-      "User-Agent": "explain-it",
+      "User-Agent": "doc-deco",
     },
     body: ssml,
   });

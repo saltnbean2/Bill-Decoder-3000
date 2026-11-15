@@ -20,10 +20,10 @@ const korean = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "Explain It — any paperwork, explained in your language",
+  title: "Doc Deco — any paperwork, explained in your language",
   description:
     "Take a photo of a parking ticket, official letter or contractor quote. Get a plain-language explanation, the deadline and exactly what to do — in English, Armenian, Spanish, Korean or Tagalog.",
-  appleWebApp: { capable: true, title: "Explain It", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Doc Deco", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {

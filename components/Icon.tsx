@@ -101,7 +101,7 @@ export default function Icon({ name, size = 20, stroke = 2, className }: { name:
   );
 }
 
-/** The Explain It mark: a green tile with an envelope and a highlighter dot. */
+/** The Doc Deco mark: a green tile with an envelope and a highlighter dot. */
 export function LogoMark({ size = 36 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" aria-hidden="true" className="shrink-0">

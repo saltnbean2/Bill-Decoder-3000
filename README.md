@@ -1,8 +1,8 @@
-# Explain It
+# Doc Deco
 
 **Any paperwork. Explained in your language.**
 
-Take a photo of a parking ticket, an official letter or a contractor quote. Explain It says what it is, finds the deadline, lists what to do, flags red flags, and does some of the work for you: it drafts the ticket appeal letter or tells you whether a quote is overpriced. Results come in English, Armenian, Spanish, Korean or Tagalog.
+Take a photo of a parking ticket, an official letter or a contractor quote. Doc Deco says what it is, finds the deadline, lists what to do, flags red flags, and does some of the work for you: it drafts the ticket appeal letter or tells you whether a quote is overpriced. Results come in English, Armenian, Spanish, Korean or Tagalog.
 
 Built for the Glendale hackathon ("make Glendale better").
 
@@ -53,7 +53,7 @@ Or from the terminal: `npx vercel` then `npx vercel env add ANTHROPIC_API_KEY` a
 
 ## Extra features
 
-- **Ask Explain It** (`/api/ask`): a small agent with tools: verified local help lines (`lib/resources.ts`), an official-phone-number check, and date math. Works under any scanned document (with the photo) and on its own from the home screen ("💬" button). Needs the live API.
+- **Ask Doc Deco** (`/api/ask`): a small agent with tools: verified local help lines (`lib/resources.ts`), an official-phone-number check, and date math. Works under any scanned document (with the photo) and on its own from the home screen ("💬" button). Needs the live API.
 - **Customize the appeal letter** (`/api/letter`): type a change in any of the 5 languages ("add that I was at the hospital", "my name is Ana Petrosyan") and the English letter is rewritten; also hand edit and undo. Edits survive a language switch.
 - **Don't miss it**: deadline to iPhone (native "Add to Calendar" sheet via `/api/ics`), Google or Outlook, with reminders 3 days and 1 day before. Hidden for scam letters, whose "deadline" is shown as a pressure trick instead.
 - **Send to family**: the phone's share sheet, or Text / WhatsApp buttons.
@@ -111,7 +111,7 @@ Also check before the demo:
 
 | Time | Do | Say |
 |---|---|---|
-| 0:00 | Home screen | "Glendale is one of the most multilingual cities in LA County. People get letters they can't read — they miss deadlines, pay tickets they could fight, and get scammed. Explain It reads it for them." |
+| 0:00 | Home screen | "Glendale is one of the most multilingual cities in LA County. People get letters they can't read — they miss deadlines, pay tickets they could fight, and get scammed. Doc Deco reads it for them." |
 | 0:10 | Tap **🅿️ Parking ticket** | Point at **16 days left**. Scroll to **Problems on the ticket**: "It caught that the ticket says Honda but the officer wrote Toyota, and there's no officer ID. That's a strong case." |
 | 0:25 | In **Change the letter**, tap **Add: the sign was hidden by a tree** | "It already wrote the appeal. I can change it in any language, and it stays in English for the city." Show **Letter updated ✓**, tap **📅 Don't miss it** → iPhone. |
 | 0:40 | Back, tap **🚩 Suspicious letter** | Point at the red banner: "It says it's the IRS, but that's NOT the IRS's phone number — here's the real one. And it wants gift cards. Scam." Point at **This "deadline" is a pressure trick**. |

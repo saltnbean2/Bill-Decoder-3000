@@ -899,7 +899,7 @@ export default function Landing({
             ))}
           </nav>
           <div className={s.footCol}>
-            <h3>Explain It</h3>
+            <h3>Doc Deco</h3>
             <p>{L.footMade}</p>
             <p>{t.privacy}</p>
           </div>
@@ -918,7 +918,7 @@ export default function Landing({
           Benoît Prieur, CC0; <a href="https://commons.wikimedia.org/wiki/File:Glendale_California_From_Forest_Lawn.jpg">“Glendale California From Forest Lawn”</a>,
           public domain; <a href="https://commons.wikimedia.org/wiki/File:Letters_(2568688831).jpg">“Letters”</a> by Andreas Duess,{" "}
           <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>; all via Wikimedia Commons. Pictures show Glendale and mail in general, not
-          Explain It users.
+          Doc Deco users.
           </p>
           )}
         </details>

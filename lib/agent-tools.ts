@@ -3,7 +3,7 @@ import { HELP, OFFICIAL, formatPhone } from "./resources";
 import { daysUntil } from "./normalize";
 
 /*
- * Tools for the "Ask Explain It" agent. They only read our verified data, so the agent
+ * Tools for the "Ask Doc Deco" agent. They only read our verified data, so the agent
  * can give real phone numbers and do date math instead of guessing.
  */
 

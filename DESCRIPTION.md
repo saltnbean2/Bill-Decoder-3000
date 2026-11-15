@@ -1,4 +1,4 @@
-# Explain It
+# Doc Deco
 
 **Any paperwork. Explained in your language.**
 
@@ -6,7 +6,7 @@ Live: https://bill-decoder-3000.vercel.app (add `?demo=1` for demo mode)
 
 ## One-line summary
 
-Explain It is a mobile web app for Glendale residents: take a photo of a confusing official document — a parking ticket, a letter from a court or government agency, or a contractor's quote — and in about 15 seconds get a plain-language explanation, the deadline, exactly what to do next, and warnings about anything suspicious, in English, Armenian, Spanish, Korean or Tagalog.
+Doc Deco is a mobile web app for Glendale residents: take a photo of a confusing official document — a parking ticket, a letter from a court or government agency, or a contractor's quote — and in about 15 seconds get a plain-language explanation, the deadline, exactly what to do next, and warnings about anything suspicious, in English, Armenian, Spanish, Korean or Tagalog.
 
 ## The problem
 
@@ -62,7 +62,7 @@ The AI identifies the type of document and explains it at about a 6th-grade read
 - **Five languages:** English, Armenian (Հայերեն), Spanish, Korean (한국어) and Tagalog — every explanation, step and button. Switching language is one tap, and switching back is instant.
 - **"Show in English"** — one tap to show the explanation in English to a son, daughter or clerk, and back.
 - **Free help near you** — a verified directory of real local help lines, each checked against its official source: 211 LA County (free, 24/7, 140+ languages), Neighborhood Legal Services of LA County (free legal aid), the City of Glendale parking citation center, LA County Consumer & Business Affairs, the Contractors State License Board, the Bureau of Automotive Repair, LA Superior Court juror services, Glendale Water & Power, and the official IRS, FTB, Social Security and DMV numbers.
-- **Ask Explain It** — an AI assistant, available from the home screen with no document needed ("Someone called saying they're the IRS and want gift cards — is it real?"). It uses tools rather than guessing: it looks up the verified local help directory, checks phone numbers against official agency numbers, and does date math.
+- **Ask Doc Deco** — an AI assistant, available from the home screen with no document needed ("Someone called saying they're the IRS and want gift cards — is it real?"). It uses tools rather than guessing: it looks up the verified local help directory, checks phone numbers against official agency numbers, and does date math.
 
 ## Accessibility
 

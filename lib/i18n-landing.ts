@@ -139,7 +139,7 @@ const en: LandingStrings = {
     { title: "Scam check", body: "Flags fake agencies and shows you the real phone number." },
   ],
   helpTitle: "Free help, close to home",
-  helpSub: "Explain It isn’t a lawyer. When you need a person, these lines are free.",
+  helpSub: "Doc Deco isn’t a lawyer. When you need a person, these lines are free.",
   helpAll: "More Glendale help lines",
   faqTitle: "Questions people ask first",
   faqSub: "Your photo is read once to write your explanation, then it’s gone. There’s no account to make.",
@@ -166,7 +166,7 @@ const en: LandingStrings = {
   ],
   ctaTitle: "Bring the scary one.",
   ctaBody: "The letter you’ve been avoiding takes about a minute. Free, and your photo is never saved.",
-  footAbout: "Explain It reads official mail with you, in your language, and hands you the next step.",
+  footAbout: "Doc Deco reads official mail with you, in your language, and hands you the next step.",
   footMade: "Made for the Glendale hackathon.",
 };
 
@@ -247,7 +247,7 @@ const hy: LandingStrings = {
     { title: "Խարդախության ստուգում", body: "Նշում է կեղծ կազմակերպությունները և ցույց տալիս իսկական համարը։" },
   ],
   helpTitle: "Անվճար օգնություն՝ մոտակայքում",
-  helpSub: "Explain It-ը փաստաբան չէ։ Երբ մարդու կարիք ունեք, այս գծերն անվճար են։",
+  helpSub: "Doc Deco-ն փաստաբան չէ։ Երբ մարդու կարիք ունեք, այս գծերն անվճար են։",
   helpAll: "Գլենդեյլի բոլոր օգնության համարները",
   faqTitle: "Հաճախ տրվող հարցեր",
   faqSub: "Ձեր լուսանկարը կարդացվում է մեկ անգամ՝ բացատրությունը գրելու համար, ապա ջնջվում։ Հաշիվ ստեղծել պետք չէ։",
@@ -274,7 +274,7 @@ const hy: LandingStrings = {
   ],
   ctaTitle: "Բերեք ամենասարսափելին։",
   ctaBody: "Այն նամակը, որից խուսափում եք, մոտ մեկ րոպե կտևի։ Անվճար է, և ձեր լուսանկարը երբեք չի պահվում։",
-  footAbout: "Explain It-ը կարդում է պաշտոնական նամակները ձեզ հետ՝ ձեր լեզվով, և ցույց տալիս հաջորդ քայլը։",
+  footAbout: "Doc Deco-ն կարդում է պաշտոնական նամակները ձեզ հետ՝ ձեր լեզվով, և ցույց տալիս հաջորդ քայլը։",
   footMade: "Ստեղծված է Գլենդեյլի հաքաթոնի համար։",
 };
 
@@ -355,7 +355,7 @@ const es: LandingStrings = {
     { title: "Revisión de estafas", body: "Señala agencias falsas y le muestra el número real." },
   ],
   helpTitle: "Ayuda gratis, cerca de casa",
-  helpSub: "Explain It no es un abogado. Cuando necesite a una persona, estas líneas son gratis.",
+  helpSub: "Doc Deco no es un abogado. Cuando necesite a una persona, estas líneas son gratis.",
   helpAll: "Ver todos los números de ayuda de Glendale",
   faqTitle: "Preguntas frecuentes",
   faqSub: "Su foto se lee una vez para escribir la explicación y luego desaparece. No hay que crear una cuenta.",
@@ -382,7 +382,7 @@ const es: LandingStrings = {
   ],
   ctaTitle: "Traiga la que le da miedo.",
   ctaBody: "La carta que ha estado evitando toma un minuto. Es gratis y su foto nunca se guarda.",
-  footAbout: "Explain It lee el correo oficial con usted, en su idioma, y le indica el siguiente paso.",
+  footAbout: "Doc Deco lee el correo oficial con usted, en su idioma, y le indica el siguiente paso.",
   footMade: "Hecho para el hackathon de Glendale.",
 };
 
@@ -463,7 +463,7 @@ const ko: LandingStrings = {
     { title: "사기 확인", body: "가짜 기관을 알려 주고 진짜 전화번호를 보여 드려요." },
   ],
   helpTitle: "가까운 무료 도움",
-  helpSub: "Explain It은 변호사가 아니에요. 사람이 필요할 때 이 번호들은 무료예요.",
+  helpSub: "Doc Deco는 변호사가 아니에요. 사람이 필요할 때 이 번호들은 무료예요.",
   helpAll: "글렌데일 도움 번호 모두 보기",
   faqTitle: "자주 묻는 질문",
   faqSub: "사진은 설명을 쓰기 위해 한 번만 읽고 바로 사라져요. 가입할 필요도 없어요.",
@@ -487,7 +487,7 @@ const ko: LandingStrings = {
   ],
   ctaTitle: "제일 걱정되는 편지를 가져오세요.",
   ctaBody: "미뤄 둔 편지도 1분이면 돼요. 무료이고 사진은 절대 저장되지 않아요.",
-  footAbout: "Explain It은 공식 우편물을 내 언어로 함께 읽고 다음 할 일을 알려 드려요.",
+  footAbout: "Doc Deco는 공식 우편물을 내 언어로 함께 읽고 다음 할 일을 알려 드려요.",
   footMade: "글렌데일 해커톤을 위해 만들었어요.",
 };
 
@@ -568,7 +568,7 @@ const tl: LandingStrings = {
     { title: "Pag-check ng scam", body: "Tinutukoy ang pekeng ahensya at ipinapakita ang tunay na numero." },
   ],
   helpTitle: "Libreng tulong, malapit sa iyo",
-  helpSub: "Hindi abogado ang Explain It. Kapag kailangan mo ng tao, libre ang mga linyang ito.",
+  helpSub: "Hindi abogado ang Doc Deco. Kapag kailangan mo ng tao, libre ang mga linyang ito.",
   helpAll: "Tingnan lahat ng numero ng tulong sa Glendale",
   faqTitle: "Mga madalas itanong",
   faqSub: "Binabasa nang isang beses ang litrato mo para isulat ang paliwanag, saka ito nawawala. Walang account na kailangang gawin.",
@@ -595,7 +595,7 @@ const tl: LandingStrings = {
   ],
   ctaTitle: "Dalhin ang pinakanakakatakot.",
   ctaBody: "Mga isang minuto lang ang sulat na iniiwasan mo. Libre, at hindi kailanman sine-save ang litrato mo.",
-  footAbout: "Binabasa ng Explain It ang opisyal na sulat kasama mo, sa sarili mong wika, at ibinibigay ang susunod na hakbang.",
+  footAbout: "Binabasa ng Doc Deco ang opisyal na sulat kasama mo, sa sarili mong wika, at ibinibigay ang susunod na hakbang.",
   footMade: "Ginawa para sa Glendale hackathon.",
 };
 
