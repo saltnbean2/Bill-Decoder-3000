@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Noto_Sans_Armenian, Noto_Sans_KR } from "next/font/google";
+import { Figtree, Noto_Sans_Armenian, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
+// Figtree: friendly, very readable sans, used for everything (headings at 600, text at 400/500).
+const figtree = Figtree({ variable: "--font-figtree", subsets: ["latin"], display: "swap" });
 // Armenian and Korean are only loaded when those glyphs appear (no preload).
 const armenian = Noto_Sans_Armenian({
   variable: "--font-armenian",
@@ -31,13 +32,13 @@ export const viewport: Viewport = {
   viewportFit: "cover",
   // Android: the keyboard shrinks the layout, like iOS, so inputs near the bottom stay visible.
   interactiveWidget: "resizes-content",
-  themeColor: "#FAF8F5",
+  themeColor: "#FFFFFF",
   colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${armenian.variable} ${korean.variable} antialiased`}>
+    <html lang="en" className={`${figtree.variable} ${armenian.variable} ${korean.variable} antialiased`}>
       <body>{children}</body>
     </html>
   );

@@ -14,7 +14,7 @@ const check = (name, ok, info = "") => {
   console.log(`${ok ? "✓" : "✗"} ${name}${info ? ` — ${info}` : ""}`);
 };
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
 const ctx = await browser.newContext({
   viewport: { width: 390, height: 844 },
   deviceScaleFactor: 2,
@@ -22,6 +22,8 @@ const ctx = await browser.newContext({
   hasTouch: true,
   locale: "en-US",
 });
+// Edge on Windows has a real share sheet; hide it so the test sees the Text / WhatsApp fallback, as in headless Chromium.
+if (process.env.PW_CHANNEL) await ctx.addInitScript(() => { delete Navigator.prototype.share; });
 const page = await ctx.newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
@@ -144,7 +146,7 @@ check("Directory: tap-to-call links", telLinks >= 10, `${telLinks} phone links`)
 
 // --- Ask agent (live AI)
 await home();
-await page.getByRole("button", { name: /^💬 Ask a question$/ }).click();
+await page.getByRole("button", { name: /^(💬 )?Ask a question$/ }).click();
 await page.getByRole("button", { name: /Where can I get free legal help/ }).click();
 check("Agent answers (live AI)", await has("433-6251", 40000));
 

@@ -10,7 +10,7 @@ import { buildShareLink } from "@/lib/sharelink";
 import { Linkify } from "./linkify";
 
 const cardCls =
-  "rise rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-line";
+  "rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_10px_28px_-12px_rgba(0,0,0,0.12)] ring-1 ring-line";
 const pill =
   "flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-3 text-[16px] font-semibold ring-1 transition-colors";
 
@@ -184,13 +184,13 @@ export function NumberCheckBanner({ a, t, i }: { a: Analysis; t: Strings; i: num
   const official = check.agency.phones.map(formatPhone)[0];
   if (check.status === "match") {
     return (
-      <section className="rise rounded-2xl bg-green-50 p-4 ring-1 ring-green-200" style={{ animationDelay: `${i * 50}ms` }}>
+      <section className="rise rounded-[24px] bg-green-50 p-4 ring-1 ring-green-200" style={{ animationDelay: `${i * 50}ms` }}>
         <p className="font-semibold text-green-800">✅ {t.numberMatchTitle(check.agency.name)}</p>
       </section>
     );
   }
   return (
-    <section className="rise rounded-2xl bg-red-600 p-5 text-white" style={{ animationDelay: `${i * 50}ms` }}>
+    <section className="rise rounded-[24px] bg-red-600 p-5 text-white" style={{ animationDelay: `${i * 50}ms` }}>
       <p className="text-[20px] font-bold leading-tight">☎️ {t.numberMismatchTitle(check.agency.name)}</p>
       <p className="mt-2 text-[16px] leading-snug opacity-95">
         {t.numberMismatchBody(check.bad.join(", "), `${check.agency.name} ${t.officialNumber} ${official}`)}
@@ -212,7 +212,7 @@ export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lan
   if (!list.length) return null;
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📍 {t.helpTitle}</h2>
+      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">📍 {t.helpTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.helpSub}</p>
       <ul className="space-y-2">
         {list.map((r) => (
@@ -366,7 +366,7 @@ export function AskCard({
 
   return (
     <section className={bare ? "rise" : cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      {!bare && <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">💬 {t.askTitle}</h2>}
+      {!bare && <h2 className="mb-3 text-[19px] font-semibold leading-snug tracking-tight text-ink">💬 {t.askTitle}</h2>}
       {qa.length > 0 && (
         <div className="mb-3 space-y-3">
           {qa.map((x, n) => (
@@ -430,7 +430,7 @@ export function AskCard({
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="min-h-[48px] rounded-xl bg-teal px-5 text-[16px] font-semibold text-white disabled:opacity-40"
+          className="min-h-[48px] rounded-full bg-ink px-5 text-[16px] font-semibold text-white disabled:opacity-40"
         >
           {t.askSend}
         </button>
@@ -628,7 +628,7 @@ export function FullTextCard({
 
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📜 {t.fullTextTitle}</h2>
+      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">📜 {t.fullTextTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.fullTextSub}</p>
       {state === "loading" ? (
         <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">

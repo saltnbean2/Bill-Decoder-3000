@@ -1,28 +1,42 @@
 @import "tailwindcss";
 
+/* Design: white page, light grey panels, near-black text and pill buttons, one brand green.
+   "teal" is kept as the token name so every screen picks up the brand green without renaming classes. */
 @theme inline {
-  --color-paper: #faf8f5;
-  --color-ink: #1a1a1a;
-  --color-muted: #6b6560;
-  --color-line: #ebe6df;
-  --color-teal: #0f766e;
-  --color-teal-soft: #e6f2f0;
+  --color-paper: #f4f4f2; /* grey surfaces inside white cards (steps, letter, figures) */
+  --color-card: #f2f2f2; /* big grey panels */
+  --color-ink: #111111;
+  --color-muted: #6b6b6b;
+  --color-line: #e6e6e6;
+  --color-teal: #0f7a4c;
+  --color-teal-soft: #e1f1e8;
+  --color-teal-900: #0b5e3a;
+  --color-mark: #ffe27a;
+  --color-alert: #c23a22;
+  --color-alert-soft: #fbe8e3;
   --color-urgent: #dc2626;
   --color-soon: #d97706;
   --color-calm: #16a34a;
-  --font-sans: var(--font-inter), var(--font-armenian), var(--font-korean), system-ui, -apple-system, sans-serif;
+  /* Neutral greys instead of the warm stone scale */
+  --color-stone-100: #f2f2f2;
+  --color-stone-200: #e5e5e5;
+  --color-stone-300: #d4d4d4;
+  --color-stone-400: #a3a3a3;
+  --color-stone-700: #404040;
+  --color-stone-800: #262626;
+  --font-sans: var(--font-figtree), var(--font-armenian), var(--font-korean), system-ui, -apple-system, sans-serif;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent; /* no gray flash on tap; every control has its own :active */
   overscroll-behavior: none; /* no pull-to-refresh or page rubber-band behind the app */
-  background: #faf8f5;
+  background: #ffffff;
 }
 
 body {
-  background: #faf8f5;
-  color: #1a1a1a;
+  background: #ffffff;
+  color: #111111;
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.5;
@@ -111,8 +125,8 @@ select {
   left: 0;
   right: 0;
   height: 3px;
-  background: #14b8a6;
-  box-shadow: 0 0 16px 4px rgba(20, 184, 166, 0.55);
+  background: #0f7a4c;
+  box-shadow: 0 0 16px 4px rgba(15, 122, 76, 0.45);
   animation: scan 2.4s ease-in-out infinite;
 }
 
@@ -139,7 +153,7 @@ select {
   }
 }
 .shimmer {
-  background: linear-gradient(90deg, #efebe5 0%, #f8f5f1 40%, #efebe5 80%);
+  background: linear-gradient(90deg, #ececec 0%, #f7f7f7 40%, #ececec 80%);
   background-size: 800px 100%;
   animation: shimmer 1.2s linear infinite;
   border-radius: 8px;

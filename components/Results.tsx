@@ -27,7 +27,7 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
     if (a.document_type === "contractor_quote") return null;
     return (
       <section
-        className="rise rounded-2xl p-5 ring-1 ring-green-200"
+        className="rise rounded-[24px] p-5 ring-1 ring-green-200"
         style={{ background: URGENCY_BG.no_rush, animationDelay: `${i * 50}ms` }}
       >
         <p className="flex items-center gap-3 text-lg font-semibold text-green-800">
@@ -54,7 +54,7 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
       className={`${urgency === "urgent" ? "pulse-once" : "rise"} rounded-2xl p-5 text-white`}
       style={{ background: color, animationDelay: `${i * 50}ms` }}
     >
-      <p className="text-[28px] font-bold leading-tight tracking-tight">{big}</p>
+      <p className="text-[28px] font-semibold leading-tight tracking-[-0.025em]">{big}</p>
       {date && <p className="mt-1 text-lg font-semibold opacity-95">{date}</p>}
       {d.what_is_due &&
         (busy ? (
@@ -349,20 +349,20 @@ function TicketCards({
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
             <button
               onClick={copy}
-              className="min-h-[52px] rounded-xl bg-teal px-4 text-[17px] font-semibold text-white active:scale-[0.98] transition-transform"
+              className="min-h-[52px] rounded-full bg-ink px-4 text-[17px] font-semibold text-white active:scale-[0.98] transition-transform"
             >
               📋 {t.copy}
             </button>
             <a
               href={mailto}
-              className="flex min-h-[52px] items-center justify-center rounded-xl bg-white px-4 text-[17px] font-semibold text-teal ring-1 ring-teal/40 active:bg-teal-soft"
+              className="flex min-h-[52px] items-center justify-center rounded-full bg-white px-4 text-[17px] font-semibold text-teal ring-1 ring-teal/40 active:bg-teal-soft"
             >
               ✉️ {t.email}
             </a>
           </div>
           <button
             onClick={() => printLetter(letter, t.emailSubject)}
-            className="mt-2 flex min-h-[48px] w-full items-center justify-center rounded-xl bg-white text-[16px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
+            className="mt-2 flex min-h-[48px] w-full items-center justify-center rounded-full bg-white text-[16px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
           >
             🖨️ {t.printLetter}
           </button>
@@ -403,7 +403,7 @@ function TicketCards({
                   <button
                     type="submit"
                     disabled={!instruction.trim()}
-                    className="min-h-[48px] rounded-xl bg-teal px-4 text-[16px] font-semibold text-white disabled:opacity-40"
+                    className="min-h-[48px] rounded-full bg-ink px-4 text-[16px] font-semibold text-white disabled:opacity-40"
                   >
                     {t.customizeSend}
                   </button>
@@ -630,7 +630,7 @@ export default function Results({
       {/* 1. chip + headline */}
       <header className="rise pt-1" style={{ animationDelay: `${i++ * 50}ms` }}>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
+          <span className="inline-flex items-center rounded-full bg-card px-3 py-1.5 text-[14px] font-semibold text-ink">
             {t.docType[a.document_type]}
           </span>
           {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
@@ -640,7 +640,7 @@ export default function Results({
             <Shimmer lines={2} />
           </div>
         ) : (
-          <h1 className="mt-3 text-[28px] font-bold leading-[1.15] tracking-tight">{a.headline}</h1>
+          <h1 className="mt-3 text-[28px] font-semibold leading-[1.15] tracking-[-0.025em]">{a.headline}</h1>
         )}
         {a.sender && !busy && (
           <p className="mt-2 text-[15px] text-muted">
@@ -651,7 +651,7 @@ export default function Results({
 
       {/* 2. deadline */}
       {isScam ? (
-        <section className="rise rounded-2xl bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
+        <section className="rise rounded-[24px] bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
           <p className="text-[22px] font-bold leading-tight text-stone-800">🎭 {t.fakeDeadline}</p>
           {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
         </section>
@@ -666,7 +666,7 @@ export default function Results({
       {/* 3. legitimacy */}
       {showLegit && (
         <section
-          className={`rise rounded-2xl p-5 ring-1 ${
+          className={`rise rounded-[24px] p-5 ring-1 ${
             legit.verdict === "likely_scam" ? "bg-red-50 ring-red-300" : "bg-amber-50 ring-amber-300"
           }`}
           style={{ animationDelay: `${i++ * 50}ms` }}
@@ -705,8 +705,8 @@ export default function Results({
 
       {/* 7. if ignored */}
       {a.if_ignored && (
-        <section className="rise rounded-2xl bg-stone-100 p-5" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
-          <h2 className="mb-1 text-[13px] font-semibold uppercase tracking-wide text-muted">{t.ifIgnored}</h2>
+        <section className="rise rounded-[24px] bg-stone-100 p-5" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
+          <h2 className="mb-1 text-[19px] font-semibold leading-snug tracking-tight text-ink">{t.ifIgnored}</h2>
           {busy ? <Shimmer /> : <p className="text-stone-700">{a.if_ignored}</p>}
         </section>
       )}
@@ -737,7 +737,7 @@ export default function Results({
       <footer className="rise pt-4 text-center" style={{ animationDelay: `${i++ * 50}ms` }}>
         <button
           onClick={onScanAnother}
-          className="min-h-[56px] w-full rounded-2xl bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"
+          className="min-h-[56px] w-full rounded-full bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"
         >
           📷 {t.scanAnother}
         </button>

@@ -6,6 +6,9 @@ import { clearShareLink, readShareLink } from "@/lib/sharelink";
 import { clearRecent, loadRecent, saveRecent, type RecentItem } from "@/lib/recent";
 import { refreshDeadline } from "@/lib/normalize";
 import { AskCard, Directory } from "./Extras";
+import Landing from "./Landing";
+import { LogoMark } from "./Icon";
+import { LANDING } from "@/lib/i18n-landing";
 import { prepareFile, type PreparedFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
@@ -114,6 +117,15 @@ export default function ExplainApp() {
   };
 
   const t = STRINGS[lang];
+  const L = LANDING[lang];
+
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
 
   // Recent results, stored only on this phone.
   const [recent, setRecent] = useState<RecentItem[]>([]);
@@ -458,154 +470,140 @@ export default function ExplainApp() {
     </button>
   ));
 
+  const isHome = screen === "home";
+  const startPages = () => {
+    collectingPages.current = true;
+    setPages([]);
+    setScreen("pages");
+    window.scrollTo({ top: 0 });
+  };
+  const openScreen = (next: Screen) => {
+    setScreen(next);
+    window.scrollTo({ top: 0 });
+  };
+
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-[480px] px-4 pb-[env(safe-area-inset-bottom)]">
-      {/* Top bar */}
-      {/* The language picker is as wide as its longest option (~175px), so on phones under 420px the
+    <div className="min-h-dvh">
+      {/* Top bar. The language picker is as wide as its longest option (~175px), so on phones under 420px the
           DEMO badge is hidden (and under 370px the name), instead of pushing the picker off the screen. */}
-      <div className="sticky top-0 z-30 -mx-4 flex items-center justify-between gap-1 bg-paper/90 px-4 pt-[max(12px,env(safe-area-inset-top))] pb-2 backdrop-blur">
-        <button
-          onClick={reset}
-          className="flex min-h-[44px] min-w-0 items-center gap-2 whitespace-nowrap text-[17px] font-bold tracking-tight"
-          aria-label={t.appName}
-        >
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal text-white">✦</span>
-          {!bigText && <span className="truncate max-[369px]:hidden">{t.appName}</span>}
-          {demo && !bigText && (
-            <span className="shrink-0 rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800 max-[419px]:hidden">
-              DEMO
-            </span>
-          )}
-        </button>
-        <div className="flex shrink-0 items-center gap-2">
-        <button
-          onClick={() => setBigText((b) => !b)}
-          aria-pressed={bigText}
-          aria-label={t.bigText}
-          title={t.bigText}
-          className={`flex h-11 w-11 items-center justify-center rounded-full text-[17px] font-bold ring-1 ${
-            bigText ? "bg-ink text-white ring-ink" : "bg-white text-ink ring-line"
+      <header
+        className={`sticky top-0 z-30 border-b bg-white/90 backdrop-blur-md transition-colors ${
+          scrolled ? "border-line" : "border-transparent"
+        }`}
+      >
+        <div
+          className={`mx-auto flex items-center justify-between gap-2 pt-[max(10px,env(safe-area-inset-top))] pb-2.5 ${
+            isHome ? "max-w-[1440px] px-[clamp(16px,5.5vw,80px)]" : "max-w-[480px] px-4"
           }`}
         >
-          A<span className="text-[22px]">A</span>
-        </button>
-        <label className="relative">
-          <span className="sr-only">{t.language}</span>
-          <select
-            value={lang}
-            disabled={translating}
-            onChange={(e) => void switchLanguage(e.target.value as Lang)}
-            className="min-h-[44px] appearance-none rounded-full bg-white py-2 pr-8 pl-3.5 text-[16px] font-semibold ring-1 ring-line disabled:opacity-60"
+          <button
+            onClick={reset}
+            className="flex min-h-[44px] min-w-0 items-center gap-2 whitespace-nowrap text-[18px] font-bold tracking-[-0.03em] sm:gap-2.5 sm:text-[20px]"
+            aria-label={t.appName}
           >
-            {LANGS.map((l) => (
-              <option key={l} value={l}>
-                {bigText || LANG_LABELS[l] === LANG_FULL[l] ? LANG_FULL[l] : `${LANG_LABELS[l]} · ${LANG_FULL[l]}`}
-              </option>
-            ))}
-          </select>
-          <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs">🌐</span>
-        </label>
+            <LogoMark size={34} />
+            {!bigText && <span className="truncate max-[369px]:hidden">{t.appName}</span>}
+            {demo && !bigText && (
+              <span className="shrink-0 rounded-full bg-mark px-2 py-0.5 text-[11px] font-bold tracking-normal text-ink max-[419px]:hidden">
+                DEMO
+              </span>
+            )}
+          </button>
+          {isHome && (
+            <nav aria-label={t.appName} className="ml-6 hidden h-7 min-w-0 flex-1 flex-wrap gap-x-8 overflow-hidden text-[17px] leading-7 font-medium lg:flex">
+              <a href="#how" className="whitespace-nowrap underline-offset-8 hover:underline">
+                {L.nav.how}
+              </a>
+              <a href="#try" className="whitespace-nowrap underline-offset-8 hover:underline">
+                {L.nav.try}
+              </a>
+              <a href="#help" className="whitespace-nowrap underline-offset-8 hover:underline">
+                {L.nav.help}
+              </a>
+              <a href="#faq" className="whitespace-nowrap underline-offset-8 hover:underline">
+                {L.nav.faq}
+              </a>
+            </nav>
+          )}
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              onClick={() => setBigText((b) => !b)}
+              aria-pressed={bigText}
+              aria-label={t.bigText}
+              title={t.bigText}
+              className={`flex h-11 w-11 items-center justify-center rounded-full text-[17px] font-bold transition-colors ${
+                bigText ? "bg-ink text-white" : "bg-card text-ink hover:bg-stone-200"
+              }`}
+            >
+              A<span className="text-[22px]">A</span>
+            </button>
+            <label className="relative">
+              <span className="sr-only">{t.language}</span>
+              <select
+                value={lang}
+                disabled={translating}
+                onChange={(e) => void switchLanguage(e.target.value as Lang)}
+                className="min-h-[44px] cursor-pointer appearance-none rounded-full bg-card py-2 pr-8 pl-3.5 text-[16px] font-semibold transition-colors hover:bg-stone-200 disabled:opacity-60"
+              >
+                {LANGS.map((l) => (
+                  <option key={l} value={l}>
+                    {bigText || LANG_LABELS[l] === LANG_FULL[l] ? LANG_FULL[l] : `${LANG_LABELS[l]} · ${LANG_FULL[l]}`}
+                  </option>
+                ))}
+              </select>
+              <svg
+                className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </label>
+            {isHome && (
+              <button
+                onClick={() => cameraRef.current?.click()}
+                className="ml-1 hidden min-h-[48px] items-center rounded-full bg-ink px-6 text-[16px] font-semibold text-white transition-colors hover:bg-[#2c2c2c] active:scale-[0.97] sm:inline-flex"
+              >
+                {t.scan}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      </header>
 
       <input ref={cameraRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={onFile} />
       <input ref={uploadRef} type="file" accept="image/*,application/pdf" className="hidden" onChange={onFile} />
 
-      {screen === "home" && (
-        <div className="flex min-h-[calc(100dvh-80px)] flex-col justify-center pb-10">
-          <h1 className="rise text-[40px] font-bold leading-[1.05] tracking-tight">{t.appName}</h1>
-          <p className="rise mt-3 text-[21px] leading-snug text-stone-700" style={{ animationDelay: "50ms" }}>
-            {t.tagline}
-          </p>
-
-          <button
-            onClick={() => cameraRef.current?.click()}
-            className="rise mt-10 flex min-h-[96px] w-full items-center justify-center gap-3 rounded-3xl bg-teal px-6 text-[22px] font-bold text-white shadow-[0_10px_30px_-8px_rgba(15,118,110,0.55)] transition-transform active:scale-[0.98]"
-            style={{ animationDelay: "100ms" }}
-          >
-            <span className="text-3xl">📷</span> {t.scan}
-          </button>
-          <button
-            onClick={() => uploadRef.current?.click()}
-            className="rise mx-auto mt-3 min-h-[48px] px-4 text-[17px] font-semibold text-teal underline decoration-teal/30 underline-offset-4"
-            style={{ animationDelay: "150ms" }}
-          >
-            {t.upload}
-          </button>
-          <button
-            onClick={() => {
-              collectingPages.current = true;
-              setPages([]);
-              setScreen("pages");
-              window.scrollTo({ top: 0 });
-            }}
-            className="rise mx-auto min-h-[44px] px-4 text-[16px] font-medium text-muted underline decoration-line underline-offset-4"
-            style={{ animationDelay: "160ms" }}
-          >
-            📄 {t.multiPage}
-          </button>
-
-          <button
-            onClick={() => {
-              setScreen("chat");
-              window.scrollTo({ top: 0 });
-            }}
-            className="rise mt-4 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
-            style={{ animationDelay: "175ms" }}
-          >
-            💬 {t.agentButton}
-          </button>
-          <button
-            onClick={() => {
-              setScreen("directory");
-              window.scrollTo({ top: 0 });
-            }}
-            className="rise mt-3 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
-            style={{ animationDelay: "190ms" }}
-          >
-            📍 {t.directoryButton}
-          </button>
-
-          <div className="rise mt-10" style={{ animationDelay: "200ms" }}>
-            <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
-            <div className="flex flex-wrap justify-center gap-2">{samples}</div>
-          </div>
-          {recent.length > 0 && (
-            <div className="rise mt-10" style={{ animationDelay: "230ms" }}>
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-[13px] font-semibold uppercase tracking-wide text-muted">🕘 {t.recentTitle}</p>
-                <button
-                  onClick={() => {
-                    clearRecent();
-                    setRecent([]);
-                  }}
-                  className="min-h-[44px] px-2 text-[14px] font-semibold text-muted underline"
-                >
-                  {t.clearRecent}
-                </button>
-              </div>
-              <ul className="space-y-2">
-                {recent.map((r) => (
-                  <li key={r.id}>
-                    <button
-                      onClick={() => openRecent(r)}
-                      className="flex min-h-[56px] w-full items-center gap-3 rounded-xl bg-white px-4 py-3 text-left ring-1 ring-line active:bg-teal-soft"
-                    >
-                      <span className="text-xl">{STRINGS[r.lang].docType[r.analysis.document_type].split(" ")[0]}</span>
-                      <span className="line-clamp-2 flex-1 text-[15px] leading-snug">{r.analysis.headline}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-2 text-[13px] text-muted">{t.recentNote}</p>
-            </div>
-          )}
-          <p className="rise mt-10 text-center text-[14px] text-muted" style={{ animationDelay: "250ms" }}>
-            🔒 {t.privacy}
-          </p>
-        </div>
+      {isHome && (
+        <Landing
+          t={t}
+          lang={lang}
+          locale={LOCALE[lang]}
+          onLang={(l) => void switchLanguage(l)}
+          onScan={() => cameraRef.current?.click()}
+          onUpload={() => uploadRef.current?.click()}
+          onPages={startPages}
+          onChat={() => openScreen("chat")}
+          onDirectory={() => openScreen("directory")}
+          onSample={(id) => void loadSample(id)}
+          recent={recent}
+          onRecent={openRecent}
+          onClearRecent={() => {
+            clearRecent();
+            setRecent([]);
+          }}
+        />
       )}
 
+      {!isHome && (
+      <main className="mx-auto w-full max-w-[480px] px-4 pb-[env(safe-area-inset-bottom)]">
       {screen === "directory" && (
         <div className="pt-3 pb-10">
           <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
@@ -671,7 +669,7 @@ export default function ExplainApp() {
           <button
             onClick={explainPages}
             disabled={!pages.length}
-            className="mt-6 min-h-[64px] w-full rounded-2xl bg-teal text-[19px] font-bold text-white transition-transform active:scale-[0.98] disabled:opacity-40"
+            className="mt-6 min-h-[60px] w-full rounded-full bg-ink text-[19px] font-semibold text-white transition-transform active:scale-[0.98] disabled:opacity-40"
           >
             {t.explainPages(Math.max(pages.length, 1))}
           </button>
@@ -730,7 +728,7 @@ export default function ExplainApp() {
           ]}
           extra={
             <div className="rise mt-6" style={{ animationDelay: "300ms" }}>
-              <p className="mb-2 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">
+              <p className="mb-2 text-center text-[15px] font-semibold text-muted">
                 {t.trySample}
               </p>
               <div className="flex flex-wrap justify-center gap-2">{samples}</div>
@@ -801,7 +799,9 @@ export default function ExplainApp() {
           />
         </div>
       )}
-    </main>
+      </main>
+      )}
+    </div>
   );
 }
 
@@ -837,7 +837,7 @@ function RetakeScreen(props: {
       )}
       <button
         onClick={props.primary.onClick}
-        className="rise mt-8 min-h-[64px] w-full rounded-2xl bg-teal text-[19px] font-bold text-white transition-transform active:scale-[0.98]"
+        className="rise mt-8 min-h-[60px] w-full rounded-full bg-ink text-[19px] font-semibold text-white transition-transform active:scale-[0.98]"
         style={{ animationDelay: "200ms" }}
       >
         {props.primary.label}
