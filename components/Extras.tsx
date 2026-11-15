@@ -11,7 +11,7 @@ import { buildShareLink } from "@/lib/sharelink";
 import { Linkify } from "./linkify";
 
 const cardCls =
-  "rise rounded-[24px] bg-white p-6 shadow-[0_1px_2px_rgba(40,30,20,0.05)]";
+  "rise rounded-[24px] bg-white p-6 shadow-[0_1px_2px_rgba(15,17,21,0.05)]";
 const pill =
   "flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-3 text-[16px] font-semibold ring-1 transition-colors";
 
@@ -137,7 +137,7 @@ export function ActionRow({
       </div>
 
       {open === "cal" && event && (
-        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]">
+        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(15,17,21,0.05)]">
           <p className="mb-3 text-[15px] text-muted">{t.remindSub}</p>
           <div className="grid grid-cols-3 gap-2">
             <button onClick={() => void addToAppleCalendar(event)} className={`${pill} bg-ink text-white ring-ink text-[15px]`}>
@@ -154,7 +154,7 @@ export function ActionRow({
       )}
 
       {open === "share" && (
-        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]">
+        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(15,17,21,0.05)]">
           <p className="mb-3 text-[15px] text-muted">
             {t.shareSub} {link && t.linkIncluded}
           </p>
@@ -228,7 +228,7 @@ function HelpItem({ r, t, lang }: { r: HelpResource; t: Strings; lang: Lang }) {
   return (
           <li className="rounded-xl bg-paper p-3">
             <p className="font-semibold leading-snug">{r.name}</p>
-            <p className="mt-0.5 text-[15px] leading-snug text-stone-700">{r.desc[lang]}</p>
+            <p className="mt-0.5 text-[15px] leading-snug text-[#3F4450]">{r.desc[lang]}</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {r.phone && (
                 <a
@@ -243,7 +243,7 @@ function HelpItem({ r, t, lang }: { r: HelpResource; t: Strings; lang: Lang }) {
                   href={r.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-[44px] items-center rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-ink ring-1 ring-line"
                 >
                   <GlobeIcon size={16} /> {t.website}
                 </a>
@@ -259,8 +259,8 @@ export function Directory({ t, lang }: { t: Strings; lang: Lang }) {
     <div className="space-y-4">
       {DIRECTORY.map((sec, n) => (
         <section key={sec.icon} className={cardCls} style={{ animationDelay: `${(n + 2) * 50}ms` }}>
-          <h2 className="mb-3 text-[17px] font-bold">
-            {sec.icon} {sec.title[lang]}
+          <h2 className="mb-3 text-[19px] font-semibold tracking-tight text-ink">
+            {sec.title[lang]}
           </h2>
           <ul className="space-y-2">
             {sec.items.map((r) => (
@@ -394,7 +394,7 @@ export function AskCard({
             <button
               key={s}
               onClick={() => void ask(s)}
-              className="min-h-[44px] rounded-full bg-teal-soft px-4 text-left text-[15px] font-medium text-teal-900 active:bg-teal/20"
+              className="min-h-[44px] rounded-full bg-teal-soft px-4 text-left text-[15px] font-medium text-ink active:bg-line"
             >
               {s}
             </button>

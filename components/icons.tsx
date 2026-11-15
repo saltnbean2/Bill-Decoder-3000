@@ -109,3 +109,37 @@ export const CameraIcon = ({ size = 18, className }: P) => (
     <circle cx="12" cy="13" r="3.5" />
   </svg>
 );
+export const DocIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z" />
+    <path d="M14 3v5h5M9 13h6M9 17h6" />
+  </svg>
+);
+export const LockIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <rect x="5" y="11" width="14" height="10" rx="2.5" />
+    <path d="M8 11V8a4 4 0 018 0v3" />
+  </svg>
+);
+export const ClockIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 2" />
+  </svg>
+);
+export const RefreshIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M20 11a8 8 0 10-2.3 5.7M20 4v7h-7" />
+  </svg>
+);
+export const WifiOffIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M3 3l18 18M8.5 16.5a5 5 0 017 0M5 12.5a10 10 0 015.5-2.8M19 12.5a10 10 0 00-2.2-1.6M2 8.8a15 15 0 016-3.3M22 8.8a15 15 0 00-8.5-3.7" />
+    <path d="M12 20h.01" />
+  </svg>
+);
+export const BackIcon = ({ size = 18, className }: P) => (
+  <svg {...base(size)} className={className}>
+    <path d="M15 5l-7 7 7 7" />
+  </svg>
+);

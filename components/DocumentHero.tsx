@@ -4,15 +4,35 @@ import { useEffect, useRef, useState } from "react";
 import type { Mark } from "@/lib/marks";
 
 const FRAME_H = 300;
+const FRAME_H_COMPACT = 210;
 
 /**
  * The person's own document, shown as a slightly tilted sheet of paper, with the problems
  * circled in red when we know where they are. The crop centers on the circled area.
  */
-export default function DocumentHero({ photo, marks = [], alt }: { photo: string; marks?: Mark[]; alt: string }) {
+export default function DocumentHero({
+  photo,
+  marks = [],
+  alt,
+  compact = false,
+}: {
+  photo: string;
+  marks?: Mark[];
+  alt: string;
+  /** Home-screen preview: a rounded card instead of a full-width band under a sheet */
+  compact?: boolean;
+}) {
+  const H = compact ? FRAME_H_COMPACT : FRAME_H;
   const frame = useRef<HTMLDivElement>(null);
   const [aspect, setAspect] = useState(0); // image height / width
   const [frameW, setFrameW] = useState(0);
+
+  const img = useRef<HTMLImageElement>(null);
+  // The server-rendered image can finish loading before React hydrates and misses onLoad.
+  useEffect(() => {
+    const i = img.current;
+    if (i?.complete && i.naturalWidth) setAspect(i.naturalHeight / i.naturalWidth);
+  }, [photo]);
 
   useEffect(() => {
     const el = frame.current;
@@ -24,23 +44,30 @@ export default function DocumentHero({ photo, marks = [], alt }: { photo: string
 
   const imgH = frameW * aspect;
   let top = 0;
-  if (imgH > FRAME_H) {
+  if (imgH > H) {
     // Center the circled area vertically (or show the top of the page when nothing is circled).
     const ys = marks.map((m) => m.y + m.h / 2);
-    const cy = ys.length ? ((Math.min(...ys) + Math.max(...ys)) / 2) * imgH : FRAME_H / 2;
-    top = Math.max(FRAME_H - imgH, Math.min(0, FRAME_H / 2 - cy));
+    const cy = ys.length ? ((Math.min(...ys) + Math.max(...ys)) / 2) * imgH : H / 2;
+    top = Math.max(H - imgH, Math.min(0, H / 2 - cy));
   }
 
   return (
-    <div className="relative -mx-4 overflow-hidden px-6 pt-4 pb-14" style={{ background: "radial-gradient(120% 90% at 50% 0%, #F8F6F2 0%, #E8E4DC 100%)" }}>
+    <div className={compact ? "relative overflow-hidden rounded-[28px] px-8 py-6" : "relative -mx-4 overflow-hidden px-8 pt-6 pb-16"} style={{ background: "radial-gradient(120% 80% at 50% 0%, #1D2230 0%, #0F1115 70%)" }}>
+      {/* Viewfinder corners around the scanned page */}
+      <div className={`pointer-events-none absolute inset-x-5 top-3 ${compact ? "bottom-3" : "bottom-11"}`} aria-hidden>
+        {["left-0 top-0 border-l-2 border-t-2 rounded-tl-xl", "right-0 top-0 border-r-2 border-t-2 rounded-tr-xl", "left-0 bottom-0 border-l-2 border-b-2 rounded-bl-xl", "right-0 bottom-0 border-r-2 border-b-2 rounded-br-xl"].map((c) => (
+          <span key={c} className={`absolute h-7 w-7 border-white/40 ${c}`} />
+        ))}
+      </div>
       <div
         ref={frame}
-        className="hero-paper relative mx-auto max-w-[380px] overflow-hidden rounded-md bg-white"
-        style={{ height: FRAME_H, transform: "rotate(-2deg)", boxShadow: "0 2px 4px rgba(40,30,20,.08), 0 18px 40px rgba(40,30,20,.18)" }}
+        className="relative mx-auto max-w-[360px] overflow-hidden rounded-[14px] bg-white"
+        style={{ height: H, boxShadow: "0 0 0 1px rgba(255,255,255,.06), 0 24px 60px rgba(0,0,0,.45)" }}
       >
         <div className="absolute inset-x-0" style={{ top, transition: "top .3s ease" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            ref={img}
             src={photo}
             alt={alt}
             className="block w-full"
@@ -96,7 +123,7 @@ export default function DocumentHero({ photo, marks = [], alt }: { photo: string
         {/* Opening motion: a scan line sweeps down the page, then the problems get circled */}
         <span aria-hidden className="hero-scan-wash pointer-events-none absolute inset-x-0 top-0" />
         <span aria-hidden className="hero-scan pointer-events-none absolute inset-x-0" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-14" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0), #FFFFFF)" }} />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16" style={{ background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,.95))" }} />
       </div>
     </div>
   );

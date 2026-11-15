@@ -17,7 +17,7 @@ export function Card({
 }) {
   return (
     <section
-      className={`rise rounded-[24px] bg-white p-6 shadow-[0_1px_2px_rgba(40,30,20,0.05)] ${className}`}
+      className={`rise rounded-[24px] bg-white p-6 shadow-[0_1px_2px_rgba(15,17,21,0.05)] ${className}`}
       style={{ animationDelay: `${i * 50}ms`, ...style }}
     >
       {children}

@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* "Annotated Ticket" look: warm paper, black ink, red annotation marks */
-  --color-paper: #f3f1ec;
-  --color-ink: #141414;
-  --color-muted: #6e6a64;
-  --color-line: #e9e6e0;
-  --color-teal: #141414; /* primary action color (was teal) */
-  --color-teal-soft: #efede8;
+  /* Scanner look: cool clean neutrals, near-black ink, red annotation marks */
+  --color-paper: #f4f5f7;
+  --color-ink: #0f1115;
+  --color-muted: #5b616e;
+  --color-line: #e6e8ec;
+  --color-teal: #0f1115; /* primary action color */
+  --color-teal-soft: #eef0f3;
   --color-mark: #e5372b;
   --color-urgent: #dc2626;
   --color-soon: #d97706;
@@ -19,12 +19,12 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent; /* no gray flash on tap; every control has its own :active */
   overscroll-behavior: none; /* no pull-to-refresh or page rubber-band behind the app */
-  background: #f3f1ec;
+  background: #f4f5f7;
 }
 
 body {
-  background: #f3f1ec;
-  color: #1a1a1a;
+  background: #f4f5f7;
+  color: #0f1115;
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.5;
@@ -113,8 +113,8 @@ select {
   left: 0;
   right: 0;
   height: 3px;
-  background: #14b8a6;
-  box-shadow: 0 0 16px 4px rgba(20, 184, 166, 0.55);
+  background: #e5372b;
+  box-shadow: 0 0 16px 4px rgba(229, 55, 43, 0.45);
   animation: scan 2.4s ease-in-out infinite;
 }
 
@@ -141,7 +141,7 @@ select {
   }
 }
 .shimmer {
-  background: linear-gradient(90deg, #efebe5 0%, #f8f5f1 40%, #efebe5 80%);
+  background: linear-gradient(90deg, #e9ebef 0%, #f6f7f9 40%, #e9ebef 80%);
   background-size: 800px 100%;
   animation: shimmer 1.2s linear infinite;
   border-radius: 8px;
@@ -178,16 +178,16 @@ select {
   }
 }
 
-/* Big serif headlines (Instrument Serif; Armenian falls back to Noto Serif Armenian) */
+/* Big headlines: tight, heavy sans (Inter; Armenian/Korean fall back to their Noto Sans) */
 .font-display {
-  font-family: var(--font-display), var(--font-display-hy), var(--font-korean), Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.035em;
 }
 :lang(hy) .font-display,
-.font-display:lang(hy) {
-  font-family: var(--font-display-hy), var(--font-display), Georgia, serif;
-  letter-spacing: 0;
+.font-display:lang(hy),
+:lang(ko) .font-display {
+  letter-spacing: -0.01em;
 }
 
 /* Red annotation circles draw in one after another on the document photo */

@@ -15,7 +15,7 @@ import type { Lang } from "@/lib/types";
 const SEVERITY_STYLE: Record<Severity, string> = {
   high: "bg-[#FBF1EF] text-[#7F1D1D] ring-transparent",
   medium: "bg-[#FBF6EC] text-[#78350F] ring-transparent",
-  low: "bg-[#F5F4F1] text-stone-700 ring-transparent",
+  low: "bg-[#F3F4F6] text-[#3F4450] ring-transparent",
 };
 const SEVERITY_DOT: Record<Severity, string> = { high: "bg-red-500", medium: "bg-amber-500", low: "bg-stone-400" };
 
@@ -27,9 +27,9 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
     // A "no deadline" line at the top of an overpriced quote reads as "all good" — skip it there.
     if (a.document_type === "contractor_quote") return null;
     return (
-      <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
-        <p className="font-display text-[30px] leading-tight text-green-800">{t.noDeadline}</p>
-        {d?.what_is_due && !busy && <p className="mt-1 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>}
+      <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(15,17,21,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
+        <p className="font-display text-[26px] leading-tight text-green-800">{t.noDeadline}</p>
+        {d?.what_is_due && !busy && <p className="mt-1 text-[16px] leading-snug text-[#3F4450]">{d.what_is_due}</p>}
       </section>
     );
   }
@@ -45,8 +45,8 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
   const date = formatDate(d.date, locale);
 
   return (
-    <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
-      <p className="font-display text-[40px] leading-[1.05]" style={{ color }}>
+    <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(15,17,21,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
+      <p className="font-display text-[34px] leading-[1.08]" style={{ color }}>
         {big}
       </p>
       {date && <p className="mt-1 text-[16px] font-semibold text-ink">{date}</p>}
@@ -56,7 +56,7 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
             <Shimmer lines={1} />
           </div>
         ) : (
-          <p className="mt-2 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>
+          <p className="mt-2 text-[16px] leading-snug text-[#3F4450]">{d.what_is_due}</p>
         ))}
     </section>
   );
@@ -87,7 +87,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
               <div
                 onClick={() => toggle(n)}
                 className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl px-2 py-3 transition-colors ${
-                  checked ? "bg-[#F3F1EC]" : "active:bg-[#F7F6F3]"
+                  checked ? "bg-[#F1F2F5]" : "active:bg-[#F6F7F9]"
                 }`}
               >
                 <button
@@ -115,7 +115,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                     <>
                       <p className={`font-semibold leading-snug ${checked ? "text-muted line-through" : ""}`}>{s.title}</p>
                       {s.detail && (
-                        <p className={`mt-0.5 text-[16px] leading-snug ${checked ? "text-muted" : "text-stone-700"}`}>
+                        <p className={`mt-0.5 text-[16px] leading-snug ${checked ? "text-muted" : "text-[#3F4450]"}`}>
                           <Linkify text={s.detail} />
                         </p>
                       )}
@@ -260,7 +260,7 @@ function TicketCards({
             <Shimmer />
           </div>
         ) : (
-          ticket.contest_strength_reason && <p className="mt-3 text-stone-700">{ticket.contest_strength_reason}</p>
+          ticket.contest_strength_reason && <p className="mt-3 text-[#3F4450]">{ticket.contest_strength_reason}</p>
         )}
         {ticket.missing_or_wrong_fields.length > 0 && (
           <>
@@ -280,7 +280,7 @@ function TicketCards({
               {t.possibleGrounds}
               <span className="transition-transform group-open:rotate-180">⌄</span>
             </summary>
-            <ul className="mt-1 list-disc space-y-1 pl-5 text-[16px] text-stone-700">
+            <ul className="mt-1 list-disc space-y-1 pl-5 text-[16px] text-[#3F4450]">
               {ticket.possible_grounds.map((g, n) => (
                 <li key={n}>{g}</li>
               ))}
@@ -324,7 +324,7 @@ function TicketCards({
               <button
                 onClick={() => onLetters(letters.slice(0, -1))}
                 disabled={working}
-                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-stone-100"
+                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-[#F1F2F5]"
               >
                 <UndoIcon size={15} className="-mt-0.5 mr-1.5 inline" />{t.undo}
               </button>
@@ -362,7 +362,7 @@ function TicketCards({
           </button>
           {/* Customize with plain-language instructions */}
           <div className="mt-5 rounded-xl bg-teal-soft p-4">
-            <p className="mb-2 font-semibold text-teal-900">{t.customizeTitle}</p>
+            <p className="mb-2 font-semibold text-ink">{t.customizeTitle}</p>
             {working ? (
               <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
                 <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.customizing}
@@ -374,7 +374,7 @@ function TicketCards({
                     <button
                       key={s}
                       onClick={() => void customize(s)}
-                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-teal-900 ring-1 ring-teal/20 active:bg-teal/10"
+                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-ink ring-1 ring-teal/20 active:bg-teal/10"
                     >
                       {s}
                     </button>
@@ -545,7 +545,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
             <h3 className="mt-5 mb-2 text-lg font-bold">{t.askBefore}</h3>
             <ul className="space-y-2">
               {quote.questions_to_ask.map((q, n) => (
-                <li key={n} className="rounded-xl bg-teal-soft px-4 py-3 text-[16px] leading-snug text-teal-900">
+                <li key={n} className="rounded-xl bg-teal-soft px-4 py-3 text-[16px] leading-snug text-ink">
                   {busy ? <Shimmer lines={1} /> : `“${q}”`}
                 </li>
               ))}
@@ -633,9 +633,9 @@ export default function Results({
         className={`rise ${photo ? "relative -mx-4 -mt-14 rounded-t-[30px] bg-white px-5 pt-3 pb-5 shadow-[0_-10px_30px_rgba(0,0,0,0.06)]" : "pt-1"}`}
         style={{ animationDelay: `${i++ * 50}ms` }}
       >
-        {photo && <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-[#DAD7D1]" aria-hidden />}
+        {photo && <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-[#D5D8DE]" aria-hidden />}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center rounded-full bg-[#F3F1EC] px-3 py-1.5 text-[14px] font-semibold text-ink">
+          <span className="inline-flex items-center rounded-full bg-[#F1F2F5] px-3 py-1.5 text-[14px] font-semibold text-ink">
             {t.docType[a.document_type].replace(/^\S+\s/, "")}
           </span>
           {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
@@ -645,7 +645,7 @@ export default function Results({
             <Shimmer lines={2} />
           </div>
         ) : (
-          <h1 className="font-display mt-3 text-[36px] leading-[1.08] text-ink">{a.headline}</h1>
+          <h1 className="font-display mt-3 text-[30px] leading-[1.12] text-ink">{a.headline}</h1>
         )}
         {a.sender && !busy && (
           <p className="mt-2 text-[15px] text-muted">
@@ -656,9 +656,9 @@ export default function Results({
 
       {/* 2. deadline */}
       {isScam ? (
-        <section className="rise rounded-[24px] bg-[#E9E6E0] p-6" style={{ animationDelay: `${i++ * 50}ms` }}>
-          <p className="text-[22px] font-bold leading-tight text-stone-800">{t.fakeDeadline}</p>
-          {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
+        <section className="rise rounded-[24px] bg-[#ECEEF2] p-6" style={{ animationDelay: `${i++ * 50}ms` }}>
+          <p className="text-[22px] font-bold leading-tight text-ink">{t.fakeDeadline}</p>
+          {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-[#3F4450]">{a.deadline.what_is_due}</p>}
         </section>
       ) : (
         <DeadlineBadge a={a} t={t} locale={locale} i={i++} busy={busy} />
@@ -710,9 +710,9 @@ export default function Results({
 
       {/* 7. if ignored */}
       {a.if_ignored && (
-        <section className="rise rounded-[24px] bg-[#E9E6E0]/70 p-6" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
+        <section className="rise rounded-[24px] bg-[#ECEEF2]/70 p-6" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
           <h2 className="mb-1 text-[13px] font-semibold text-muted">{t.ifIgnored}</h2>
-          {busy ? <Shimmer /> : <p className="text-stone-700">{a.if_ignored}</p>}
+          {busy ? <Shimmer /> : <p className="text-[#3F4450]">{a.if_ignored}</p>}
         </section>
       )}
 
