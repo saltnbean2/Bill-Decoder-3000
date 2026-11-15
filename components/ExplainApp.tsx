@@ -8,6 +8,8 @@ import { refreshDeadline } from "@/lib/normalize";
 import { AskCard, Directory } from "./Extras";
 import Landing from "./Landing";
 import { LogoMark } from "./Icon";
+import { BackIcon, CameraIcon, CheckIcon, DocIcon, GlobeIcon, WifiOffIcon } from "./icons";
+import { SAMPLE_MARKS } from "@/lib/marks";
 import { LANDING } from "@/lib/i18n-landing";
 import { prepareFile, type PreparedFile } from "@/lib/compress";
 import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
@@ -135,6 +137,7 @@ export default function ExplainApp() {
 
   function openRecent(r: RecentItem) {
     runId.current++;
+    setPreview("");
     sampleRef.current = null;
     setImage(null);
     setDocPages([]);
@@ -168,6 +171,7 @@ export default function ExplainApp() {
   useEffect(() => {
     void readShareLink().then((s) => {
       if (!s) return;
+      setPreview("");
       setResults({ [s.lang]: s.analysis });
       setShownLang(s.lang);
       setLang(s.lang);
@@ -455,18 +459,18 @@ export default function ExplainApp() {
 
   const samples = (
     [
-      ["ticket", "🅿️", t.sampleTicket],
-      ["letter", "✉️", t.sampleLetter],
-      ["quote", "🔨", t.sampleQuote],
-      ["scam", "🚩", t.sampleScam],
+      ["ticket", t.sampleTicket],
+      ["letter", t.sampleLetter],
+      ["quote", t.sampleQuote],
+      ["scam", t.sampleScam],
     ] as const
-  ).map(([id, icon, label]) => (
+  ).map(([id, label]) => (
     <button
       key={id}
       onClick={() => void loadSample(id)}
       className="min-h-[44px] rounded-full bg-white px-4 text-[15px] font-semibold ring-1 ring-line transition-colors active:bg-teal-soft"
     >
-      {icon} {label}
+      {label}
     </button>
   ));
 
@@ -606,10 +610,10 @@ export default function ExplainApp() {
       <main className="mx-auto w-full max-w-[480px] px-4 pb-[env(safe-area-inset-bottom)]">
       {screen === "directory" && (
         <div className="pt-3 pb-10">
-          <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
-            ← {t.back}
+          <button onClick={reset} className="mb-2 inline-flex min-h-[44px] items-center gap-1.5 text-[16px] font-semibold text-teal">
+            <BackIcon /> {t.back}
           </button>
-          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">📍 {t.directoryTitle}</h1>
+          <h1 className="rise text-[28px] font-semibold leading-tight tracking-[-0.025em]">{t.directoryTitle}</h1>
           <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
             {t.directorySub}
           </p>
@@ -625,11 +629,11 @@ export default function ExplainApp() {
               collectingPages.current = false;
               reset();
             }}
-            className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal"
+            className="mb-2 inline-flex min-h-[44px] items-center gap-1.5 text-[16px] font-semibold text-teal"
           >
-            ← {t.back}
+            <BackIcon /> {t.back}
           </button>
-          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">📄 {t.pagesTitle}</h1>
+          <h1 className="rise text-[28px] font-semibold leading-tight tracking-[-0.025em]">{t.pagesTitle}</h1>
           <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
             {t.pagesSub}
           </p>
@@ -655,7 +659,7 @@ export default function ExplainApp() {
                 onClick={() => cameraRef.current?.click()}
                 className="flex aspect-[3/4] flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-teal/40 bg-teal-soft text-[15px] font-semibold text-teal active:bg-teal/10"
               >
-                <span className="text-3xl">📷</span>
+                <CameraIcon size={28} />
                 {t.addPage}
               </button>
             )}
@@ -678,10 +682,10 @@ export default function ExplainApp() {
 
       {screen === "chat" && (
         <div className="pt-3 pb-10">
-          <button onClick={reset} className="mb-2 min-h-[44px] text-[16px] font-semibold text-teal">
-            ← {t.back}
+          <button onClick={reset} className="mb-2 inline-flex min-h-[44px] items-center gap-1.5 text-[16px] font-semibold text-teal">
+            <BackIcon /> {t.back}
           </button>
-          <h1 className="rise text-[28px] font-bold leading-tight tracking-tight">💬 {t.agentTitle}</h1>
+          <h1 className="rise text-[28px] font-semibold leading-tight tracking-[-0.025em]">{t.agentTitle}</h1>
           <p className="rise mt-2 mb-5 text-[17px] text-stone-700" style={{ animationDelay: "50ms" }}>
             {t.agentSub}
           </p>
@@ -697,7 +701,7 @@ export default function ExplainApp() {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={preview} alt="" className="block max-h-[52vh] w-full object-contain opacity-90" />
             ) : (
-              <div className="flex h-80 items-center justify-center text-6xl">📄</div>
+              <div className="flex h-80 items-center justify-center text-stone-300"><DocIcon size={64} /></div>
             )}
             <div className="pointer-events-none absolute inset-0 bg-teal/5" />
             <div className="scan-line" />
@@ -718,10 +722,10 @@ export default function ExplainApp() {
 
       {screen === "error" && errorKind === "server" && (
         <RetakeScreen
-          icon="📶"
+          icon={<WifiOffIcon size={30} />}
           title={t.serverErrorTitle}
           body={t.serverErrorBody}
-          primary={{ label: `↻ ${t.retry}`, onClick: retryLast }}
+          primary={{ label: t.retry, onClick: retryLast }}
           links={[
             { label: t.tryAgain, onClick: () => cameraRef.current?.click() },
             { label: t.backHome, onClick: reset },
@@ -739,11 +743,11 @@ export default function ExplainApp() {
 
       {screen === "error" && errorKind !== "server" && (
         <RetakeScreen
-          icon="📷"
+          icon={<CameraIcon size={30} />}
           title={t.errorTitle}
           body={errorKind === "pdf" ? t.pdfTooBig : t.errorBody}
           tips={t.unreadableTips}
-          primary={{ label: `📷 ${t.tryAgain}`, onClick: () => cameraRef.current?.click() }}
+          primary={{ label: t.tryAgain, onClick: () => cameraRef.current?.click() }}
           links={[
             { label: t.upload, onClick: () => uploadRef.current?.click() },
             { label: t.backHome, onClick: reset },
@@ -753,11 +757,11 @@ export default function ExplainApp() {
 
       {screen === "results" && shown && shown.document_type === "unreadable" && (
         <RetakeScreen
-          icon="📷"
+          icon={<CameraIcon size={30} />}
           title={t.unreadableTitle}
           body={shown.unreadable_reason ?? ""}
           tips={t.unreadableTips}
-          primary={{ label: `📷 ${t.tryAgain}`, onClick: () => cameraRef.current?.click() }}
+          primary={{ label: t.tryAgain, onClick: () => cameraRef.current?.click() }}
           links={[
             { label: t.upload, onClick: () => uploadRef.current?.click() },
             { label: t.backHome, onClick: reset },
@@ -773,14 +777,20 @@ export default function ExplainApp() {
             </p>
           )}
           {notice && <p className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[15px] text-amber-900">{notice}</p>}
-          {shared && <p className="mb-3 rounded-xl bg-teal-soft px-4 py-3 text-[15px] leading-snug text-teal-900">👪 {t.sharedBanner}</p>}
+          {shared && <p className="mb-3 rounded-xl bg-teal-soft px-4 py-3 text-[15px] leading-snug text-teal-900">{t.sharedBanner}</p>}
           {shownLang !== "en" && lang !== "en" && !translating && (
             <div className="mb-3 flex justify-end">
               <button
                 onClick={() => void toggleEnglish()}
                 className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-ink ring-1 ring-line active:bg-stone-100"
               >
-                {viewEnglish ? t.backTo(LANG_FULL[lang]) : `🇺🇸 ${t.showEnglish}`}
+                {viewEnglish ? (
+                  t.backTo(LANG_FULL[lang])
+                ) : (
+                  <>
+                    <GlobeIcon size={16} /> {t.showEnglish}
+                  </>
+                )}
               </button>
             </div>
           )}
@@ -796,6 +806,8 @@ export default function ExplainApp() {
             letters={letters}
             onLetters={setLetters}
             onScanAnother={reset}
+            photo={preview || undefined}
+            marks={sampleRef.current ? SAMPLE_MARKS[sampleRef.current] : undefined}
           />
         </div>
       )}
@@ -806,7 +818,7 @@ export default function ExplainApp() {
 }
 
 function RetakeScreen(props: {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   body: string;
   tips?: string[];
@@ -816,7 +828,7 @@ function RetakeScreen(props: {
 }) {
   return (
     <div className="flex min-h-[calc(100dvh-80px)] flex-col justify-center pb-10">
-      <div className="rise text-5xl">{props.icon}</div>
+      <div className="rise flex h-16 w-16 items-center justify-center rounded-full bg-card text-ink">{props.icon}</div>
       <h1 className="rise mt-4 text-[28px] font-bold leading-tight" style={{ animationDelay: "50ms" }}>
         {props.title}
       </h1>
@@ -829,7 +841,7 @@ function RetakeScreen(props: {
         <ul className="rise mt-6 space-y-2" style={{ animationDelay: "150ms" }}>
           {props.tips.map((tip, n) => (
             <li key={n} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 ring-1 ring-line">
-              <span className="text-xl">{["📄", "💡", "🖼️", "✋"][n] ?? "•"}</span>
+              <CheckIcon size={18} className="shrink-0 text-teal" />
               {tip}
             </li>
           ))}

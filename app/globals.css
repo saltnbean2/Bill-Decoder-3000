@@ -189,3 +189,87 @@ select {
     animation-duration: 6s;
   }
 }
+
+/* Big numbers and headlines on the results: tight, semibold Figtree */
+.font-display {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+:lang(hy) .font-display,
+.font-display:lang(hy),
+:lang(ko) .font-display {
+  letter-spacing: -0.01em;
+}
+
+/* Results opening (from Kai's annotated-document design): a scan line sweeps the photo once,
+   then each problem gets circled in red like a pen stroke. */
+@keyframes hero-scan {
+  0% {
+    top: -4px;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 3px);
+    opacity: 0;
+  }
+}
+@keyframes hero-wash {
+  0% {
+    height: 0;
+    opacity: 1;
+  }
+  85% {
+    height: 100%;
+    opacity: 1;
+  }
+  100% {
+    height: 100%;
+    opacity: 0;
+  }
+}
+.hero-scan {
+  top: -4px;
+  height: 3px;
+  opacity: 0;
+  background: #0f7a4c;
+  box-shadow: 0 0 14px 3px rgba(15, 122, 76, 0.4);
+  animation: hero-scan 1.25s cubic-bezier(0.45, 0, 0.25, 1) 0.15s both;
+}
+.hero-scan-wash {
+  height: 0;
+  background: linear-gradient(to bottom, rgba(15, 122, 76, 0), rgba(15, 122, 76, 0.06));
+  animation: hero-wash 1.25s cubic-bezier(0.45, 0, 0.25, 1) 0.15s both;
+}
+@keyframes mark-draw {
+  from {
+    stroke-dashoffset: 1;
+    fill-opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    fill-opacity: 1;
+  }
+}
+.mark-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: mark-draw 0.55s cubic-bezier(0.55, 0, 0.3, 1) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scan,
+  .hero-scan-wash {
+    animation: none;
+    display: none;
+  }
+  .mark-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

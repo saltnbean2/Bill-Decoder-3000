@@ -1,4 +1,5 @@
 "use client";
+import { CalendarIcon, ChatIcon, GlobeIcon, MicIcon, PhoneIcon, ShareIcon, SpeakerIcon, StopIcon } from "./icons";
 
 import { useEffect, useRef, useState } from "react";
 import type { Analysis, Lang } from "@/lib/types";
@@ -123,7 +124,7 @@ export function ActionRow({
             aria-expanded={open === "cal"}
             className={`${pill} bg-white text-ink ring-line active:bg-teal-soft ${open === "cal" ? "ring-2 ring-teal" : ""}`}
           >
-            📅 {t.remindTitle}
+            <CalendarIcon /> {t.remindTitle}
           </button>
         )}
         <button
@@ -131,16 +132,16 @@ export function ActionRow({
           aria-expanded={open === "share"}
           className={`${pill} bg-white text-ink ring-line active:bg-teal-soft ${open === "share" ? "ring-2 ring-teal" : ""}`}
         >
-          👪 {t.share}
+          <ShareIcon /> {t.share}
         </button>
       </div>
 
       {open === "cal" && event && (
-        <div className="fade-msg rounded-2xl bg-white p-4 ring-1 ring-line">
+        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_10px_28px_-12px_rgba(0,0,0,0.12)] ring-1 ring-line">
           <p className="mb-3 text-[15px] text-muted">{t.remindSub}</p>
           <div className="grid grid-cols-3 gap-2">
             <button onClick={() => void addToAppleCalendar(event)} className={`${pill} bg-ink text-white ring-ink text-[15px]`}>
-              📅 {t.apple}
+              {t.apple}
             </button>
             <a href={googleUrl(event)} target="_blank" rel="noreferrer" className={`${pill} bg-white text-ink ring-line text-[15px]`}>
               {t.google}
@@ -153,13 +154,13 @@ export function ActionRow({
       )}
 
       {open === "share" && (
-        <div className="fade-msg rounded-2xl bg-white p-4 ring-1 ring-line">
+        <div className="fade-msg rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_10px_28px_-12px_rgba(0,0,0,0.12)] ring-1 ring-line">
           <p className="mb-3 text-[15px] text-muted">
             {t.shareSub} {link && t.linkIncluded}
           </p>
           <div className="grid grid-cols-2 gap-2">
             <a href={`sms:?&body=${encodeURIComponent(text)}`} className={`${pill} bg-white text-ink ring-line`}>
-              💬 {t.shareText}
+              <ChatIcon /> {t.shareText}
             </a>
             <a
               href={`https://wa.me/?text=${encodeURIComponent(text)}`}
@@ -184,14 +185,14 @@ export function NumberCheckBanner({ a, t, i }: { a: Analysis; t: Strings; i: num
   const official = check.agency.phones.map(formatPhone)[0];
   if (check.status === "match") {
     return (
-      <section className="rise rounded-[24px] bg-green-50 p-4 ring-1 ring-green-200" style={{ animationDelay: `${i * 50}ms` }}>
-        <p className="font-semibold text-green-800">✅ {t.numberMatchTitle(check.agency.name)}</p>
+      <section className="rise rounded-[24px] bg-[#EEF6F0] p-5" style={{ animationDelay: `${i * 50}ms` }}>
+        <p className="font-semibold text-green-800">{t.numberMatchTitle(check.agency.name)}</p>
       </section>
     );
   }
   return (
-    <section className="rise rounded-[24px] bg-red-600 p-5 text-white" style={{ animationDelay: `${i * 50}ms` }}>
-      <p className="text-[20px] font-bold leading-tight">☎️ {t.numberMismatchTitle(check.agency.name)}</p>
+    <section className="rise rounded-[24px] bg-[#C4291F] p-6 text-white" style={{ animationDelay: `${i * 50}ms` }}>
+      <p className="text-[20px] font-bold leading-tight">{t.numberMismatchTitle(check.agency.name)}</p>
       <p className="mt-2 text-[16px] leading-snug opacity-95">
         {t.numberMismatchBody(check.bad.join(", "), `${check.agency.name} ${t.officialNumber} ${official}`)}
       </p>
@@ -199,7 +200,7 @@ export function NumberCheckBanner({ a, t, i }: { a: Analysis; t: Strings; i: num
         href={`tel:+1${check.agency.phones[0]}`}
         className="mt-3 flex min-h-[48px] items-center justify-center rounded-xl bg-white text-[17px] font-bold text-red-700"
       >
-        📞 {t.call} {check.agency.name}: {official}
+        <PhoneIcon /> {t.call} {check.agency.name}: {official}
       </a>
     </section>
   );
@@ -212,7 +213,7 @@ export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lan
   if (!list.length) return null;
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">📍 {t.helpTitle}</h2>
+      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">{t.helpTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.helpSub}</p>
       <ul className="space-y-2">
         {list.map((r) => (
@@ -234,7 +235,7 @@ function HelpItem({ r, t, lang }: { r: HelpResource; t: Strings; lang: Lang }) {
                   href={r.phone === "211" ? "tel:211" : `tel:+1${r.phone.replace(/\D/g, "")}`}
                   className="inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-teal px-4 text-[15px] font-semibold text-white"
                 >
-                  📞 {r.phone === "211" ? "2-1-1" : r.phone}
+                  <PhoneIcon size={16} /> {r.phone === "211" ? "2-1-1" : r.phone}
                 </a>
               )}
               {r.url && (
@@ -242,9 +243,9 @@ function HelpItem({ r, t, lang }: { r: HelpResource; t: Strings; lang: Lang }) {
                   href={r.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-[44px] items-center rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-ink ring-1 ring-line"
                 >
-                  🌐 {t.website}
+                  <GlobeIcon size={16} /> {t.website}
                 </a>
               )}
             </div>
@@ -258,8 +259,8 @@ export function Directory({ t, lang }: { t: Strings; lang: Lang }) {
     <div className="space-y-4">
       {DIRECTORY.map((sec, n) => (
         <section key={sec.icon} className={cardCls} style={{ animationDelay: `${(n + 2) * 50}ms` }}>
-          <h2 className="mb-3 text-[17px] font-bold">
-            {sec.icon} {sec.title[lang]}
+          <h2 className="mb-3 text-[19px] font-semibold tracking-tight text-ink">
+            {sec.title[lang]}
           </h2>
           <ul className="space-y-2">
             {sec.items.map((r) => (
@@ -366,7 +367,7 @@ export function AskCard({
 
   return (
     <section className={bare ? "rise" : cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      {!bare && <h2 className="mb-3 text-[19px] font-semibold leading-snug tracking-tight text-ink">💬 {t.askTitle}</h2>}
+      {!bare && <h2 className="mb-3 text-[19px] font-semibold leading-snug tracking-tight text-ink">{t.askTitle}</h2>}
       {qa.length > 0 && (
         <div className="mb-3 space-y-3">
           {qa.map((x, n) => (
@@ -393,7 +394,7 @@ export function AskCard({
             <button
               key={s}
               onClick={() => void ask(s)}
-              className="min-h-[44px] rounded-full bg-teal-soft px-4 text-left text-[15px] font-medium text-teal-900 active:bg-teal/20"
+              className="min-h-[44px] rounded-full bg-teal-soft px-4 text-left text-[15px] font-medium text-ink active:bg-line"
             >
               {s}
             </button>
@@ -424,7 +425,7 @@ export function AskCard({
               listening ? "animate-pulse bg-red-50 ring-red-300" : "bg-white ring-line active:bg-teal-soft"
             }`}
           >
-            🎤
+            <MicIcon size={20} />
           </button>
         )}
         <button
@@ -570,9 +571,9 @@ export function ReadAloud({ a, t, lang, dateLabel }: { a: Analysis; t: Strings; 
           <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.readAloud}
         </>
       ) : state === "playing" ? (
-        `⏹ ${t.stopReading}`
+        <><StopIcon size={16} /> {t.stopReading}</>
       ) : (
-        `🔊 ${t.readAloud}`
+        <><SpeakerIcon size={16} /> {t.readAloud}</>
       )}
     </button>
   );
@@ -619,7 +620,7 @@ export function FullTextCard({
           onClick={() => void load()}
           className="flex min-h-[52px] w-full items-center justify-center rounded-2xl bg-white px-4 text-[16px] font-semibold text-ink ring-1 ring-line active:bg-teal-soft"
         >
-          {t.fullTextButton}
+          {t.fullTextButton.replace(/^\S+\s/, "")}
         </button>
         {state === "error" && <p className="text-center text-[15px] text-red-700">{t.fullTextError}</p>}
       </section>
@@ -628,7 +629,7 @@ export function FullTextCard({
 
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">📜 {t.fullTextTitle}</h2>
+      <h2 className="text-[19px] font-semibold leading-snug tracking-tight text-ink">{t.fullTextTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.fullTextSub}</p>
       {state === "loading" ? (
         <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">

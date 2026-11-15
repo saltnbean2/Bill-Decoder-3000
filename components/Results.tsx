@@ -1,20 +1,21 @@
 "use client";
+import { CameraIcon, CopyIcon, GlobeIcon, MailIcon, PhoneIcon, PinIcon, PrintIcon, UndoIcon } from "./icons";
 
 import { useState } from "react";
 import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLinks } from "./linkify";
+import DocumentHero from "./DocumentHero";
+import type { Mark } from "@/lib/marks";
 import { ActionRow, AskCard, FullTextCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
 import type { Lang } from "@/lib/types";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
-const URGENCY_BADGE: Record<Urgency, string> = { urgent: "#B91C1C", soon: "#B45309", no_rush: "#15803D" };
-const URGENCY_BG: Record<Urgency, string> = { urgent: "#FEF2F2", soon: "#FFFBEB", no_rush: "#F0FDF4" };
 const SEVERITY_STYLE: Record<Severity, string> = {
-  high: "bg-red-50 text-red-800 ring-red-200",
-  medium: "bg-amber-50 text-amber-900 ring-amber-200",
-  low: "bg-stone-100 text-stone-700 ring-stone-200",
+  high: "bg-[#FBF1EF] text-[#7F1D1D] ring-transparent",
+  medium: "bg-[#FBF6EC] text-[#78350F] ring-transparent",
+  low: "bg-card text-stone-700 ring-transparent",
 };
 const SEVERITY_DOT: Record<Severity, string> = { high: "bg-red-500", medium: "bg-amber-500", low: "bg-stone-400" };
 
@@ -23,46 +24,42 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
   const d = a.deadline;
   const days = d?.days_remaining ?? null;
   if (!d || (days === null && !d.date)) {
-    // A green "no deadline" at the top of an overpriced quote reads as "all good" — skip it there.
+    // A "no deadline" line at the top of an overpriced quote reads as "all good" — skip it there.
     if (a.document_type === "contractor_quote") return null;
     return (
-      <section
-        className="rise rounded-[24px] p-5 ring-1 ring-green-200"
-        style={{ background: URGENCY_BG.no_rush, animationDelay: `${i * 50}ms` }}
-      >
-        <p className="flex items-center gap-3 text-lg font-semibold text-green-800">
-          <span className="text-2xl">✅</span>
-          {t.noDeadline}
-        </p>
-        {d?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-green-900">{d.what_is_due}</p>}
+      <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_10px_28px_-12px_rgba(0,0,0,0.12)] ring-1 ring-line" style={{ animationDelay: `${i * 50}ms` }}>
+        <p className="font-display text-[26px] leading-tight text-green-800">{t.noDeadline}</p>
+        {d?.what_is_due && !busy && <p className="mt-1 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>}
       </section>
     );
   }
   const passed = days !== null && days < 0;
   const urgency: Urgency = passed ? "urgent" : a.urgency;
-  const color = URGENCY_BADGE[urgency];
+  const color = { urgent: "#C4291F", soon: "#B45309", no_rush: "#15803D" }[urgency];
   let big: string;
-  if (days === null) big = `⏰ ${t.deadlineUnknownDate}`;
-  else if (passed) big = `⚠️ ${t.passed(Math.abs(days))}`;
-  else if (days === 0) big = `⏰ ${t.dueToday}`;
-  else if (days === 1) big = `⏰ ${t.dueTomorrow}`;
-  else big = `⏰ ${t.daysLeft(days)}`;
+  if (days === null) big = t.deadlineUnknownDate;
+  else if (passed) big = t.passed(Math.abs(days));
+  else if (days === 0) big = t.dueToday;
+  else if (days === 1) big = t.dueTomorrow;
+  else big = t.daysLeft(days);
   const date = formatDate(d.date, locale);
 
   return (
     <section
-      className={`${urgency === "urgent" ? "pulse-once" : "rise"} rounded-2xl p-5 text-white`}
-      style={{ background: color, animationDelay: `${i * 50}ms` }}
+      className={`${urgency === "urgent" ? "pulse-once" : "rise"} rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_10px_28px_-12px_rgba(0,0,0,0.12)] ring-1 ring-line`}
+      style={{ animationDelay: `${i * 50}ms` }}
     >
-      <p className="text-[28px] font-semibold leading-tight tracking-[-0.025em]">{big}</p>
-      {date && <p className="mt-1 text-lg font-semibold opacity-95">{date}</p>}
+      <p className="font-display text-[34px] leading-[1.08]" style={{ color }}>
+        {big}
+      </p>
+      {date && <p className="mt-1 text-[16px] font-semibold text-ink">{date}</p>}
       {d.what_is_due &&
         (busy ? (
-          <div className="mt-2 opacity-60">
+          <div className="mt-3">
             <Shimmer lines={1} />
           </div>
         ) : (
-          <p className="mt-1 text-[17px] leading-snug opacity-95">{d.what_is_due}</p>
+          <p className="mt-2 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>
         ))}
     </section>
   );
@@ -82,7 +79,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
   return (
     <Card i={i}>
       <CardTitle>{t.whatToDo}</CardTitle>
-      <ol className="space-y-2">
+      <ol className="-mx-2 divide-y divide-line">
         {a.action_steps.map((s, n) => {
           const checked = done.has(n);
           const links = s.contact ? contactLinks(s.contact) : [];
@@ -92,8 +89,8 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                   so the links inside the row aren't nested inside a checkbox. */}
               <div
                 onClick={() => toggle(n)}
-                className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl p-2 pr-3 transition-colors ${
-                  checked ? "bg-teal-soft" : "bg-paper active:bg-stone-100"
+                className={`flex min-h-[44px] cursor-pointer gap-2 rounded-xl px-2 py-3 transition-colors ${
+                  checked ? "bg-card" : "active:bg-[#F7F7F7]"
                 }`}
               >
                 <button
@@ -138,7 +135,7 @@ function Steps({ a, t, i, busy }: { a: Analysis; t: Strings; i: number; busy: bo
                           onClick={(e) => e.stopPropagation()}
                           className="inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-full bg-white px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
                         >
-                          <span aria-hidden>{link.kind === "tel" ? "📞" : link.kind === "url" ? "🌐" : "📍"}</span>
+                          {link.kind === "tel" ? <PhoneIcon size={16} /> : link.kind === "url" ? <GlobeIcon size={16} /> : <PinIcon size={16} />}
                           <span className="truncate">{link.label}</span>
                         </a>
                       ))}
@@ -258,7 +255,7 @@ function TicketCards({
               <div
                 key={l}
                 className="h-3 flex-1 rounded-full transition-colors"
-                style={{ background: n <= idx ? color : "#ECE7E0" }}
+                style={{ background: n <= idx ? color : "#E7E7E7" }}
               />
             ))}
           </div>
@@ -278,8 +275,8 @@ function TicketCards({
             <p className="mt-4 mb-2 text-sm font-semibold text-red-800">{t.problemsFound}</p>
             <ul className="flex flex-wrap gap-2">
               {ticket.missing_or_wrong_fields.map((f, n) => (
-                <li key={n} className="rounded-xl bg-red-50 px-3 py-2 text-[15px] font-medium text-red-800 ring-1 ring-red-200">
-                  🚩 {f}
+                <li key={n} className="rounded-xl bg-[#FBF1EF] px-3.5 py-2.5 text-[15px] font-medium text-[#8F1D16]">
+                  {f}
                 </li>
               ))}
             </ul>
@@ -303,7 +300,7 @@ function TicketCards({
       {ticket.appeal_letter && (
         <Card i={i + 1} className="ring-teal/30">
           <div className="mb-1 flex items-center gap-2">
-            <span className="text-xl">📝</span>
+            
             <h2 className="text-xl font-bold">{t.letterReady}</h2>
           </div>
           <p className="text-[15px] text-muted">{t.letterNote}</p>
@@ -335,9 +332,9 @@ function TicketCards({
               <button
                 onClick={() => onLetters(letters.slice(0, -1))}
                 disabled={working}
-                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-stone-100"
+                className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-muted ring-1 ring-line active:bg-card"
               >
-                ↩ {t.undo}
+                <UndoIcon size={15} className="-mt-0.5 mr-1.5 inline" />{t.undo}
               </button>
             )}
             <button
@@ -348,7 +345,7 @@ function TicketCards({
               disabled={working}
               className="min-h-[44px] rounded-full px-4 text-[15px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
             >
-              {editing ? `✓ ${t.doneEditing}` : `✍️ ${t.editByHand}`}
+              {editing ? t.doneEditing : t.editByHand}
             </button>
           </div>
           <div className="mt-4 grid grid-cols-[1fr_auto] gap-2">
@@ -356,24 +353,24 @@ function TicketCards({
               onClick={copy}
               className="min-h-[52px] rounded-full bg-ink px-4 text-[17px] font-semibold text-white active:scale-[0.98] transition-transform"
             >
-              📋 {t.copy}
+              <CopyIcon size={17} className="-mt-0.5 mr-2 inline" />{t.copy}
             </button>
             <a
               href={mailto}
               className="flex min-h-[52px] items-center justify-center rounded-full bg-white px-4 text-[17px] font-semibold text-teal ring-1 ring-teal/40 active:bg-teal-soft"
             >
-              ✉️ {t.email}
+              <MailIcon size={17} className="-mt-0.5 mr-2 inline" />{t.email}
             </a>
           </div>
           <button
             onClick={() => printLetter(letter, t.emailSubject)}
             className="mt-2 flex min-h-[48px] w-full items-center justify-center rounded-full bg-white text-[16px] font-semibold text-teal ring-1 ring-teal/30 active:bg-teal-soft"
           >
-            🖨️ {t.printLetter}
+            <PrintIcon size={17} className="-mt-0.5 mr-2 inline" />{t.printLetter}
           </button>
           {/* Customize with plain-language instructions */}
           <div className="mt-5 rounded-xl bg-teal-soft p-4">
-            <p className="mb-2 font-semibold text-teal-900">✨ {t.customizeTitle}</p>
+            <p className="mb-2 font-semibold text-ink">{t.customizeTitle}</p>
             {working ? (
               <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">
                 <span className="inline-block h-2 w-2 animate-ping rounded-full bg-teal" /> {t.customizing}
@@ -385,7 +382,7 @@ function TicketCards({
                     <button
                       key={s}
                       onClick={() => void customize(s)}
-                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-teal-900 ring-1 ring-teal/20 active:bg-teal/10"
+                      className="min-h-[40px] rounded-full bg-white px-3 text-left text-[14px] font-medium text-ink ring-1 ring-teal/20 active:bg-teal/10"
                     >
                       {s}
                     </button>
@@ -527,7 +524,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
       <Card i={i + 2}>
         {quote.license_number ? (
           <p className="text-[17px]">
-            ✅ {t.license} <span className="font-mono font-semibold">#{quote.license_number}</span> —{" "}
+            {t.license} <span className="font-mono font-semibold">#{quote.license_number}</span> —{" "}
             {t.verifyAt}{" "}
             <a
               href="https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx"
@@ -540,7 +537,7 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
           </p>
         ) : (
           <div>
-            <p className="text-[19px] font-bold text-red-700">⚠️ {t.noLicense}</p>
+            <p className="text-[19px] font-bold text-red-700">{t.noLicense}</p>
             <a
               href="https://www.cslb.ca.gov/OnlineServices/CheckLicenseII/CheckLicense.aspx"
               target="_blank"
@@ -553,10 +550,10 @@ function QuoteCards({ quote, t, i, busy }: { quote: QuoteInfo; t: Strings; i: nu
         )}
         {quote.questions_to_ask.length > 0 && (
           <>
-            <h3 className="mt-5 mb-2 text-lg font-bold">💬 {t.askBefore}</h3>
+            <h3 className="mt-5 mb-2 text-lg font-bold">{t.askBefore}</h3>
             <ul className="space-y-2">
               {quote.questions_to_ask.map((q, n) => (
-                <li key={n} className="rounded-xl bg-teal-soft px-4 py-3 text-[16px] leading-snug text-teal-900">
+                <li key={n} className="rounded-xl bg-teal-soft px-4 py-3 text-[16px] leading-snug text-ink">
                   {busy ? <Shimmer lines={1} /> : `“${q}”`}
                 </li>
               ))}
@@ -612,6 +609,8 @@ export default function Results({
   docPages = [],
   letters,
   onLetters,
+  photo,
+  marks,
 }: {
   a: Analysis;
   t: Strings;
@@ -623,6 +622,8 @@ export default function Results({
   docPages?: { base64: string; mediaType: string }[];
   letters: string[];
   onLetters: (next: string[]) => void;
+  photo?: string;
+  marks?: Mark[];
 }) {
   let i = 0;
   const dateLabel = formatDate(a.deadline?.date ?? null, locale);
@@ -631,12 +632,19 @@ export default function Results({
   const isScam = legit?.verdict === "likely_scam";
 
   return (
-    <div className="space-y-4 pb-10">
-      {/* 1. chip + headline */}
-      <header className="rise pt-1" style={{ animationDelay: `${i++ * 50}ms` }}>
+    <div className="space-y-5 pb-12">
+      {/* 0. the person's own document, with the problems circled */}
+      {photo && <DocumentHero photo={photo} marks={marks} alt={t.docType[a.document_type]} />}
+
+      {/* 1. chip + headline (a white sheet over the photo when there is one) */}
+      <header
+        className={`rise ${photo ? "relative -mx-4 -mt-14 rounded-t-[30px] bg-white px-5 pt-3 pb-5 shadow-[0_-10px_30px_rgba(0,0,0,0.06)]" : "pt-1"}`}
+        style={{ animationDelay: `${i++ * 50}ms` }}
+      >
+        {photo && <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-stone-300" aria-hidden />}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className="inline-flex items-center rounded-full bg-card px-3 py-1.5 text-[14px] font-semibold text-ink">
-            {t.docType[a.document_type]}
+            {t.docType[a.document_type].replace(/^\S+\s/, "")}
           </span>
           {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
         </div>
@@ -656,8 +664,8 @@ export default function Results({
 
       {/* 2. deadline */}
       {isScam ? (
-        <section className="rise rounded-[24px] bg-stone-200 p-5" style={{ animationDelay: `${i++ * 50}ms` }}>
-          <p className="text-[22px] font-bold leading-tight text-stone-800">🎭 {t.fakeDeadline}</p>
+        <section className="rise rounded-[24px] bg-card p-6" style={{ animationDelay: `${i++ * 50}ms` }}>
+          <p className="text-[22px] font-bold leading-tight text-ink">{t.fakeDeadline}</p>
           {a.deadline?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-stone-700">{a.deadline.what_is_due}</p>}
         </section>
       ) : (
@@ -671,13 +679,13 @@ export default function Results({
       {/* 3. legitimacy */}
       {showLegit && (
         <section
-          className={`rise rounded-[24px] p-5 ring-1 ${
-            legit.verdict === "likely_scam" ? "bg-red-50 ring-red-300" : "bg-amber-50 ring-amber-300"
+          className={`rise rounded-[24px] p-6 ${
+            legit.verdict === "likely_scam" ? "bg-[#FBF1EF]" : "bg-[#FBF6EC]"
           }`}
           style={{ animationDelay: `${i++ * 50}ms` }}
         >
           <p className={`text-xl font-bold ${legit.verdict === "likely_scam" ? "text-red-800" : "text-amber-900"}`}>
-            🛑 {t.scamTitle[legit.verdict as "be_careful" | "likely_scam"]}
+            {t.scamTitle[legit.verdict as "be_careful" | "likely_scam"]}
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-[16px]">
             {legit.reasons.map((r, n) => (
@@ -710,7 +718,7 @@ export default function Results({
 
       {/* 7. if ignored */}
       {a.if_ignored && (
-        <section className="rise rounded-[24px] bg-stone-100 p-5" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
+        <section className="rise rounded-[24px] bg-card p-6" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
           <h2 className="mb-1 text-[19px] font-semibold leading-snug tracking-tight text-ink">{t.ifIgnored}</h2>
           {busy ? <Shimmer /> : <p className="text-stone-700">{a.if_ignored}</p>}
         </section>
@@ -734,7 +742,7 @@ export default function Results({
       {/* 9. confidence */}
       {a.confidence !== "high" && (
         <p className="rise px-1 text-[15px] text-muted" style={{ animationDelay: `${i++ * 50}ms` }}>
-          🔍 {t.lowConfidence}
+          {t.lowConfidence}
         </p>
       )}
 
@@ -744,7 +752,7 @@ export default function Results({
           onClick={onScanAnother}
           className="min-h-[56px] w-full rounded-full bg-ink px-6 text-[18px] font-semibold text-white active:scale-[0.98] transition-transform"
         >
-          📷 {t.scanAnother}
+          <CameraIcon size={20} className="-mt-0.5 mr-2 inline" />{t.scanAnother}
         </button>
         <p className="mt-4 text-[14px] text-muted">{t.disclaimer}</p>
       </footer>
