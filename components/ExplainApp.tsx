@@ -461,17 +461,23 @@ export default function ExplainApp() {
   return (
     <main className="mx-auto min-h-dvh w-full max-w-[480px] px-4 pb-[env(safe-area-inset-bottom)]">
       {/* Top bar */}
-      <div className="sticky top-0 z-30 -mx-4 flex items-center justify-between bg-paper/90 px-4 pt-[max(12px,env(safe-area-inset-top))] pb-2 backdrop-blur">
+      {/* The language picker is as wide as its longest option (~175px), so on phones under 420px the
+          DEMO badge is hidden (and under 370px the name), instead of pushing the picker off the screen. */}
+      <div className="sticky top-0 z-30 -mx-4 flex items-center justify-between gap-1 bg-paper/90 px-4 pt-[max(12px,env(safe-area-inset-top))] pb-2 backdrop-blur">
         <button
           onClick={reset}
-          className="flex min-h-[44px] items-center gap-2 whitespace-nowrap text-[17px] font-bold tracking-tight"
+          className="flex min-h-[44px] min-w-0 items-center gap-2 whitespace-nowrap text-[17px] font-bold tracking-tight"
           aria-label={t.appName}
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal text-white">✦</span>
-          {!bigText && t.appName}
-          {demo && !bigText && <span className="rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800">DEMO</span>}
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-teal text-white">✦</span>
+          {!bigText && <span className="truncate max-[369px]:hidden">{t.appName}</span>}
+          {demo && !bigText && (
+            <span className="shrink-0 rounded bg-amber-100 px-1.5 text-[11px] font-semibold text-amber-800 max-[419px]:hidden">
+              DEMO
+            </span>
+          )}
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
         <button
           onClick={() => setBigText((b) => !b)}
           aria-pressed={bigText}
@@ -489,7 +495,7 @@ export default function ExplainApp() {
             value={lang}
             disabled={translating}
             onChange={(e) => void switchLanguage(e.target.value as Lang)}
-            className="min-h-[44px] appearance-none rounded-full bg-white py-2 pr-9 pl-4 text-[16px] font-semibold ring-1 ring-line disabled:opacity-60"
+            className="min-h-[44px] appearance-none rounded-full bg-white py-2 pr-8 pl-3.5 text-[16px] font-semibold ring-1 ring-line disabled:opacity-60"
           >
             {LANGS.map((l) => (
               <option key={l} value={l}>
