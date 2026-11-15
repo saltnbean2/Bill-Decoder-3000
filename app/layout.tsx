@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Noto_Sans_Armenian, Noto_Sans_KR } from "next/font/google";
+import { Instrument_Serif, Inter, Noto_Sans_Armenian, Noto_Sans_KR, Noto_Serif_Armenian } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -7,6 +7,15 @@ const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "sw
 const armenian = Noto_Sans_Armenian({
   variable: "--font-armenian",
   subsets: ["armenian"],
+  display: "swap",
+  preload: false,
+});
+// Display serif for big headlines; Armenian headlines use a matching Armenian serif.
+const display = Instrument_Serif({ variable: "--font-display", subsets: ["latin"], weight: "400", display: "swap" });
+const displayHy = Noto_Serif_Armenian({
+  variable: "--font-display-hy",
+  subsets: ["armenian"],
+  weight: ["400", "500"],
   display: "swap",
   preload: false,
 });
@@ -31,13 +40,13 @@ export const viewport: Viewport = {
   viewportFit: "cover",
   // Android: the keyboard shrinks the layout, like iOS, so inputs near the bottom stay visible.
   interactiveWidget: "resizes-content",
-  themeColor: "#FAF8F5",
+  themeColor: "#F3F1EC",
   colorScheme: "light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${armenian.variable} ${korean.variable} antialiased`}>
+    <html lang="en" className={`${inter.variable} ${armenian.variable} ${korean.variable} ${display.variable} ${displayHy.variable} antialiased`}>
       <body>{children}</body>
     </html>
   );

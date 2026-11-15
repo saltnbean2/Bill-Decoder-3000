@@ -5,12 +5,12 @@ import { Card, CardTitle, Shimmer, formatDate } from "./ui";
 import type { Analysis, QuoteInfo, Severity, TicketInfo, Urgency } from "@/lib/types";
 import type { Strings } from "@/lib/i18n";
 import { Linkify, contactLink } from "./linkify";
+import DocumentHero from "./DocumentHero";
+import type { Mark } from "@/lib/marks";
 import { ActionRow, AskCard, FullTextCard, HelpCard, NumberCheckBanner, ReadAloud } from "./Extras";
 import type { Lang } from "@/lib/types";
 
 // Darker shades of the same hues for the white-text deadline badge, so it passes WCAG AA (≥4.5:1).
-const URGENCY_BADGE: Record<Urgency, string> = { urgent: "#B91C1C", soon: "#B45309", no_rush: "#15803D" };
-const URGENCY_BG: Record<Urgency, string> = { urgent: "#FEF2F2", soon: "#FFFBEB", no_rush: "#F0FDF4" };
 const SEVERITY_STYLE: Record<Severity, string> = {
   high: "bg-red-50 text-red-800 ring-red-200",
   medium: "bg-amber-50 text-amber-900 ring-amber-200",
@@ -23,46 +23,39 @@ function DeadlineBadge({ a, t, locale, i, busy }: { a: Analysis; t: Strings; loc
   const d = a.deadline;
   const days = d?.days_remaining ?? null;
   if (!d || (days === null && !d.date)) {
-    // A green "no deadline" at the top of an overpriced quote reads as "all good" — skip it there.
+    // A "no deadline" line at the top of an overpriced quote reads as "all good" — skip it there.
     if (a.document_type === "contractor_quote") return null;
     return (
-      <section
-        className="rise rounded-2xl p-5 ring-1 ring-green-200"
-        style={{ background: URGENCY_BG.no_rush, animationDelay: `${i * 50}ms` }}
-      >
-        <p className="flex items-center gap-3 text-lg font-semibold text-green-800">
-          <span className="text-2xl">✅</span>
-          {t.noDeadline}
-        </p>
-        {d?.what_is_due && !busy && <p className="mt-2 text-[16px] leading-snug text-green-900">{d.what_is_due}</p>}
+      <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
+        <p className="font-display text-[30px] leading-tight text-green-800">{t.noDeadline}</p>
+        {d?.what_is_due && !busy && <p className="mt-1 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>}
       </section>
     );
   }
   const passed = days !== null && days < 0;
   const urgency: Urgency = passed ? "urgent" : a.urgency;
-  const color = URGENCY_BADGE[urgency];
+  const color = { urgent: "#C4291F", soon: "#B45309", no_rush: "#15803D" }[urgency];
   let big: string;
-  if (days === null) big = `⏰ ${t.deadlineUnknownDate}`;
-  else if (passed) big = `⚠️ ${t.passed(Math.abs(days))}`;
-  else if (days === 0) big = `⏰ ${t.dueToday}`;
-  else if (days === 1) big = `⏰ ${t.dueTomorrow}`;
-  else big = `⏰ ${t.daysLeft(days)}`;
+  if (days === null) big = t.deadlineUnknownDate;
+  else if (passed) big = t.passed(Math.abs(days));
+  else if (days === 0) big = t.dueToday;
+  else if (days === 1) big = t.dueTomorrow;
+  else big = t.daysLeft(days);
   const date = formatDate(d.date, locale);
 
   return (
-    <section
-      className={`${urgency === "urgent" ? "pulse-once" : "rise"} rounded-2xl p-5 text-white`}
-      style={{ background: color, animationDelay: `${i * 50}ms` }}
-    >
-      <p className="text-[28px] font-bold leading-tight tracking-tight">{big}</p>
-      {date && <p className="mt-1 text-lg font-semibold opacity-95">{date}</p>}
+    <section className="rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]" style={{ animationDelay: `${i * 50}ms` }}>
+      <p className="font-display text-[40px] leading-[1.05]" style={{ color }}>
+        {big}
+      </p>
+      {date && <p className="mt-1 text-[16px] font-semibold text-ink">{date}</p>}
       {d.what_is_due &&
         (busy ? (
-          <div className="mt-2 opacity-60">
+          <div className="mt-3">
             <Shimmer lines={1} />
           </div>
         ) : (
-          <p className="mt-1 text-[17px] leading-snug opacity-95">{d.what_is_due}</p>
+          <p className="mt-2 text-[16px] leading-snug text-stone-700">{d.what_is_due}</p>
         ))}
     </section>
   );
@@ -607,6 +600,8 @@ export default function Results({
   docPages = [],
   letters,
   onLetters,
+  photo,
+  marks,
 }: {
   a: Analysis;
   t: Strings;
@@ -618,6 +613,8 @@ export default function Results({
   docPages?: { base64: string; mediaType: string }[];
   letters: string[];
   onLetters: (next: string[]) => void;
+  photo?: string;
+  marks?: Mark[];
 }) {
   let i = 0;
   const dateLabel = formatDate(a.deadline?.date ?? null, locale);
@@ -627,10 +624,17 @@ export default function Results({
 
   return (
     <div className="space-y-4 pb-10">
-      {/* 1. chip + headline */}
-      <header className="rise pt-1" style={{ animationDelay: `${i++ * 50}ms` }}>
+      {/* 0. the person's own document, with the problems circled */}
+      {photo && <DocumentHero photo={photo} marks={marks} alt={t.docType[a.document_type]} />}
+
+      {/* 1. chip + headline (a white sheet over the photo when there is one) */}
+      <header
+        className={`rise ${photo ? "relative -mx-4 -mt-14 rounded-t-[30px] bg-white px-5 pt-3 pb-5 shadow-[0_-10px_30px_rgba(0,0,0,0.06)]" : "pt-1"}`}
+        style={{ animationDelay: `${i++ * 50}ms` }}
+      >
+        {photo && <div className="mx-auto mb-4 h-[5px] w-9 rounded-full bg-[#DAD7D1]" aria-hidden />}
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center rounded-full bg-white px-3 py-1.5 text-[14px] font-semibold text-ink ring-1 ring-line">
+          <span className="inline-flex items-center rounded-full bg-[#F3F1EC] px-3 py-1.5 text-[14px] font-semibold text-ink">
             {t.docType[a.document_type]}
           </span>
           {!busy && <ReadAloud a={a} t={t} lang={lang} dateLabel={dateLabel} />}
@@ -640,7 +644,7 @@ export default function Results({
             <Shimmer lines={2} />
           </div>
         ) : (
-          <h1 className="mt-3 text-[28px] font-bold leading-[1.15] tracking-tight">{a.headline}</h1>
+          <h1 className="font-display mt-3 text-[36px] leading-[1.08] text-ink">{a.headline}</h1>
         )}
         {a.sender && !busy && (
           <p className="mt-2 text-[15px] text-muted">
@@ -706,7 +710,7 @@ export default function Results({
       {/* 7. if ignored */}
       {a.if_ignored && (
         <section className="rise rounded-2xl bg-stone-100 p-5" style={{ animationDelay: `${(i += 2) * 50}ms` }}>
-          <h2 className="mb-1 text-[13px] font-semibold uppercase tracking-wide text-muted">{t.ifIgnored}</h2>
+          <h2 className="mb-1 text-[13px] font-semibold text-muted">{t.ifIgnored}</h2>
           {busy ? <Shimmer /> : <p className="text-stone-700">{a.if_ignored}</p>}
         </section>
       )}

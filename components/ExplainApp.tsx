@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Results from "./Results";
+import { SAMPLE_MARKS } from "@/lib/marks";
 import { clearShareLink, readShareLink } from "@/lib/sharelink";
 import { clearRecent, loadRecent, saveRecent, type RecentItem } from "@/lib/recent";
 import { refreshDeadline } from "@/lib/normalize";
 import { AskCard, Directory } from "./Extras";
 import { prepareFile, type PreparedFile } from "@/lib/compress";
-import { LANG_FULL, LANG_LABELS, STRINGS } from "@/lib/i18n";
+import { LANG_FULL, STRINGS } from "@/lib/i18n";
 import { LANGS, type Analysis, type Lang, type SampleId } from "@/lib/types";
 
 type Screen = "home" | "loading" | "results" | "error" | "chat" | "directory" | "pages";
@@ -493,7 +494,7 @@ export default function ExplainApp() {
           >
             {LANGS.map((l) => (
               <option key={l} value={l}>
-                {bigText || LANG_LABELS[l] === LANG_FULL[l] ? LANG_FULL[l] : `${LANG_LABELS[l]} · ${LANG_FULL[l]}`}
+                {LANG_FULL[l]}
               </option>
             ))}
           </select>
@@ -506,23 +507,63 @@ export default function ExplainApp() {
       <input ref={uploadRef} type="file" accept="image/*,application/pdf" className="hidden" onChange={onFile} />
 
       {screen === "home" && (
-        <div className="flex min-h-[calc(100dvh-80px)] flex-col justify-center pb-10">
-          <h1 className="rise text-[40px] font-bold leading-[1.05] tracking-tight">{t.appName}</h1>
-          <p className="rise mt-3 text-[21px] leading-snug text-stone-700" style={{ animationDelay: "50ms" }}>
+        <div className="flex min-h-[calc(100dvh-80px)] flex-col pb-10">
+          {/* Two real documents, stacked like paper on a table */}
+          <div className="rise relative mx-auto mt-2 h-[250px] w-full max-w-[340px]" aria-hidden>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/samples/thumb-scam-letter.jpg"
+              alt=""
+              width={176}
+              height={173}
+              className="absolute top-6 left-[8%] w-[52%] rounded-md bg-white"
+              style={{ transform: "rotate(-9deg)", boxShadow: "0 2px 4px rgba(40,30,20,.08), 0 14px 30px rgba(40,30,20,.16)" }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/samples/thumb-parking-ticket.jpg"
+              alt=""
+              width={176}
+              height={249}
+              className="absolute top-2 right-[8%] w-[54%] rounded-md bg-white"
+              style={{ transform: "rotate(5deg)", boxShadow: "0 2px 4px rgba(40,30,20,.08), 0 20px 40px rgba(40,30,20,.2)" }}
+            />
+          </div>
+
+          <h1 className="rise font-display mt-6 text-[44px] leading-[1.02] text-ink" style={{ animationDelay: "50ms" }}>
             {t.tagline}
-          </p>
+          </h1>
+
+          <div className="rise mt-5 flex flex-wrap gap-2" style={{ animationDelay: "100ms" }}>
+            {LANGS.map((l) => (
+              <button
+                key={l}
+                onClick={() => void switchLanguage(l)}
+                aria-pressed={lang === l}
+                className={`min-h-[44px] rounded-full px-4 text-[15px] font-semibold transition-colors ${
+                  lang === l ? "bg-ink text-white" : "bg-white/70 text-ink ring-1 ring-black/10 active:bg-white"
+                }`}
+              >
+                {LANG_FULL[l]}
+              </button>
+            ))}
+          </div>
 
           <button
             onClick={() => cameraRef.current?.click()}
-            className="rise mt-10 flex min-h-[96px] w-full items-center justify-center gap-3 rounded-3xl bg-teal px-6 text-[22px] font-bold text-white shadow-[0_10px_30px_-8px_rgba(15,118,110,0.55)] transition-transform active:scale-[0.98]"
-            style={{ animationDelay: "100ms" }}
+            className="rise mt-7 flex min-h-[64px] w-full items-center justify-center gap-3 rounded-full bg-ink px-6 text-[18px] font-semibold text-white shadow-[0_12px_30px_rgba(20,20,20,0.25)] transition-transform active:scale-[0.98]"
+            style={{ animationDelay: "150ms" }}
           >
-            <span className="text-3xl">📷</span> {t.scan}
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 8.5A2.5 2.5 0 016.5 6h1.8l1.4-2h4.6l1.4 2h1.8A2.5 2.5 0 0120 8.5v9a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 17.5z" fill="none" stroke="currentColor" strokeWidth="2" />
+              <circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            {t.scan}
           </button>
           <button
             onClick={() => uploadRef.current?.click()}
-            className="rise mx-auto mt-3 min-h-[48px] px-4 text-[17px] font-semibold text-teal underline decoration-teal/30 underline-offset-4"
-            style={{ animationDelay: "150ms" }}
+            className="rise mt-2 min-h-[52px] w-full rounded-full bg-white/80 text-[16px] font-semibold text-ink shadow-[0_1px_2px_rgba(0,0,0,0.06)] active:bg-white"
+            style={{ animationDelay: "180ms" }}
           >
             {t.upload}
           </button>
@@ -544,7 +585,7 @@ export default function ExplainApp() {
               setScreen("chat");
               window.scrollTo({ top: 0 });
             }}
-            className="rise mt-4 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
+            className="rise mt-6 flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-white/80 text-[16px] font-semibold text-ink shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-transform active:scale-[0.98]"
             style={{ animationDelay: "175ms" }}
           >
             💬 {t.agentButton}
@@ -554,20 +595,20 @@ export default function ExplainApp() {
               setScreen("directory");
               window.scrollTo({ top: 0 });
             }}
-            className="rise mt-3 flex min-h-[56px] w-full items-center justify-center gap-2 rounded-2xl bg-white text-[18px] font-semibold text-ink ring-1 ring-line transition-transform active:scale-[0.98]"
+            className="rise mt-2 flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full bg-white/80 text-[16px] font-semibold text-ink shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-transform active:scale-[0.98]"
             style={{ animationDelay: "190ms" }}
           >
             📍 {t.directoryButton}
           </button>
 
           <div className="rise mt-10" style={{ animationDelay: "200ms" }}>
-            <p className="mb-3 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">{t.trySample}</p>
+            <p className="mb-3 text-center text-[13px] font-semibold text-muted">{t.trySample}</p>
             <div className="flex flex-wrap justify-center gap-2">{samples}</div>
           </div>
           {recent.length > 0 && (
             <div className="rise mt-10" style={{ animationDelay: "230ms" }}>
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-[13px] font-semibold uppercase tracking-wide text-muted">🕘 {t.recentTitle}</p>
+                <p className="text-[13px] font-semibold text-muted">🕘 {t.recentTitle}</p>
                 <button
                   onClick={() => {
                     clearRecent();
@@ -724,7 +765,7 @@ export default function ExplainApp() {
           ]}
           extra={
             <div className="rise mt-6" style={{ animationDelay: "300ms" }}>
-              <p className="mb-2 text-center text-[13px] font-semibold uppercase tracking-wide text-muted">
+              <p className="mb-2 text-center text-[13px] font-semibold text-muted">
                 {t.trySample}
               </p>
               <div className="flex flex-wrap justify-center gap-2">{samples}</div>
@@ -791,6 +832,8 @@ export default function ExplainApp() {
             docPages={docPages}
             letters={letters}
             onLetters={setLetters}
+            photo={preview || undefined}
+            marks={sampleRef.current ? SAMPLE_MARKS[sampleRef.current] : undefined}
             onScanAnother={reset}
           />
         </div>

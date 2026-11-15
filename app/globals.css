@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-paper: #faf8f5;
-  --color-ink: #1a1a1a;
-  --color-muted: #6b6560;
-  --color-line: #ebe6df;
-  --color-teal: #0f766e;
-  --color-teal-soft: #e6f2f0;
+  /* "Annotated Ticket" look: warm paper, black ink, red annotation marks */
+  --color-paper: #f3f1ec;
+  --color-ink: #141414;
+  --color-muted: #6e6a64;
+  --color-line: #e9e6e0;
+  --color-teal: #141414; /* primary action color (was teal) */
+  --color-teal-soft: #efede8;
+  --color-mark: #e5372b;
   --color-urgent: #dc2626;
   --color-soon: #d97706;
   --color-calm: #16a34a;
@@ -17,11 +19,11 @@ html {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent; /* no gray flash on tap; every control has its own :active */
   overscroll-behavior: none; /* no pull-to-refresh or page rubber-band behind the app */
-  background: #faf8f5;
+  background: #f3f1ec;
 }
 
 body {
-  background: #faf8f5;
+  background: #f3f1ec;
   color: #1a1a1a;
   font-family: var(--font-sans);
   font-size: 17px;
@@ -173,5 +175,33 @@ select {
   }
   .scan-line {
     animation-duration: 6s;
+  }
+}
+
+/* Big serif headlines (Instrument Serif; Armenian falls back to Noto Serif Armenian) */
+.font-display {
+  font-family: var(--font-display), var(--font-display-hy), var(--font-korean), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+:lang(hy) .font-display,
+.font-display:lang(hy) {
+  font-family: var(--font-display-hy), var(--font-display), Georgia, serif;
+  letter-spacing: 0;
+}
+
+/* Red annotation circles draw in one after another on the document photo */
+@keyframes mark-in {
+  from {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+.mark-in {
+  animation: mark-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mark-in {
+    animation: none;
   }
 }

@@ -10,7 +10,7 @@ import { buildShareLink } from "@/lib/sharelink";
 import { Linkify } from "./linkify";
 
 const cardCls =
-  "rise rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-line";
+  "rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)]";
 const pill =
   "flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-3 text-[16px] font-semibold ring-1 transition-colors";
 
@@ -212,7 +212,7 @@ export function HelpCard({ a, t, lang, i }: { a: Analysis; t: Strings; lang: Lan
   if (!list.length) return null;
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📍 {t.helpTitle}</h2>
+      <h2 className="text-[13px] font-semibold text-muted">📍 {t.helpTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.helpSub}</p>
       <ul className="space-y-2">
         {list.map((r) => (
@@ -366,7 +366,7 @@ export function AskCard({
 
   return (
     <section className={bare ? "rise" : cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      {!bare && <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">💬 {t.askTitle}</h2>}
+      {!bare && <h2 className="mb-3 text-[13px] font-semibold text-muted">💬 {t.askTitle}</h2>}
       {qa.length > 0 && (
         <div className="mb-3 space-y-3">
           {qa.map((x, n) => (
@@ -628,7 +628,7 @@ export function FullTextCard({
 
   return (
     <section className={cardCls} style={{ animationDelay: `${i * 50}ms` }}>
-      <h2 className="text-[13px] font-semibold uppercase tracking-wide text-muted">📜 {t.fullTextTitle}</h2>
+      <h2 className="text-[13px] font-semibold text-muted">📜 {t.fullTextTitle}</h2>
       <p className="mb-3 text-[15px] text-muted">{t.fullTextSub}</p>
       {state === "loading" ? (
         <p className="flex min-h-[48px] items-center gap-2 text-[16px] font-medium text-teal" aria-live="polite">

@@ -17,7 +17,7 @@ export function Card({
 }) {
   return (
     <section
-      className={`rise rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_16px_rgba(0,0,0,0.04)] ring-1 ring-line ${className}`}
+      className={`rise rounded-[24px] bg-white p-5 shadow-[0_1px_2px_rgba(40,30,20,0.05)] ${className}`}
       style={{ animationDelay: `${i * 50}ms`, ...style }}
     >
       {children}
@@ -26,7 +26,7 @@ export function Card({
 }
 
 export function CardTitle({ children }: { children: ReactNode }) {
-  return <h2 className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-muted">{children}</h2>;
+  return <h2 className="mb-3 text-[19px] font-semibold tracking-tight text-ink">{children}</h2>;
 }
 
 export function Shimmer({ lines = 2 }: { lines?: number }) {
