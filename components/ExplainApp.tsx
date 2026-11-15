@@ -503,7 +503,7 @@ export default function ExplainApp() {
               </option>
             ))}
           </select>
-          <span className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 text-sm">🌐</span>
+          <span className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-xs">🌐</span>
         </label>
         </div>
       </div>
